@@ -26,7 +26,7 @@ public class UserService {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         String secuPw = encoder.encode(joinForm.getUserpw());
 
-        User user = new User(joinForm.getUserid(), secuPw, joinForm.getNickname(), joinForm.getEmail(), nowDate, Role.ADMIN);
+        User user = new User(joinForm.getUserid(), secuPw, joinForm.getEmail(), nowDate, Role.ADMIN);
 
         userRepository.save(user);
     }

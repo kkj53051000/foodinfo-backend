@@ -5,19 +5,42 @@ import com.kp.foodinfo.form.JoinForm;
 import com.kp.foodinfo.form.LoginForm;
 import com.kp.foodinfo.form.UserSessionForm;
 import com.kp.foodinfo.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+// logback log4j                      slf4j
+
 @Controller
+@Slf4j
 public class UserController {
+    // ==> private final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     UserService userService;
+
+    @ResponseBody
+    @GetMapping("/abc")
+    public String abc() {
+        log.info("zzzzzzzzzzzz");
+        return "ok";
+    }
+
+    @ResponseBody
+    @GetMapping("/mockmvc")
+    public String mockMvcTest(@RequestParam String name){
+        return name + " Hello";
+    }
 
     @GetMapping("/")
     public String mainPage(){
@@ -54,7 +77,7 @@ public class UserController {
         User user = userService.loginUser(loginForm);
 
         if(user != null){
-            UserSessionForm userSession = new UserSessionForm(user.getUserid(), user.getNickname(), user.getEmail(), user.getJoinDate(), user.getRole());
+            UserSessionForm userSession = new UserSessionForm(user.getUserid(), user.getUserpw(), user.getEmail(), user.getJoinDate(), user.getRole());
 
             session.setAttribute("user", userSession);
 
