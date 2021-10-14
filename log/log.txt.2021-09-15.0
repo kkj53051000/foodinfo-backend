@@ -1,8 +1,0 @@
-2021-09-15 22:38:23.364 [http-nio-8080-exec-1] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/]  : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2021-09-15 22:38:23.364 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet  : Initializing Servlet 'dispatcherServlet'
-2021-09-15 22:38:23.365 [http-nio-8080-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet  : Completed initialization in 0 ms
-2021-09-15 22:38:23.383 [http-nio-8080-exec-1] INFO  com.kp.foodinfo.controller.UserController          : zzzzzzzzzzzz2021-09-15 23:12:33.864 [HikariPool-1 housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool                  : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1m7s371ms).
-2021-09-15 23:14:09.218 [HikariPool-1 housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool                  : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1m5s349ms).
-2021-09-15 23:22:41.929 [HikariPool-1 housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool                  : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=7m2s672ms).
-2021-09-15 23:24:17.995 [HikariPool-1 housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool                  : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1m36s66ms).
-2021-09-15 23:44:34.741 [HikariPool-1 housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool                  : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=19m46s737ms).

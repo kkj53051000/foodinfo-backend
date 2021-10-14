@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Getter @Setter
@@ -26,14 +27,21 @@ public class BrandEvent implements Event {
     private String img;
 
     @NotNull
+    private Date startDate;
+    @NotNull
+    private Date endDate;
+
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "brand_id")
     private Brand brand;
 
-    public BrandEvent(String title, String content, String img, Brand brand){
+    public BrandEvent(String title, String content, String img, Date startDate, Date endDate, Brand brand){
         this.title = title;
         this.content = content;
         this.img = img;
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.brand = brand;
     }
 }

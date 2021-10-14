@@ -24,7 +24,8 @@ public class Food {
     @NotNull
     private String img;
 
-    public Food(String name){
+    public Food(String name, String img){
         this.name = name;
+        this.img = img;
     }
 }

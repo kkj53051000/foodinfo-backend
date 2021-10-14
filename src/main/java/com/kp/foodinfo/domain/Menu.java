@@ -29,9 +29,10 @@ public class Menu {
     @JoinColumn(name = "brandmenukind_id")
     private BrandMenuKind brandMenuKind;
 
-    public Menu(String name, int price, String img){
+    public Menu(String name, int price, String img, BrandMenuKind brandMenuKind){
         this.name = name;
         this.price = price;
         this.img = img;
+        this.brandMenuKind = brandMenuKind;
     }
 }

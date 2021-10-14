@@ -1,89 +1,117 @@
 package com.kp.foodinfo.controller;
 
 import com.kp.foodinfo.domain.User;
-import com.kp.foodinfo.form.JoinForm;
-import com.kp.foodinfo.form.LoginForm;
-import com.kp.foodinfo.form.UserSessionForm;
+import com.kp.foodinfo.exception.UserNotFoundException;
+import com.kp.foodinfo.request.JoinRequest;
+import com.kp.foodinfo.request.LoginRequest;
+import com.kp.foodinfo.service.JwtService;
 import com.kp.foodinfo.service.UserService;
+import com.kp.foodinfo.vo.BasicVo;
+import com.kp.foodinfo.vo.UserVo;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-// logback log4j                      slf4j
-
-@Controller
+@RestController
+@RequiredArgsConstructor
 @Slf4j
 public class UserController {
-    // ==> private final Logger logger = LoggerFactory.getLogger(UserController.class);
 
-    @Autowired
-    UserService userService;
+    private final UserService userService;
 
-    @ResponseBody
-    @GetMapping("/abc")
-    public String abc() {
-        log.info("zzzzzzzzzzzz");
-        return "ok";
-    }
+    private final JwtService jwtService;
 
-    @ResponseBody
     @GetMapping("/mockmvc")
-    public String mockMvcTest(@RequestParam String name){
+    public String mockMvcTest(String name){
         return name + " Hello";
     }
 
-    @GetMapping("/")
-    public String mainPage(){
-        return "main";
-    }
-
-    @GetMapping("/join")
-    public String joinPage(){
-        return "join";
-    }
-
-    @GetMapping("/login")
-    public String loginPage(){
-        return "login";
-    }
-
-    @GetMapping("/loginfail")
-    public String loginFailPage(){
-        return "loginfail";
-    }
-
+    //회원가입 처리
     @PostMapping("/joinprocess")
-    public String joinProcess(JoinForm joinForm){
-        userService.saveUser(joinForm);
+    public BasicVo joinProcess(JoinRequest joinRequest){
+        userService.saveUser(joinRequest);
 
-        return "redirect:/";
+        BasicVo basicVo = new BasicVo("success");
+
+        return basicVo;
     }
 
     @PostMapping("/loginprocess")
-    public String loginProcess(LoginForm loginForm, HttpServletRequest request){
+    public UserVo loginProcess(LoginRequest loginRequest){
+
+        System.out.println("userid : " + loginRequest.getUserid());
+        System.out.println("userpw : " + loginRequest.getUserpw());
+
+        User user = userService.loginUser(loginRequest);
+
+        if(user != null){
+            //jwt 발급
+            String jwtKey = jwtService.createToken(user.getId());
+
+            UserVo userVo = new UserVo("success", jwtKey);
+
+            return userVo;
+        }else{
+            throw new UserNotFoundException();
+        }
+    }
+
+
+
+
+    //로그인 처리 (세션)
+    /*
+    @PostMapping("/loginprocess")
+    public BasicVo loginProcess(LoginForm loginForm, HttpServletRequest request){
 
         HttpSession session = request.getSession();
 
         User user = userService.loginUser(loginForm);
 
         if(user != null){
+            //세션
             UserSessionForm userSession = new UserSessionForm(user.getUserid(), user.getUserpw(), user.getEmail(), user.getJoinDate(), user.getRole());
 
             session.setAttribute("user", userSession);
 
-            return "redirect:/";
+            BasicVo basicVo = new BasicVo("success");
+
+            return basicVo;
         }else{
-            return "redirect:/loginfail";
+            //BasicVo basicVo = new BasicVo("failure");
+
+            throw new UserNotFoundException();
         }
     }
+     */
+    /*
+    public ResponseEntity test() {
+        if(true) {
+            return new ResponseEntity<>(new BasicVo(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(new TestVo(), HttpStatus.OK);
+        }
+    }
+
+
+    public BasicVo login___() {
+        ////
+
+        if(false) {
+            log.info("IdNotExistException");
+            throw new IdNotExistException();
+        }
+        return new BasicVo("success");
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public String test() {
+        return "error...";
+    }
+
+    @ExceptionHandler(IdNotExistException.class)
+    public TestVo handleIdAlreadExist () {
+        return new TestVo()
+    }
+    */
 }

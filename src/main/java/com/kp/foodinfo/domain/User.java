@@ -15,7 +15,7 @@ import java.util.Date;
         name = "USER_SEQ_GENERATOR",
         table = "FOODINFO_SEQUENCES",
         pkColumnValue = "USER_SEQ", allocationSize = 50)
-public class User {
+public class User{
     @Id @GeneratedValue(strategy = GenerationType.AUTO, generator = "USER_SEQ_GENERATOR")
     @Column(name = "user_id")
     private long id;

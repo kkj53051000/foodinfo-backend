@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Getter @Setter
@@ -26,14 +27,27 @@ public class CollabEvent implements Event {
     private String img;
 
     @NotNull
+    private Date startDate;
+    @NotNull
+    private Date endDate;
+
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "brand_id")
     private Brand brand;
 
-    public CollabEvent(String title, String content, String img, Brand brand){
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "collabplatform_id")
+    private CollabPlatform collabPlatform;
+
+    public CollabEvent(String title, String content, String img, Date startDate, Date endDate, Brand brand, CollabPlatform collabPlatform){
         this.title = title;
         this.content = content;
         this.img = img;
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.brand = brand;
+        this.collabPlatform = collabPlatform;
     }
 }

@@ -29,8 +29,9 @@ public class BrandMenuKind {
     @JoinColumn(name = "brand_id")
     private Brand brand;
 
-    public BrandMenuKind(String name, Brand brand){
+    public BrandMenuKind(String name, int priority, Brand brand){
         this.name = name;
+        this.priority = priority;
         this.brand = brand;
     }
 }
