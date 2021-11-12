@@ -6,11 +6,15 @@ import com.kp.foodinfo.exception.DbNotFoundException;
 import com.kp.foodinfo.request.BrandEventRequest;
 import com.kp.foodinfo.repository.BrandEventRepository;
 import com.kp.foodinfo.repository.BrandRepository;
+import com.kp.foodinfo.util.StringToDateUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -30,7 +34,13 @@ public class BrandEventService {
         Brand brand = brandRepository.findById(brandEventRequest.getBrand_id())
                 .get();
 
-        BrandEvent brandEvent = new BrandEvent(brandEventRequest.getTitle(), brandEventRequest.getContent(), clientPath, brandEventRequest.getStartDate(), brandEventRequest.getEndDate(), brand);
+        // Date String -> Date
+        Date startDate = StringToDateUtil.stringToDateProcess(brandEventRequest.getStartDate() + " " + brandEventRequest.getStartTime());
+        Date endDate = StringToDateUtil.stringToDateProcess(brandEventRequest.getEndDate() + " " + brandEventRequest.getEndTime());
+
+        SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+
+        BrandEvent brandEvent = new BrandEvent(brandEventRequest.getTitle(), brandEventRequest.getContent(), clientPath, startDate, endDate, brand);
 
         brandEventRepository.save(brandEvent);
     }

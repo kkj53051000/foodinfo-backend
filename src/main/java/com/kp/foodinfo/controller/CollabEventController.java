@@ -5,11 +5,11 @@ import com.kp.foodinfo.request.CollabEventRequest;
 import com.kp.foodinfo.request.CollabEventListRequest;
 import com.kp.foodinfo.service.CollabEventService;
 import com.kp.foodinfo.vo.BasicVo;
-import com.kp.foodinfo.vo.CollabEventMenuVo;
+import com.kp.foodinfo.vo.CollabEventInfoListVo;
+import com.kp.foodinfo.vo.CollabEventInfoVo;
+import com.kp.foodinfo.vo.CollabEventListVo;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,11 +17,12 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api")
 public class CollabEventController {
     private final CollabEventService collabEventService;
 
-    @PostMapping("/collabeventprocess")
-    public BasicVo collabEventProcess(@RequestParam("file")MultipartFile file, @RequestParam CollabEventRequest collabEventRequest, HttpServletRequest request) {
+    @PostMapping("/admin/collabeventprocess")
+    public BasicVo collabEventProcess(@RequestParam("file")MultipartFile file, CollabEventRequest collabEventRequest, HttpServletRequest request) {
         String realPath = request.getServletContext().getRealPath("");
 
         collabEventService.saveCollabEvent(file, collabEventRequest, realPath);
@@ -32,17 +33,20 @@ public class CollabEventController {
     }
 
     // 콜라보 플랫폼 종류 및 갯수
-    @PostMapping("/collabeventlist")
-    public List<CollabEventMenuVo> collabEventMenu(long brand_id) {
-        List<CollabEventMenuVo> collabEventMenuVos = collabEventService.getCollabEventMenu(brand_id);
+    // (보류)
+    @PostMapping("/collabeventmenulist")
+    public CollabEventInfoListVo collabEventMenu(long brand_id) {
+        List<CollabEventInfoVo> collabEventInfoVos = collabEventService.getCollabEventInfo(brand_id);
 
-        return collabEventMenuVos;
+        return new CollabEventInfoListVo(collabEventInfoVos);
     }
 
     // 콜라보 이벤트 리스트 (플랫폼 별)
-    public List<CollabEvent> collabEventList(CollabEventListRequest collabEventListRequest) {
+    // (보류)
+    @PostMapping("/collabeventlist")
+    public CollabEventListVo collabEventList(CollabEventListRequest collabEventListRequest) {
         List<CollabEvent> collabEvents = collabEventService.getCollabEventList(collabEventListRequest);
 
-        return collabEvents;
+        return new CollabEventListVo(collabEvents);
     }
 }

@@ -9,6 +9,7 @@ import com.kp.foodinfo.vo.FoodListVo;
 import com.kp.foodinfo.vo.FoodVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,12 +19,13 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api")
 public class FoodController {
 
     private final FoodService foodService;
 
-    @PostMapping("/foodprocess")
-    public BasicVo foodUploadProcess(@RequestParam("file") MultipartFile file, @RequestParam String name, HttpServletRequest request) {
+    @PostMapping("/admin/foodprocess")
+    public BasicVo foodUploadProcess(MultipartFile file, String name, HttpServletRequest request) {
 
         FoodDto foodDto = new FoodDto(name, file);
 

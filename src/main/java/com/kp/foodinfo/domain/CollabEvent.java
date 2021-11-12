@@ -1,6 +1,7 @@
 package com.kp.foodinfo.domain;
 
-import com.sun.istack.NotNull;
+import com.sun.istack.internal.NotNull;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -9,16 +10,16 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Getter @Setter
+@Data
 @NoArgsConstructor
 @TableGenerator(
         name = "COLLABEVENT_SEQ_GENERATOR",
         table = "FOODINFO_SEQUENCES",
         pkColumnValue = "COLLABEVENT_SEQ", allocationSize = 50)
-public class CollabEvent implements Event {
+public class CollabEvent {
     @Id @GeneratedValue(strategy = GenerationType.AUTO, generator = "COLLABEVENT_SEQ_GENERATOR")
     @Column(name = "collabevent_id")
-    private long id;
+    private Long id;
 
     @NotNull
     private String title;

@@ -24,6 +24,8 @@ public class FoodService {
 
         String clientPath = fileService.imageUploadProcess(file, realPath);
 
+        System.out.println("clientPath : " + clientPath);
+
         Food food = new Food(foodDto.getName(), clientPath);
 
         foodRepository.save(food);

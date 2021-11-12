@@ -38,7 +38,7 @@ class FollowRepositoryTest {
         Brand brand = new Brand("pizzaHut", "test/test.jpg");
         brandRepository.save(brand);
 
-        Follow follow = new Follow(brand, user);
+        Follow follow = new Follow(user, brand);
 
         //when
         followRepository.save(follow);
@@ -59,7 +59,7 @@ class FollowRepositoryTest {
         Brand brand = new Brand("pizzaHut", "test/test.jpg");
         brandRepository.save(brand);
 
-        Follow follow = new Follow(brand, user);
+        Follow follow = new Follow(user, brand);
 
         //when
         followRepository.save(follow);
@@ -82,8 +82,8 @@ class FollowRepositoryTest {
         Brand brand = new Brand("pizzaHut", "test/test.jpg");
         brandRepository.save(brand);
 
-        Follow follow1 = new Follow(brand, user1);
-        Follow follow2 = new Follow(brand, user2);
+        Follow follow1 = new Follow(user1, brand);
+        Follow follow2 = new Follow(user2, brand);
 
         followRepository.save(follow1);
         followRepository.save(follow2);
@@ -107,7 +107,7 @@ class FollowRepositoryTest {
         Brand brand = new Brand("pizzaHut", "test/test.jpg");
         brandRepository.save(brand);
 
-        Follow follow = new Follow(brand, user);
+        Follow follow = new Follow(user, brand);
 
         //when
         followRepository.save(follow);

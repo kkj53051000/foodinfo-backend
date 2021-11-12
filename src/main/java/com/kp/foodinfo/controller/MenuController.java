@@ -4,10 +4,9 @@ import com.kp.foodinfo.domain.Menu;
 import com.kp.foodinfo.request.MenuRequest;
 import com.kp.foodinfo.service.MenuService;
 import com.kp.foodinfo.vo.BasicVo;
+import com.kp.foodinfo.vo.MenuListVo;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,11 +14,12 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api")
 public class MenuController {
     private final MenuService menuService;
 
-    @PostMapping("/menuprocess")
-    public BasicVo menuUploadProcess(@RequestParam("file") MultipartFile file, @RequestParam MenuRequest menuRequest, HttpServletRequest request) {
+    @PostMapping("/admin/menuprocess")
+    public BasicVo menuProcess(MultipartFile file, MenuRequest menuRequest, HttpServletRequest request) {
 
         String realPath = request.getServletContext().getRealPath("");
 
@@ -31,9 +31,9 @@ public class MenuController {
     }
 
     @PostMapping("/menulist")
-    public List<Menu> menuList(@RequestParam long menuKind_id) {
-        List<Menu> menus = menuService.getMenus(menuKind_id);
+    public MenuListVo menuList(long brandMenuKind_id) {
+        List<Menu> menus = menuService.getMenuList(brandMenuKind_id);
 
-        return menus;
+        return new MenuListVo(menus);
     }
 }

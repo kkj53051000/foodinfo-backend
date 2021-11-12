@@ -11,16 +11,20 @@ import java.util.Date;
 public class CollabEventRequest {
     private String title;
     private String content;
-    private Date startDate;
-    private Date endDate;
+    private String startDate;
+    private String startTime;
+    private String endDate;
+    private String endTime;
     private long brand_id;
     private long collabPlatform_id;
 
-    public CollabEventRequest(String title, String content, Date startDate, Date endDate, long brand_id, long collabPlatform_id) {
+    public CollabEventRequest(String title, String content, String startDate, String startTime, String endDate, String endTime, long brand_id, long collabPlatform_id) {
         this.title = title;
         this. content = content;
         this.startDate = startDate;
+        this.startTime = startTime;
         this.endDate = endDate;
+        this.endTime = endTime;
         this.brand_id = brand_id;
         this.collabPlatform_id = collabPlatform_id;
     }

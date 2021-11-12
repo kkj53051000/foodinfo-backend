@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
+@RequestMapping("/api")
 public class UserController {
 
     private final UserService userService;
@@ -24,6 +25,14 @@ public class UserController {
     @GetMapping("/mockmvc")
     public String mockMvcTest(String name){
         return name + " Hello";
+    }
+
+    @GetMapping("/user/jwttest")
+    public UserVo jwtTest() {
+
+        UserVo userVo = new UserVo("success", "afafafdfafgasfafs.fasfa.gasgsgasg");
+
+        return userVo;
     }
 
     //회원가입 처리
@@ -47,6 +56,8 @@ public class UserController {
         if(user != null){
             //jwt 발급
             String jwtKey = jwtService.createToken(user.getId());
+
+            System.out.println("jwtKey : " + jwtKey);
 
             UserVo userVo = new UserVo("success", jwtKey);
 

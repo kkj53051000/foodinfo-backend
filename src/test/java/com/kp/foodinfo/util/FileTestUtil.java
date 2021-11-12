@@ -1,6 +1,8 @@
 package com.kp.foodinfo.util;
 
+import com.kp.foodinfo.dto.FileTestUtilControllerDto;
 import com.kp.foodinfo.dto.FileTestUtilDto;
+import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
@@ -12,6 +14,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class FileTestUtil {
+    //  (Service 에서 사용) (realPath, multipartFile)
     public static FileTestUtilDto getTestMultifile() {
         MockHttpServletRequest request = new MockHttpServletRequest();
         String realPath = request.getServletContext().getRealPath("");
@@ -40,27 +43,25 @@ public class FileTestUtil {
 
         return fileTestUtilDto;
     }
-    public static MultipartFile abc2(MockHttpServletRequest request, String realPath) {
-        String tempPath = "";
 
-        for(int i=0; i < realPath.indexOf("target"); i++) {
-            tempPath += realPath.charAt(i);
-        }
+    // MockMvc (Controller 에서 사용) (MockMultipartFile, MockHttpServletRequest, realPath)
+    public static FileTestUtilControllerDto getTestMultifileController() throws IOException {
 
-        String publicRealPath = tempPath + "src" + File.separator + "main" + File.separator + "resources" + File.separator + "static" + File.separator + "img" + File.separator;
+        MockHttpServletRequest request = new MockHttpServletRequest();
 
-        Path path = Paths.get(publicRealPath + "test.jpg");
+        FileTestUtilDto fileTestUtilDto = getTestMultifile();
 
-        byte[] content = null;
+        MockMultipartFile multipartFile = (MockMultipartFile)fileTestUtilDto.getMultipartFile();
 
-        try {
-            content = Files.readAllBytes(path);
-        } catch (final IOException e){
+        MockMultipartFile file = new MockMultipartFile(
+                "file",
+                "test.jpg",
+                String.valueOf(MediaType.IMAGE_JPEG),
+                multipartFile.getBytes()
+        );
 
-        }
+        FileTestUtilControllerDto fileRequest = new FileTestUtilControllerDto(file, request, fileTestUtilDto.getRealPath());
 
-        MultipartFile multipartFile = new MockMultipartFile("test.jpg", "test.jpg", "multipart/form-data", content);
-
-        return multipartFile;
+        return fileRequest;
     }
 }

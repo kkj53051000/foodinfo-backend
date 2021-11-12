@@ -5,8 +5,9 @@ import com.kp.foodinfo.exception.UserNotFoundException;
 import com.kp.foodinfo.vo.BasicVo;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-@ControllerAdvice
+@RestControllerAdvice
 public class ExceptionController {
 
     @ExceptionHandler(UserNotFoundException.class)

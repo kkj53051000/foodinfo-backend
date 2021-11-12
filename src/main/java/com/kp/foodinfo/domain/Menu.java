@@ -1,6 +1,7 @@
 package com.kp.foodinfo.domain;
 
-import com.sun.istack.NotNull;
+import com.sun.istack.internal.NotNull;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -8,7 +9,7 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @Entity
-@Getter @Setter
+@Data
 @NoArgsConstructor
 @TableGenerator(
         name = "MENU_SEQ_GENERATOR",
@@ -17,7 +18,7 @@ import javax.persistence.*;
 public class Menu {
     @Id @GeneratedValue(strategy = GenerationType.AUTO, generator = "MENU_SEQ_GENERATOR")
     @Column(name = "menu_id")
-    private long id;
+    private Long id;
 
     @NotNull
     private String name;
@@ -36,3 +37,24 @@ public class Menu {
         this.brandMenuKind = brandMenuKind;
     }
 }
+
+//menu.getItem().getName();
+//
+//class Item {
+//    public String name;
+//    public String getName() {
+//        return this.name;
+//    }
+//}
+//
+//class ItemProxy extends Item {
+//    Item item = null;
+//
+//    public String getName() {
+//        if(item = null) {
+//            item = em.find(Item.class, 2L);
+//        }
+//        return item.getName();
+//    }
+//}
+//

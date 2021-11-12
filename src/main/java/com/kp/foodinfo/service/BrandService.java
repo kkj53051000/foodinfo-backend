@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
+
 import java.util.List;
 
 @Service
@@ -31,6 +31,8 @@ public class BrandService {
     public List<Brand> getBrandList() {
 
         List<Brand> brands = brandRepository.findAll();
+
+        System.out.println("brands size : " + brands.size());
 
         if(brands.size() == 0){
             throw new  DbNotFoundException();

@@ -1,29 +1,29 @@
 package com.kp.foodinfo.vo;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.kp.foodinfo.util.StringToDateUtil;
+import lombok.*;
 
 import java.util.Date;
 
-@Getter @Setter
+@Data
 @NoArgsConstructor
-public class FollowContentVo{
+public class FollowContentVo implements Comparable<FollowContentVo>{
     private String brandName;
     private String brandImg;
-    private String eventType;
-    // 콜라보 이벤트만.
-    private String collabPlatformName;
+    private String eventTypeName;
+    private String eventTypeImg;
     private String eventTitle;
     private String eventContent;
     private String eventImg;
-    private Date eventStartDate;
-    private Date eventEndDate;
+    private String eventStartDate;
+    private String eventEndDate;
 
-    public FollowContentVo(String brandName, String brandImg, String eventType, String eventTitle, String eventContent, String eventImg, Date eventStartDate, Date eventEndDate) {
+    @Builder
+    public FollowContentVo(String brandName, String brandImg, String eventTypeName, String eventTypeImg, String eventTitle, String eventContent, String eventImg, String eventStartDate, String eventEndDate) {
         this.brandName = brandName;
         this.brandImg = brandImg;
-        this.eventType = eventType;
+        this.eventTypeName = eventTypeName;
+        this.eventTypeImg = eventTypeImg;
         this.eventTitle = eventTitle;
         this.eventContent = eventContent;
         this.eventImg = eventImg;
@@ -31,15 +31,16 @@ public class FollowContentVo{
         this.eventEndDate = eventEndDate;
     }
 
-    public FollowContentVo(String brandName, String brandImg, String eventType, String collabPlatformName, String eventTitle, String eventContent, String eventImg, Date eventStartDate, Date eventEndDate) {
-        this.brandName = brandName;
-        this.brandImg = brandImg;
-        this.eventType = eventType;
-        this.collabPlatformName = collabPlatformName;
-        this.eventTitle = eventTitle;
-        this.eventContent = eventContent;
-        this.eventImg = eventImg;
-        this.eventStartDate = eventStartDate;
-        this.eventEndDate = eventEndDate;
+    @Override
+    public int compareTo(FollowContentVo f) {
+        Date thisDate = StringToDateUtil.stringToDateProcess(eventStartDate);
+        Date injectDate = StringToDateUtil.stringToDateProcess(f.eventStartDate);
+
+        if(injectDate.after(thisDate)){
+            return 1;
+        }else if(injectDate.before(thisDate)){
+            return -1;
+        }
+        return 0;
     }
 }

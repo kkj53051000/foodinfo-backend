@@ -1,6 +1,8 @@
 package com.kp.foodinfo.domain;
 
-import com.sun.istack.NotNull;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.sun.istack.internal.NotNull;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -9,26 +11,27 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Getter @Setter
+@Data
 @NoArgsConstructor
 @TableGenerator(
         name = "BRANDEVENT_SEQ_GENERATOR",
         table = "FOODINFO_SEQUENCES",
         pkColumnValue = "BRANDEVENT_SEQ", allocationSize = 50)
-public class BrandEvent implements Event {
+public class BrandEvent {
     @Id @GeneratedValue(strategy = GenerationType.AUTO, generator = "BRANDEVENT_SEQ_GENERATOR")
     @Column(name = "brandevent_id")
-    private long id;
+    private Long id;
 
     @NotNull
     private String title;
-    @NotNull
     private String content;
     private String img;
 
     @NotNull
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm", timezone="Asia/Seoul")
     private Date startDate;
-    @NotNull
+
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm", timezone="Asia/Seoul")
     private Date endDate;
 
     @NotNull

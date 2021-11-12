@@ -53,7 +53,7 @@ class BrandEventServiceTest {
         Date startDate = new Date();
         Date endDate = new Date();
 
-        BrandEventRequest brandEventRequest = new BrandEventRequest("title", "content", startDate, endDate, brand.getId());
+        BrandEventRequest brandEventRequest = new BrandEventRequest("title", "content", "2021-01-01", "00:00", "2021-01-02", "00:00", brand.getId());
 
         //when
         brandEventService.saveBrandEvent(fileTestUtilDto.getMultipartFile(), brandEventRequest, fileTestUtilDto.getRealPath());

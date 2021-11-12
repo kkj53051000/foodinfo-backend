@@ -1,6 +1,7 @@
 package com.kp.foodinfo.domain;
 
-import com.sun.istack.NotNull;
+import com.sun.istack.internal.NotNull;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -8,7 +9,7 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @Entity
-@Getter @Setter
+@Data
 @NoArgsConstructor
 @TableGenerator(
         name = "COLLABPLATFORM_SEQ_GENERATOR",
@@ -17,7 +18,7 @@ import javax.persistence.*;
 public class CollabPlatform {
     @Id @GeneratedValue(strategy = GenerationType.AUTO, generator = "COLLABPLATFORM_SEQ_GENERATOR")
     @Column(name = "collabplatform_id")
-    private long id;
+    private Long id;
 
     @NotNull
     private String name;

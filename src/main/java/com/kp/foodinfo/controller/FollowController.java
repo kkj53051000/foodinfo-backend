@@ -4,21 +4,23 @@ import com.kp.foodinfo.domain.Brand;
 import com.kp.foodinfo.request.FollowRequest;
 import com.kp.foodinfo.service.FollowService;
 import com.kp.foodinfo.vo.BasicVo;
+import com.kp.foodinfo.vo.BrandListVo;
+import com.kp.foodinfo.vo.FollowContentListVo;
 import com.kp.foodinfo.vo.FollowContentVo;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api")
 public class FollowController {
     private final FollowService followService;
 
     // 팔로우
-    @PostMapping("/followprocess")
+    @PostMapping("/user/followprocess")
     public BasicVo followProcess(FollowRequest followRequest) {
 
         followService.saveFollow(followRequest);
@@ -29,43 +31,45 @@ public class FollowController {
     }
 
     // 팔로우 취소
-    @PostMapping("/followcancel")
-    public BasicVo followCancel(@RequestParam FollowRequest followForm) {
-        followService.deleteFollow(followForm);
+    @PostMapping("/user/followcancel")
+    public BasicVo followCancel(FollowRequest followRequest) {
+        followService.deleteFollow(followRequest);
 
         return new BasicVo("success");
     }
 
-    // 팔로우 브랜드 리스트
-    @PostMapping("/followbrandlist")
-    public List<Brand> followList(@RequestParam long user_id) {
+    // 팔로우하고있는 브랜드 리스트
+    @PostMapping("/user/followbrandlist")
+    public BrandListVo followBrandList(long user_id) {
         List<Brand> brands = followService.getFollowList(user_id);
 
-        return brands;
+        return new BrandListVo(brands);
     }
 
-    // 팔로우 컨텐츠 리스트 (브랜드, 이벤트 내용, 기본 이벤트 and 콜라보 이벤트)
-    @PostMapping("/followallcontentlist")
-    public List<FollowContentVo> followAllContentList(@RequestParam long user_id) {
+    // 팔로우 컨텐츠 리스트 All
+    @PostMapping("/user/followallcontentlist")
+    public FollowContentListVo followAllContentList(long user_id) throws ParseException {
 
         List<FollowContentVo> followContentVos = followService.getFollowAllContentList(user_id);
 
-        return followContentVos;
+        return new FollowContentListVo(followContentVos);
     }
 
+    /*
     // 팔로우 브랜드 이벤트 컨텐츠 리스트 (BrandEvent)
-    @PostMapping("/followbrandeventcontentlist")
-    public List<FollowContentVo> followBrandEventContentList(@RequestParam long user_id) {
+    @PostMapping("/user/followbrandeventcontentlist")
+    public FollowContentListVo followBrandEventContentList(long user_id) {
         List<FollowContentVo> followContentVos = followService.getBrandEventContentList(user_id);
 
-        return followContentVos;
+        return new FollowContentListVo(followContentVos);
     }
 
     // 팔로우 콜라보 이벤트 컨텐츠 리스트 (CollabEvent)
-    @PostMapping("/followcollabeventcontentlist")
-    public List<FollowContentVo> followCollabEventContentList(long user_id) {
+    @PostMapping("/user/followcollabeventcontentlist")
+    public FollowContentListVo followCollabEventContentList(long user_id) {
         List<FollowContentVo> followContentVos = followService.getCollabEventContentList(user_id);
 
-        return followContentVos;
+        return new FollowContentListVo(followContentVos);
     }
+    */
 }

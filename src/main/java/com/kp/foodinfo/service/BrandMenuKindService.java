@@ -19,8 +19,8 @@ public class BrandMenuKindService {
     private final BrandRepository brandRepository;
 
     public void saveBrandMenuKind(BrandMenuKindRequest brandMenuKindRequest) {
-        brandMenuKindRepository.findByPriority(brandMenuKindRequest.getPriority())
-                .orElseThrow(() -> new BrandMenuKindPriorityOverlapException());
+        //brandMenuKindRepository.findByPriority(brandMenuKindRequest.getPriority())
+        //        .orElseThrow(() -> new BrandMenuKindPriorityOverlapException());
 
         Brand brand = brandRepository.getById(brandMenuKindRequest.getBrand_id());
 

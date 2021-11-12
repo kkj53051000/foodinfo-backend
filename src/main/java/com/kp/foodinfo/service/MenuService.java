@@ -35,7 +35,7 @@ public class MenuService {
         menuRepository.save(menu);
     }
 
-    public List<Menu> getMenus(long menuKind_id){
+    public List<Menu> getMenuList(long menuKind_id){
 
         BrandMenuKind brandMenuKind = brandMenuKindRepository.findById(menuKind_id)
                 .get();

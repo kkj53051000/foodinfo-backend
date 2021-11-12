@@ -1,19 +1,42 @@
 package com.kp.foodinfo.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kp.foodinfo.domain.Food;
+import com.kp.foodinfo.dto.FileTestUtilControllerDto;
+import com.kp.foodinfo.repository.FoodRepository;
+import com.kp.foodinfo.service.FileService;
 import com.kp.foodinfo.service.FoodService;
+import com.kp.foodinfo.util.FileTestUtil;
+import com.kp.foodinfo.vo.BasicVo;
+import com.kp.foodinfo.vo.FoodListVo;
+import lombok.Data;
+import org.aspectj.lang.annotation.Before;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.web.PageableArgumentResolver;
+import org.springframework.test.context.event.annotation.BeforeTestExecution;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import static org.mockito.BDDMockito.*;
+
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -25,51 +48,62 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class FoodControllerTest {
 
     @Autowired
-    MockMvc mockMvc;
+    private MockMvc mockMvc;
 
     @Autowired
-    FoodService foodService;
+    private FoodRepository foodRepository;
 
 
-    //foodController return값 변경후 TEST
     @Test
-    //@Rollback(value = false)
+    @Transactional
     public void FOOD_UPLOAD_PROCESS_TEST() throws Exception {
+        // FoodService Change Mock
+        FoodService foodService = Mockito.mock(FoodService.class);
+        FoodController foodController = new FoodController(foodService);
+        mockMvc = MockMvcBuilders.standaloneSetup(foodController).build();
 
-        //given 파일 불러오기
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        String realPath = request.getServletContext().getRealPath("");
 
-        String tempPath = "";
+        String test = "test";
 
-        for(int i=0; i < realPath.indexOf("target"); i++) {
-            tempPath += realPath.charAt(i);
+        FileTestUtilControllerDto fileRequest = FileTestUtil.getTestMultifileController();
+
+        //Jackson
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        BasicVo basicVo = new BasicVo("success");
+        String jsonBasicVo = objectMapper.writeValueAsString(basicVo);
+
+
+        this.mockMvc.perform(MockMvcRequestBuilders.multipart("/api/admin/foodprocess")
+                .file(fileRequest.getFile())
+                .requestAttr("request", fileRequest.getRequest())
+                .param("name", test))
+                .andExpect(content().string(jsonBasicVo))
+                .andDo(print());
+    }
+
+    @Test
+    @Transactional
+    public void FOOD_LIST_TEST() throws Exception {
+
+        List<Food> foods = new ArrayList<>();
+
+        for (int i = 0; i < 10; i++) {
+            Food food = new Food("food" + i, "test/test.jpg");
+            foodRepository.save(food);
+
+            foods.add(food);
         }
 
-        String publicRealPath = tempPath + "src" + File.separator + "main" + File.separator + "resources" + File.separator + "static" + File.separator + "img" + File.separator;
+        FoodListVo foodListVo = new FoodListVo(foods);
 
-        System.out.println("publicRealPath : " + publicRealPath + "test.jpg");
-
-        Path path = Paths.get(publicRealPath + "test.jpg");
-
-        byte[] content = null;
-
-        try {
-            content = Files.readAllBytes(path);
-        } catch (final IOException e){
-
-        }
-
-        MockMultipartFile file = new MockMultipartFile("test.jpg", "test.jpg", "multipart/form-data", content);
+        ObjectMapper objectMapper = new ObjectMapper();
+        String jsonFoodListVo = objectMapper.writeValueAsString(foodListVo);
 
 
-
-
-
-        this.mockMvc.perform(MockMvcRequestBuilders.multipart("/foodprocess")
-                .file(file)
-                .param("name", "test")).andExpect(status().isOk())
-                .andExpect(content().string("success"))
+        this.mockMvc.perform(post("/api/foodlist"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(jsonFoodListVo))
                 .andDo(print());
 
     }

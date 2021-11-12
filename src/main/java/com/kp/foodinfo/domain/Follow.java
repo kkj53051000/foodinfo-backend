@@ -1,6 +1,7 @@
 package com.kp.foodinfo.domain;
 
-import com.sun.istack.NotNull;
+import com.sun.istack.internal.NotNull;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -8,7 +9,7 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @Entity
-@Getter @Setter
+@Data
 @NoArgsConstructor
 @TableGenerator(
         name = "FOLLOW_SEQ_GENERATOR",
@@ -18,20 +19,20 @@ public class Follow {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "FOLLOW_SEQ_GENERATOR")
     @Column(name = "follow_id")
-    private long id;
-
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "brand_id")
-    private Brand brand;
+    private Long id;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Follow(Brand brand, User user) {
-        this.brand = brand;
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "brand_id")
+    private Brand brand;
+
+    public Follow(User user, Brand brand) {
         this.user = user;
+        this.brand = brand;
     }
 }

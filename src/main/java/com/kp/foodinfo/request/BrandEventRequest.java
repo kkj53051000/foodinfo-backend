@@ -3,6 +3,7 @@ package com.kp.foodinfo.request;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -11,15 +12,19 @@ import java.util.Date;
 public class BrandEventRequest {
     private String title;
     private String content;
-    private Date startDate;
-    private Date endDate;
+    private String startDate;
+    private String startTime;
+    private String endDate;
+    private String endTime;
     private long brand_id;
 
-    public BrandEventRequest(String title, String content, Date startDate, Date endDate, long brand_id) {
+    public BrandEventRequest(String title, String content, String startDate, String startTime, String endDate, String endTime, long brand_id) {
         this.title = title;
         this.content = content;
         this.startDate = startDate;
+        this.startTime = startTime;
         this.endDate = endDate;
+        this.endTime = endTime;
         this.brand_id = brand_id;
     }
 }
