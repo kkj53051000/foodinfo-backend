@@ -7,6 +7,7 @@ import com.kp.foodinfo.repository.BrandRepository;
 import com.kp.foodinfo.util.FileTestUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockHttpServletRequest;
@@ -34,16 +35,19 @@ class BrandServiceTest {
 
     @Test
     @Transactional
-    void BRAND_SAVE_TEST() {
+    void BRAND_SAVE_TEST() throws IOException {
         //given
         //파일 가져오기
         FileTestUtilDto fileTestUtilDto = FileTestUtil.getTestMultifile();
+
+        FileService fileService = Mockito.mock(FileService.class);
+        BrandService brandService = new BrandService(brandRepository, fileService);
 
         //brandDto 파라미터 생성
         BrandDto brandDto = new BrandDto("pizzaHut", fileTestUtilDto.getMultipartFile());
 
         //when
-        brandService.saveBrand(brandDto, fileTestUtilDto.getRealPath());
+        brandService.saveBrand(brandDto);
 
         //then
         Assertions.assertNotNull(brandRepository.findByName(brandDto.getName()));

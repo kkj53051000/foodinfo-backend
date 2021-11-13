@@ -8,9 +8,11 @@ import lombok.NoArgsConstructor;
 public class UserVo {
     private String status;
     private String jwtKey;
+    private boolean adminCheck;
 
-    public UserVo(String status, String jwtKey) {
+    public UserVo(String status, String jwtKey, boolean adminCheck) {
         this.status = status;
         this.jwtKey = jwtKey;
+        this.adminCheck = adminCheck;
     }
 }

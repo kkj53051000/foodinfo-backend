@@ -9,6 +9,7 @@ import com.kp.foodinfo.request.BrandEventRequest;
 import com.kp.foodinfo.util.FileTestUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockHttpServletRequest;
@@ -41,7 +42,7 @@ class BrandEventServiceTest {
 
     @Test
     @Transactional
-    void BRAND_EVENT_SAVE_TEST() {
+    void BRAND_EVENT_SAVE_TEST() throws IOException {
         //given
         //파일 가져오기
         FileTestUtilDto fileTestUtilDto = FileTestUtil.getTestMultifile();
@@ -50,13 +51,14 @@ class BrandEventServiceTest {
         Brand brand = new Brand("pizzaHut", "test/test.jpg");
         brandRepository.save(brand);
 
-        Date startDate = new Date();
-        Date endDate = new Date();
-
         BrandEventRequest brandEventRequest = new BrandEventRequest("title", "content", "2021-01-01", "00:00", "2021-01-02", "00:00", brand.getId());
 
+        //Mock
+        FileService fileService = Mockito.mock(FileService.class);
+        BrandEventService brandEventService = new BrandEventService(brandEventRepository, brandRepository, fileService);
+
         //when
-        brandEventService.saveBrandEvent(fileTestUtilDto.getMultipartFile(), brandEventRequest, fileTestUtilDto.getRealPath());
+        brandEventService.saveBrandEvent(fileTestUtilDto.getMultipartFile(), brandEventRequest);
 
         //then
         Assertions.assertNotNull(brandEventRepository.findByTitle(brandEventRequest.getTitle()).get());

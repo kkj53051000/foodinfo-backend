@@ -27,35 +27,25 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-//@Component
-//@Profile("test") // "test, dev, prod, local, sandbox, cbt, aaa"
-//class FileService {
-//    public String clientPath() {
-//        return "/test/abdf/123";
-//    }
-//}
-
 @SpringBootTest
 class FoodServiceTest {
     @Autowired
     FoodRepository foodRepository;
 
-    @Mock
-    FileService fileService;
 
     @Autowired
     FoodService foodService;
 
     @Test
     @Transactional
-    void FOOD_SAVE_TEST() {
+    void FOOD_SAVE_TEST() throws IOException {
 
         //given
         //테스트 파일 가져오기
         FileTestUtilDto fileTestUtilDto = FileTestUtil.getTestMultifile();
 
         //Mock객체 생성
-        Mockito.when(fileService.imageUploadProcess(fileTestUtilDto.getMultipartFile(), fileTestUtilDto.getRealPath())).thenReturn("/test/abc/123");
+        FileService fileService = Mockito.mock(FileService.class);
 
         FoodService foodService = new FoodService(foodRepository, fileService);
 
@@ -63,7 +53,7 @@ class FoodServiceTest {
         FoodDto foodDto = new FoodDto("pizza", fileTestUtilDto.getMultipartFile());
 
         //when
-        foodService.saveFood(foodDto, "publicRealPath/" + "test.jpg");
+        foodService.saveFood(foodDto);
 
         //then
         Assertions.assertNotNull(foodRepository.findByName(foodDto.getName()));
@@ -71,13 +61,13 @@ class FoodServiceTest {
 
     @Test
     @Transactional
-    void FOOD_GET_LIST_TEST() {
+    void FOOD_GET_LIST_TEST() throws IOException {
         //given
         //테스트 파일 가져오가
         FileTestUtilDto fileTestUtilDto = FileTestUtil.getTestMultifile();
 
-        //mock객체 생성
-        Mockito.when(fileService.imageUploadProcess(fileTestUtilDto.getMultipartFile(), fileTestUtilDto.getRealPath())).thenReturn("test/test.jpg");
+        //Mock객체 생성
+        FileService fileService = Mockito.mock(FileService.class);
 
         FoodService foodService = new FoodService(foodRepository, fileService);
 
@@ -89,7 +79,7 @@ class FoodServiceTest {
             foodDtos.add(foodDto);
 
             //파일 저장 (service)
-            foodService.saveFood(foodDto, "publicRealPath/" + "test.jpg");
+            foodService.saveFood(foodDto);
         }
 
         //when

@@ -10,11 +10,9 @@ import org.springframework.web.multipart.MultipartFile;
 public class CollabPlatformDto {
     private String name;
     private MultipartFile file;
-    private String realPath;
 
-    public CollabPlatformDto(String name, MultipartFile file, String realPath) {
+    public CollabPlatformDto(String name, MultipartFile file) {
         this.name = name;
         this.file = file;
-        this.realPath = realPath;
     }
 }

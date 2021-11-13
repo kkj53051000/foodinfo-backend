@@ -57,7 +57,7 @@ class EventServiceTest {
         eventService = new EventService(eventRepository, fileService, brandRepository, eventTypeRepository);
 
         //when
-        eventService.saveEvent(fileRequest.getFile(), eventRequest, fileRequest.getRealPath());
+        eventService.saveEvent(fileRequest.getFile(), eventRequest);
 
         //then
         Assertions.assertNotNull(eventRepository.findByTitle(eventRequest.getTitle()).get());

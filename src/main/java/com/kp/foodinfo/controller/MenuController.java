@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -19,11 +20,11 @@ public class MenuController {
     private final MenuService menuService;
 
     @PostMapping("/admin/menuprocess")
-    public BasicVo menuProcess(MultipartFile file, MenuRequest menuRequest, HttpServletRequest request) {
+    public BasicVo menuProcess(MultipartFile file, MenuRequest menuRequest, HttpServletRequest request) throws IOException {
 
         String realPath = request.getServletContext().getRealPath("");
 
-        menuService.saveMenu(file, menuRequest, realPath);
+        menuService.saveMenu(file, menuRequest);
 
         BasicVo basicVo = new BasicVo("success");
 

@@ -7,6 +7,7 @@ import com.kp.foodinfo.dto.FileTestUtilDto;
 import com.kp.foodinfo.repository.BrandMenuKindRepository;
 import com.kp.foodinfo.repository.BrandRepository;
 import com.kp.foodinfo.repository.MenuRepository;
+import com.kp.foodinfo.request.MenuRequest;
 import com.kp.foodinfo.util.FileTestUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -16,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -24,9 +26,6 @@ import static org.junit.jupiter.api.Assertions.*;
 class MenuServiceTest {
     @Autowired
     MenuService menuService;
-
-    @Mock
-    FileService fileService;
 
     @Autowired
     BrandMenuKindRepository brandMenuKindRepository;
@@ -39,11 +38,12 @@ class MenuServiceTest {
 
     @Test
     @Transactional
-    void MENU_SAVE_TEST() {
+    void MENU_SAVE_TEST() throws IOException {
         //given
-        //Mock MenuService 생성
         FileTestUtilDto fileTestUtilDto = FileTestUtil.getTestMultifile();
-        Mockito.when(fileService.imageUploadProcess(fileTestUtilDto.getMultipartFile(), fileTestUtilDto.getRealPath())).thenReturn("test/test.jpg");
+
+        //Mock MenuService 생성
+        FileService fileService = Mockito.mock(FileService.class);
         MenuService menuService = new MenuService(menuRepository, brandMenuKindRepository, fileService);
 
         //Brand 저장
@@ -54,14 +54,13 @@ class MenuServiceTest {
         BrandMenuKind brandMenuKind = new BrandMenuKind("메인 메뉴", 1, brand);
         brandMenuKindRepository.save(brandMenuKind);
 
-        Menu menu = new Menu("normalPizza", 20000, "test/test.jpg", brandMenuKind);
+        MenuRequest menuRequest = new MenuRequest("test", 10000, brandMenuKind.getId());
 
         //when
-        menuRepository.save(menu);
+        menuService.saveMenu(fileTestUtilDto.getMultipartFile(), menuRequest);
 
         //then
-        Assertions.assertNotNull(menuRepository.findById(menu.getId()).get());
-        Assertions.assertEquals(menuRepository.findById(menu.getId()).get().getName(), menu.getName());
+        Assertions.assertNotNull(menuRepository.findByName(menuRequest.getName()).get());
     }
 
     @Test
@@ -69,8 +68,7 @@ class MenuServiceTest {
     void MENU_GET_LIST_TEST() {
         //given
         //Mock MenuService 생성
-        FileTestUtilDto fileTestUtilDto = FileTestUtil.getTestMultifile();
-        Mockito.when(fileService.imageUploadProcess(fileTestUtilDto.getMultipartFile(), fileTestUtilDto.getRealPath())).thenReturn("test/test.jpg");
+        FileService fileService = Mockito.mock(FileService.class);
         MenuService menuService = new MenuService(menuRepository, brandMenuKindRepository, fileService);
 
         //Brand 저장

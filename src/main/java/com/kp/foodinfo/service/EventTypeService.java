@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,8 +20,8 @@ public class EventTypeService {
 
     private final FileService fileService;
 
-    public void saveEventType(MultipartFile file, String name , String realPath) {
-        String clientPath = fileService.imageUploadProcess(file, realPath);
+    public void saveEventType(MultipartFile file, String name) throws IOException {
+        String clientPath = fileService.s3UploadProcess(file);
 
         EventType eventType = new EventType(name, clientPath);
 

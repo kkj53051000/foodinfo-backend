@@ -12,13 +12,6 @@ public class FoodListVo {
     private List<FoodVo> items = null;
 
     public FoodListVo(List<Food> foods) {
-//        List<FoodVo> foodVoList = new ArrayList<>();
-//
-//        for(Food food : foods) {
-//            foodVoList.add(new FoodVo(food));
-//        }
-//
-//        this.items = foodVoList;
 
         this.items = foods.stream()
                 .map(food -> new FoodVo(food))

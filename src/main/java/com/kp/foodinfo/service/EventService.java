@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -29,9 +30,9 @@ public class EventService {
 
     private final EventTypeRepository eventTypeRepository;
 
-    public void saveEvent(MultipartFile file, EventRequest eventRequest, String realPath) {
+    public void saveEvent(MultipartFile file, EventRequest eventRequest) throws IOException {
 
-        String clientPath = fileService.imageUploadProcess(file, realPath);
+        String clientPath = fileService.s3UploadProcess(file);
 
         Brand brand = brandRepository.findById(eventRequest.getBrand_id()).get();
         EventType eventType = eventTypeRepository.findById(eventRequest.getEventtype_id()).get();

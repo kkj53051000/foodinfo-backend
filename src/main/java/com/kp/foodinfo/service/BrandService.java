@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -19,9 +20,9 @@ public class BrandService {
 
     private final FileService fileService;
 
-    public void saveBrand(BrandDto brandDto, String realPath) {
+    public void saveBrand(BrandDto brandDto) throws IOException {
 
-        String clientPath = fileService.imageUploadProcess(brandDto.getFile(), realPath);
+        String clientPath = fileService.s3UploadProcess(brandDto.getFile());
 
         Brand brand = new Brand(brandDto.getName(), clientPath);
 

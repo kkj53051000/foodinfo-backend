@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
 
@@ -20,10 +21,9 @@ public class BrandEventController {
     private final BrandEventService brandEventService;
 
     @PostMapping("/admin/brandeventprocess")
-    public BasicVo brandEventUploadProcess(MultipartFile file, BrandEventRequest brandEventRequest, HttpServletRequest request) {
-        String realPath = request.getServletContext().getRealPath("");
+    public BasicVo brandEventUploadProcess(MultipartFile file, BrandEventRequest brandEventRequest) throws IOException {
 
-        brandEventService.saveBrandEvent(file, brandEventRequest, realPath);
+        brandEventService.saveBrandEvent(file, brandEventRequest);
 
         BasicVo basicVo = new BasicVo("success");
 

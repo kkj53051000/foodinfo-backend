@@ -1,5 +1,6 @@
 package com.kp.foodinfo.controller;
 
+import com.kp.foodinfo.domain.Role;
 import com.kp.foodinfo.domain.User;
 import com.kp.foodinfo.exception.UserNotFoundException;
 import com.kp.foodinfo.request.JoinRequest;
@@ -27,14 +28,6 @@ public class UserController {
         return name + " Hello";
     }
 
-    @GetMapping("/user/jwttest")
-    public UserVo jwtTest() {
-
-        UserVo userVo = new UserVo("success", "afafafdfafgasfafs.fasfa.gasgsgasg");
-
-        return userVo;
-    }
-
     //회원가입 처리
     @PostMapping("/joinprocess")
     public BasicVo joinProcess(JoinRequest joinRequest){
@@ -57,9 +50,13 @@ public class UserController {
             //jwt 발급
             String jwtKey = jwtService.createToken(user.getId());
 
-            System.out.println("jwtKey : " + jwtKey);
+            UserVo userVo = new UserVo();
 
-            UserVo userVo = new UserVo("success", jwtKey);
+            if(user.getRole() == Role.ADMIN) {
+                userVo = new UserVo("success", jwtKey, true);
+            }else{
+                userVo = new UserVo("success", jwtKey, false);
+            }
 
             return userVo;
         }else{

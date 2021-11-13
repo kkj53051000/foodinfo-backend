@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,10 +19,9 @@ public class EventTypeController {
     private final EventTypeService eventTypeService;
 
     @PostMapping("/admin/eventtypeprocess")
-    public BasicVo eventTypeProcess(MultipartFile file, String name, HttpServletRequest request) {
-        String realPath = request.getServletContext().getRealPath("");
+    public BasicVo eventTypeProcess(MultipartFile file, String name) throws IOException {
 
-        eventTypeService.saveEventType(file, name, realPath);
+        eventTypeService.saveEventType(file, name);
 
         return new BasicVo("success");
     }

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -19,10 +20,12 @@ public class FoodService {
 
     private final FileService fileService;
 
-    public void saveFood(FoodDto foodDto, String realPath) {
+    public void saveFood(FoodDto foodDto) throws IOException {
         MultipartFile file = foodDto.getFile();
 
-        String clientPath = fileService.imageUploadProcess(file, realPath);
+        //String clientPath = fileService.imageUploadProcess(file, realPath);
+
+        String clientPath = fileService.s3UploadProcess(file);
 
         System.out.println("clientPath : " + clientPath);
 

@@ -26,13 +26,13 @@ public class BrandController {
     private final BrandService brandService;
 
     @PostMapping("/admin/brandprocess")
-    public BasicVo brandProcess(MultipartFile file, String name, HttpServletRequest request) {
+    public BasicVo brandProcess(MultipartFile file, String name, HttpServletRequest request) throws IOException {
 
         BrandDto brandDto = new BrandDto(name, file);
 
         String realPath = request.getServletContext().getRealPath("");
 
-        brandService.saveBrand(brandDto, realPath);
+        brandService.saveBrand(brandDto);
 
         BasicVo basicVo = new BasicVo("success");
 

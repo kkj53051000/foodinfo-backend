@@ -6,6 +6,7 @@ import com.kp.foodinfo.repository.CollabPlatformRepository;
 import com.kp.foodinfo.util.FileTestUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockHttpServletRequest;
@@ -32,13 +33,17 @@ class CollabPlatformServiceTest {
 
     @Test
     @Transactional
-    void COLLAB_PLATFORM_SAVE_TEST() {
+    void COLLAB_PLATFORM_SAVE_TEST() throws IOException {
         //given
         //테스트 파일 가져오기
         FileTestUtilDto fileTestUtilDto = FileTestUtil.getTestMultifile();
 
         //collabPlatformDto 파라미터 생성
-        CollabPlatformDto collabPlatformDto = new CollabPlatformDto("test", fileTestUtilDto.getMultipartFile(), fileTestUtilDto.getRealPath());
+        CollabPlatformDto collabPlatformDto = new CollabPlatformDto("test", fileTestUtilDto.getMultipartFile());
+
+        //Mock
+        FileService fileService = Mockito.mock(FileService.class);
+        CollabPlatformService collabPlatformService = new CollabPlatformService(collabPlatformRepository, fileService);
 
         //when
         collabPlatformService.saveCollabPlatform(collabPlatformDto);

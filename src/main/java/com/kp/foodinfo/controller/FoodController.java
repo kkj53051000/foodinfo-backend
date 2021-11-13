@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -25,13 +26,11 @@ public class FoodController {
     private final FoodService foodService;
 
     @PostMapping("/admin/foodprocess")
-    public BasicVo foodUploadProcess(MultipartFile file, String name, HttpServletRequest request) {
+    public BasicVo foodUploadProcess(MultipartFile file, String name) throws IOException {
 
         FoodDto foodDto = new FoodDto(name, file);
 
-        String realPath = request.getServletContext().getRealPath("");
-
-        foodService.saveFood(foodDto, realPath);
+        foodService.saveFood(foodDto);
 
         BasicVo basicVo = new BasicVo("success");
 

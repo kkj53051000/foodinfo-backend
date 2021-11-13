@@ -20,11 +20,9 @@ public class CollabPlatformController {
     private final CollabPlatformService collabPlatformService;
 
     @PostMapping("/admin/collabplatformprocess")
-    public BasicVo collabPlatformProcess(MultipartFile file, String name, HttpServletRequest request) {
+    public BasicVo collabPlatformProcess(MultipartFile file, String name) throws IOException {
 
-        String realPath = request.getServletContext().getRealPath("");
-
-        CollabPlatformDto collabPlatformDto = new CollabPlatformDto(name, file, realPath);
+        CollabPlatformDto collabPlatformDto = new CollabPlatformDto(name, file);
 
         collabPlatformService.saveCollabPlatform(collabPlatformDto);
 

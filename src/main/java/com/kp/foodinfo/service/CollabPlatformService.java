@@ -18,9 +18,9 @@ public class CollabPlatformService {
     private final FileService fileService;
 
 
-    public void saveCollabPlatform(CollabPlatformDto collabPlatformDto) {
+    public void saveCollabPlatform(CollabPlatformDto collabPlatformDto) throws IOException {
 
-        String clientPath = fileService.imageUploadProcess(collabPlatformDto.getFile(), collabPlatformDto.getRealPath());
+        String clientPath = fileService.s3UploadProcess(collabPlatformDto.getFile());
 
         CollabPlatform collabPlatform = new CollabPlatform(collabPlatformDto.getName(), clientPath);
 

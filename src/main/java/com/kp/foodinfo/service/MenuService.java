@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -23,9 +24,9 @@ public class MenuService {
 
     private final FileService fileService;
 
-    public void saveMenu(MultipartFile file, MenuRequest menuRequest, String realPath) {
+    public void saveMenu(MultipartFile file, MenuRequest menuRequest) throws IOException {
 
-        String clientPath = fileService.imageUploadProcess(file, realPath);
+        String clientPath = fileService.s3UploadProcess(file);
 
         BrandMenuKind brandMenuKind = brandMenuKindRepository.findById(menuRequest.getBrandMenuKind_id())
                 .get();

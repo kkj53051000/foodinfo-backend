@@ -99,7 +99,7 @@ class UserControllerTest {
         String jwtKey = jwtService.createToken(user.getId());
 
         //비교할 객체
-        UserVo userVo = new UserVo("success", jwtKey);
+        UserVo userVo = new UserVo("success", jwtKey, true);
 
         //Jackson
         ObjectMapper objectMapper = new ObjectMapper();

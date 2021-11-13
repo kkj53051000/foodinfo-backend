@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -27,9 +28,9 @@ public class BrandEventService {
 
     private final FileService fileService;
 
-    public void saveBrandEvent(MultipartFile file, BrandEventRequest brandEventRequest, String realPath) {
+    public void saveBrandEvent(MultipartFile file, BrandEventRequest brandEventRequest) throws IOException {
 
-        String clientPath = fileService.imageUploadProcess(file, realPath);
+        String clientPath = fileService.s3UploadProcess(file);
 
         Brand brand = brandRepository.findById(brandEventRequest.getBrand_id())
                 .get();

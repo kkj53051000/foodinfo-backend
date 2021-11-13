@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -32,15 +33,16 @@ class EventTypeServiceTest {
 
     @Test
     @Transactional
-    void EVENT_TYPE_SAVE_TEST() {
+    void EVENT_TYPE_SAVE_TEST() throws IOException {
         //given
         String name = "test";
 
+        //Mock
         FileService fileService = Mockito.mock(FileService.class);
         eventTypeService = new EventTypeService(eventTypeRepository, fileService);
 
         //when
-        eventTypeService.saveEventType(fileRequest.getMultipartFile(), name, fileRequest.getRealPath());
+        eventTypeService.saveEventType(fileRequest.getMultipartFile(), name);
 
         //then
         Assertions.assertNotNull(eventTypeRepository.findByName(name).get());
@@ -48,7 +50,7 @@ class EventTypeServiceTest {
 
     @Test
     @Transactional
-    void EVENT_TYPE_GET_LIST_TEST() {
+    void EVENT_TYPE_GET_LIST_TEST() throws IOException {
         //given
         for (int i = 0; i < 10; i++) {
             String name = "OPO" + i;
@@ -57,7 +59,7 @@ class EventTypeServiceTest {
             eventTypeService = new EventTypeService(eventTypeRepository, fileService);
 
             //when
-            eventTypeService.saveEventType(fileRequest.getMultipartFile(), name, fileRequest.getRealPath());
+            eventTypeService.saveEventType(fileRequest.getMultipartFile(), name);
 
             //then
             Assertions.assertNotNull(eventTypeRepository.findByName(name).get());
