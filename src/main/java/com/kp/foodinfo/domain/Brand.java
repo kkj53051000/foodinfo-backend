@@ -25,8 +25,13 @@ public class Brand {
     @NotNull
     private String img;
 
-    public Brand(String name, String img){
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "food_id")
+    private Food food;
+
+    public Brand(String name, String img, Food food){
         this.name = name;
         this.img = img;
+        this.food = food;
     }
 }

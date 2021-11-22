@@ -3,7 +3,9 @@ package com.kp.foodinfo.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kp.foodinfo.domain.Brand;
+import com.kp.foodinfo.domain.Food;
 import com.kp.foodinfo.repository.BrandRepository;
+import com.kp.foodinfo.repository.FoodRepository;
 import com.kp.foodinfo.vo.BasicVo;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,12 +32,18 @@ class BrandMenuKindControllerTest {
     @Autowired
     BrandRepository brandRepository;
 
+    @Autowired
+    FoodRepository foodRepository;
+
     @Test
     @Transactional
     public void BRAND_MENU_KIND_UPLOAD_PROCESS_TEST() throws Exception {
         MultiValueMap<String, String> brandMenuKindRequest = new LinkedMultiValueMap<>();
 
-        Brand brand = new Brand("pizzaHut", "test/test.jpg");
+        Food food = new Food("pizza", "/test/test.jpg");
+        foodRepository.save(food);
+
+        Brand brand = new Brand("pizzaHut", "test/test.jpg", food);
         brandRepository.save(brand);
 
         brandMenuKindRequest.add("name", "name");

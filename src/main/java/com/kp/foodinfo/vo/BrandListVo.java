@@ -19,12 +19,12 @@ public class BrandListVo {
 
     @Data
     class BrandVo {
-        private long brand_id;
+        private long id;
         private String name;
         private String img;
 
         public BrandVo(Brand brand) {
-            this.brand_id = brand.getId();
+            this.id = brand.getId();
             this.name = brand.getName();
             this.img = brand.getImg();
         }

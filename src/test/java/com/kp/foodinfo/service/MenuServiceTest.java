@@ -2,10 +2,12 @@ package com.kp.foodinfo.service;
 
 import com.kp.foodinfo.domain.Brand;
 import com.kp.foodinfo.domain.BrandMenuKind;
+import com.kp.foodinfo.domain.Food;
 import com.kp.foodinfo.domain.Menu;
 import com.kp.foodinfo.dto.FileTestUtilDto;
 import com.kp.foodinfo.repository.BrandMenuKindRepository;
 import com.kp.foodinfo.repository.BrandRepository;
+import com.kp.foodinfo.repository.FoodRepository;
 import com.kp.foodinfo.repository.MenuRepository;
 import com.kp.foodinfo.request.MenuRequest;
 import com.kp.foodinfo.util.FileTestUtil;
@@ -36,6 +38,9 @@ class MenuServiceTest {
     @Autowired
     BrandRepository brandRepository;
 
+    @Autowired
+    FoodRepository foodRepository;
+
     @Test
     @Transactional
     void MENU_SAVE_TEST() throws IOException {
@@ -46,8 +51,12 @@ class MenuServiceTest {
         FileService fileService = Mockito.mock(FileService.class);
         MenuService menuService = new MenuService(menuRepository, brandMenuKindRepository, fileService);
 
+        //Food save
+        Food food = new Food("pizza", "/test/test.jpg");
+        foodRepository.save(food);
+
         //Brand 저장
-        Brand brand = new Brand("pizzaHut", "test/test.jpg");
+        Brand brand = new Brand("pizzaHut", "test/test.jpg", food);
         brandRepository.save(brand);
 
         //BrandMenuKind 저장
@@ -71,8 +80,12 @@ class MenuServiceTest {
         FileService fileService = Mockito.mock(FileService.class);
         MenuService menuService = new MenuService(menuRepository, brandMenuKindRepository, fileService);
 
+        //Food save
+        Food food = new Food("pizza", "/test/test.jpg");
+        foodRepository.save(food);
+
         //Brand 저장
-        Brand brand = new Brand("pizzaHut", "test/test.jpg");
+        Brand brand = new Brand("pizzaHut", "test/test.jpg", food);
         brandRepository.save(brand);
 
         //BrandMenuKind 저장

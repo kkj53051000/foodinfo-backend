@@ -4,10 +4,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kp.foodinfo.domain.Brand;
 import com.kp.foodinfo.domain.BrandMenuKind;
+import com.kp.foodinfo.domain.Food;
 import com.kp.foodinfo.domain.Menu;
 import com.kp.foodinfo.dto.FileTestUtilControllerDto;
 import com.kp.foodinfo.repository.BrandMenuKindRepository;
 import com.kp.foodinfo.repository.BrandRepository;
+import com.kp.foodinfo.repository.FoodRepository;
 import com.kp.foodinfo.repository.MenuRepository;
 import com.kp.foodinfo.service.MenuService;
 import com.kp.foodinfo.util.FileTestUtil;
@@ -50,6 +52,9 @@ class MenuControllerTest {
     @Autowired
     MenuRepository menuRepository;
 
+    @Autowired
+    FoodRepository foodRepository;
+
     @Test
     @Transactional
     public void MENU_PROCESS_TEST() throws Exception {
@@ -61,7 +66,10 @@ class MenuControllerTest {
         FileTestUtilControllerDto fileRequest = FileTestUtil.getTestMultifileController();
 
         //given
-        Brand brand = new Brand("pizzaHut", "/test/test.jpg");
+        Food food = new Food("pizza", "/test/test.jpg");
+        foodRepository.save(food);
+
+        Brand brand = new Brand("pizzaHut", "/test/test.jpg", food);
         brandRepository.save(brand);
 
         BrandMenuKind brandMenuKind = new BrandMenuKind("Main", 1, brand);
@@ -91,7 +99,10 @@ class MenuControllerTest {
     @Transactional
     public void MENU_LIST_TEST() throws Exception {
         //given
-        Brand brand = new Brand("pizzaHut", "/test/test.jpg");
+        Food food = new Food("pizza", "/test/test.jpg");
+        foodRepository.save(food);
+
+        Brand brand = new Brand("pizzaHut", "/test/test.jpg", food);
         brandRepository.save(brand);
 
         BrandMenuKind brandMenuKind = new BrandMenuKind("Main", 1, brand);

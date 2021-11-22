@@ -3,6 +3,7 @@ package com.kp.foodinfo.repository;
 import com.kp.foodinfo.domain.Brand;
 import com.kp.foodinfo.domain.Event;
 import com.kp.foodinfo.domain.EventType;
+import com.kp.foodinfo.domain.Food;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,11 +25,17 @@ class EventRepositoryTest {
     @Autowired
     EventTypeRepository eventTypeRepository;
 
+    @Autowired
+    FoodRepository foodRepository;
+
     @Test
     @Transactional
     void EVENT_INSERT_TEST() {
         //given
-        Brand brand = new Brand("pizzaHut", "/test/test.jpg");
+        Food food = new Food("pizza", "/test/test.jpg");
+        foodRepository.save(food);
+
+        Brand brand = new Brand("pizzaHut", "/test/test.jpg", food);
         brandRepository.save(brand);
 
         EventType eventType = new EventType("OPO", "/test/test.jpg");
@@ -55,7 +62,10 @@ class EventRepositoryTest {
     @Transactional
     void EVENT_SELECT_LIST_TEST() {
         //given
-        Brand brand = new Brand("pizzaHut", "/test/test.jpg");
+        Food food = new Food("pizza", "/test/test.jpg");
+        foodRepository.save(food);
+
+        Brand brand = new Brand("pizzaHut", "/test/test.jpg", food);
         brandRepository.save(brand);
 
         EventType eventType = new EventType("OPO", "/test/test.jpg");

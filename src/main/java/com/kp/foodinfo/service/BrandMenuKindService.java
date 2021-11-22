@@ -7,25 +7,37 @@ import com.kp.foodinfo.request.BrandMenuKindRequest;
 import com.kp.foodinfo.repository.BrandMenuKindRepository;
 import com.kp.foodinfo.repository.BrandRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class BrandMenuKindService {
-    private final BrandMenuKindRepository brandMenuKindRepository;
+    @Autowired
+    private BrandMenuKindRepository brandMenuKindRepository;
 
-    private final BrandRepository brandRepository;
+    @Autowired
+    private BrandRepository brandRepository;
 
     public void saveBrandMenuKind(BrandMenuKindRequest brandMenuKindRequest) {
-        //brandMenuKindRepository.findByPriority(brandMenuKindRequest.getPriority())
-        //        .orElseThrow(() -> new BrandMenuKindPriorityOverlapException());
 
-        Brand brand = brandRepository.getById(brandMenuKindRequest.getBrand_id());
+        Brand brand = brandRepository.findById(brandMenuKindRequest.getBrand_id()).get();
 
         BrandMenuKind brandMenuKind = new BrandMenuKind(brandMenuKindRequest.getName(), brandMenuKindRequest.getPriority(), brand);
 
         brandMenuKindRepository.save(brandMenuKind);
+    }
+
+    public List<BrandMenuKind> getBrandMenuKinds(long brand_id) {
+
+        Brand brand = brandRepository.findById(brand_id).get();
+
+        List<BrandMenuKind> brandMenuKinds = brandMenuKindRepository.findByBrand(brand);
+
+        return brandMenuKinds;
     }
 }

@@ -20,10 +20,12 @@ public class FoodListVo {
 
     @Data
     class FoodVo {
+        private long id;
         private String name;
         private String img;
 
         public FoodVo(Food food) {
+            this.id = food.getId();
             this.name = food.getName();
             this.img = food.getImg();
         }

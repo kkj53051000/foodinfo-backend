@@ -38,8 +38,6 @@ public class WebConfig implements WebMvcConfigurer {
         filterRegistrationBean.setOrder(1);
         filterRegistrationBean.setUrlPatterns(Collections.singleton("/api/user/*"));
 
-        System.out.println(123);
-
         return filterRegistrationBean;
     }
 

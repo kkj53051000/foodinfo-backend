@@ -2,6 +2,7 @@ package com.kp.foodinfo.repository;
 
 import com.kp.foodinfo.domain.Brand;
 import com.kp.foodinfo.domain.BrandMenuKind;
+import com.kp.foodinfo.domain.Food;
 import com.kp.foodinfo.domain.Menu;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -22,11 +23,17 @@ class MenuRepositoryTest {
     @Autowired
     BrandMenuKindRepository brandMenuKindRepository;
 
+    @Autowired
+    FoodRepository foodRepository;
+
     @Test
     @Transactional
     void MENU_INSERT_TEST() {
         //given
-        Brand brand = new Brand("pizzaHut", "test/test.jpg");
+        Food food = new Food("pizza", "/test/test.jpg");
+        foodRepository.save(food);
+
+        Brand brand = new Brand("pizzaHut", "test/test.jpg", food);
         BrandMenuKind brandMenuKind = new BrandMenuKind("메인메뉴", 1, brand);
 
         brandRepository.save(brand);
@@ -45,7 +52,10 @@ class MenuRepositoryTest {
     @Transactional
     void MENU_SELECT_BY_BRAND_MENU_KIND_TEST() {
         //given
-        Brand brand = new Brand("pizzaHut", "test/test.jpg");
+        Food food = new Food("pizza", "/test/test.jpg");
+        foodRepository.save(food);
+
+        Brand brand = new Brand("pizzaHut", "test/test.jpg", food);
         BrandMenuKind brandMenuKind = new BrandMenuKind("메인메뉴", 1, brand);
 
         brandRepository.save(brand);

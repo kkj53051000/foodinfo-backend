@@ -2,9 +2,11 @@ package com.kp.foodinfo.service;
 
 import com.kp.foodinfo.domain.Brand;
 import com.kp.foodinfo.domain.BrandEvent;
+import com.kp.foodinfo.domain.Food;
 import com.kp.foodinfo.dto.FileTestUtilDto;
 import com.kp.foodinfo.repository.BrandEventRepository;
 import com.kp.foodinfo.repository.BrandRepository;
+import com.kp.foodinfo.repository.FoodRepository;
 import com.kp.foodinfo.request.BrandEventRequest;
 import com.kp.foodinfo.util.FileTestUtil;
 import org.junit.jupiter.api.Assertions;
@@ -40,6 +42,9 @@ class BrandEventServiceTest {
     @Autowired
     BrandEventRepository brandEventRepository;
 
+    @Autowired
+    FoodRepository foodRepository;
+
     @Test
     @Transactional
     void BRAND_EVENT_SAVE_TEST() throws IOException {
@@ -48,7 +53,10 @@ class BrandEventServiceTest {
         FileTestUtilDto fileTestUtilDto = FileTestUtil.getTestMultifile();
 
         //Brand Save (Parameter)
-        Brand brand = new Brand("pizzaHut", "test/test.jpg");
+        Food food = new Food("pizza", "/test/test.jpg");
+        foodRepository.save(food);
+
+        Brand brand = new Brand("pizzaHut", "test/test.jpg", food);
         brandRepository.save(brand);
 
         BrandEventRequest brandEventRequest = new BrandEventRequest("title", "content", "2021-01-01", "00:00", "2021-01-02", "00:00", brand.getId());
@@ -68,7 +76,10 @@ class BrandEventServiceTest {
     @Transactional
     void BRAND_EVENT_GET_BRAND_EVENTS() {
         //given
-        Brand brand = new Brand("pizzaHut", "test/test.jpg");
+        Food food = new Food("pizza", "/test/test.jpg");
+        foodRepository.save(food);
+
+        Brand brand = new Brand("pizzaHut", "test/test.jpg", food);
         brandRepository.save(brand);
 
         Date startDate = new Date();

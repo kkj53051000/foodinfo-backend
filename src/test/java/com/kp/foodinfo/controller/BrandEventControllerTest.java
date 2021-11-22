@@ -3,9 +3,11 @@ package com.kp.foodinfo.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kp.foodinfo.domain.Brand;
 import com.kp.foodinfo.domain.BrandEvent;
+import com.kp.foodinfo.domain.Food;
 import com.kp.foodinfo.dto.FileTestUtilControllerDto;
 import com.kp.foodinfo.repository.BrandEventRepository;
 import com.kp.foodinfo.repository.BrandRepository;
+import com.kp.foodinfo.repository.FoodRepository;
 import com.kp.foodinfo.service.BrandEventService;
 import com.kp.foodinfo.util.FileTestUtil;
 import com.kp.foodinfo.vo.BasicVo;
@@ -46,6 +48,9 @@ class BrandEventControllerTest {
     @Autowired
     BrandEventRepository brandEventRepository;
 
+    @Autowired
+    FoodRepository foodRepository;
+
     @Test
     @Transactional
     public void BRAND_EVENT_UPLOAD_PROCESS_TEST() throws Exception {
@@ -57,7 +62,10 @@ class BrandEventControllerTest {
 
         FileTestUtilControllerDto fileRequest = FileTestUtil.getTestMultifileController();
 
-        Brand brand = new Brand("pizzaHut", "test/test.jpg");
+        Food food = new Food("pizza", "/test/test.jpg");
+        foodRepository.save(food);
+
+        Brand brand = new Brand("pizzaHut", "test/test.jpg", food);
         brandRepository.save(brand);
 
         // Inject Constructor (BrandEventRequest)
@@ -89,7 +97,10 @@ class BrandEventControllerTest {
     @Test
     @Transactional
     public void BRAND_EVENT_GET_LIST() throws Exception {
-        Brand brand = new Brand("pizzaHut", "test/test.jpg");
+        Food food = new Food("pizza", "/test/test.jpg");
+        foodRepository.save(food);
+
+        Brand brand = new Brand("pizzaHut", "test/test.jpg", food);
         brandRepository.save(brand);
 
         List<BrandEvent> brandEvents = new ArrayList<>();

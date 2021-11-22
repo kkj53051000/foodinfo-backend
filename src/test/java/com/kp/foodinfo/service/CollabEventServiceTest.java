@@ -3,11 +3,13 @@ package com.kp.foodinfo.service;
 import com.kp.foodinfo.domain.Brand;
 import com.kp.foodinfo.domain.CollabEvent;
 import com.kp.foodinfo.domain.CollabPlatform;
+import com.kp.foodinfo.domain.Food;
 import com.kp.foodinfo.dto.CollabPlatformDto;
 import com.kp.foodinfo.dto.FileTestUtilDto;
 import com.kp.foodinfo.repository.BrandRepository;
 import com.kp.foodinfo.repository.CollabEventRepository;
 import com.kp.foodinfo.repository.CollabPlatformRepository;
+import com.kp.foodinfo.repository.FoodRepository;
 import com.kp.foodinfo.request.CollabEventListRequest;
 import com.kp.foodinfo.request.CollabEventRequest;
 import com.kp.foodinfo.util.FileTestUtil;
@@ -51,6 +53,10 @@ class CollabEventServiceTest {
     @Mock
     FileService fileService;
 
+    @Autowired
+    FoodRepository foodRepository;
+
+
     @Test
     @Transactional
     void COLLAB_EVENT_SAVE_TEST() {
@@ -58,8 +64,12 @@ class CollabEventServiceTest {
         //파일 가져오기
         FileTestUtilDto fileTestUtilDto = FileTestUtil.getTestMultifile();
 
+        //음식
+        Food food = new Food("pizza", "/test/test.jpg");
+        foodRepository.save(food);
+
         //브랜드
-        Brand brand = new Brand("pizzaHut", "test/test.jpg");
+        Brand brand = new Brand("pizzaHut", "test/test.jpg", food);
         brandRepository.save(brand);
 
         //콜라보 플랫폼
@@ -83,8 +93,12 @@ class CollabEventServiceTest {
         //파일 가져오기
         FileTestUtilDto fileTestUtilDto = FileTestUtil.getTestMultifile();
 
+        //음식
+        Food food = new Food("pizza", "/test/test.jpg");
+        foodRepository.save(food);
+
         //브랜드
-        Brand brand = new Brand("pizzaHut", "test/test.jpg");
+        Brand brand = new Brand("pizzaHut", "test/test.jpg", food);
         brandRepository.save(brand);
 
         //콜라보 플랫폼
@@ -144,8 +158,12 @@ class CollabEventServiceTest {
         //파일 가져오기
         FileTestUtilDto fileTestUtilDto = FileTestUtil.getTestMultifile();
 
+        //음식
+        Food food = new Food("pizza", "/test/test.jpg");
+        foodRepository.save(food);
+
         //브랜드
-        Brand brand = new Brand("pizzaHut", "test/test.jpg");
+        Brand brand = new Brand("pizzaHut", "test/test.jpg", food);
         brandRepository.save(brand);
 
         //콜라보 플랫폼

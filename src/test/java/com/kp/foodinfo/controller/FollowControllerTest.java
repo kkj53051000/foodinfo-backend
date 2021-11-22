@@ -51,6 +51,11 @@ class FollowControllerTest {
     @Autowired
     CollabPlatformRepository collabPlatformRepository;
 
+    @Autowired
+    FoodRepository foodRepository;
+
+
+
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
     @Test
@@ -60,7 +65,10 @@ class FollowControllerTest {
         User user = new User("test", "test", "test@nver.com", new Date(), Role.USER);
         userRepository.save(user);
 
-        Brand brand = new Brand("pizzaHut", "/test/test.jpg");
+        Food food = new Food("pizza", "/test/test.jpg");
+        foodRepository.save(food);
+
+        Brand brand = new Brand("pizzaHut", "/test/test.jpg", food);
         brandRepository.save(brand);
 
         MultiValueMap<String, String> followRequest = new LinkedMultiValueMap<>();
@@ -87,7 +95,10 @@ class FollowControllerTest {
         User user = new User("test", "test", "test@nver.com", new Date(), Role.USER);
         userRepository.save(user);
 
-        Brand brand = new Brand("pizzaHut", "/test/test.jpg");
+        Food food = new Food("pizza", "/test/test.jpg");
+        foodRepository.save(food);
+
+        Brand brand = new Brand("pizzaHut", "/test/test.jpg", food);
         brandRepository.save(brand);
 
         Follow follow = new Follow(user, brand);
@@ -114,8 +125,11 @@ class FollowControllerTest {
         User user = new User("test", "test", "test@nver.com", new Date(), Role.USER);
         userRepository.save(user);
 
-        Brand brand1 = new Brand("pizzaHut", "/test/test.jpg");
-        Brand brand2 = new Brand("bbq", "/test/test.jpg");
+        Food food = new Food("pizza", "/test/test.jpg");
+        foodRepository.save(food);
+
+        Brand brand1 = new Brand("pizzaHut", "/test/test.jpg", food);
+        Brand brand2 = new Brand("bbq", "/test/test.jpg", food);
         brandRepository.save(brand1);
         brandRepository.save(brand2);
 

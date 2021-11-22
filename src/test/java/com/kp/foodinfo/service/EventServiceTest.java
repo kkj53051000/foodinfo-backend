@@ -3,10 +3,12 @@ package com.kp.foodinfo.service;
 import com.kp.foodinfo.domain.Brand;
 import com.kp.foodinfo.domain.Event;
 import com.kp.foodinfo.domain.EventType;
+import com.kp.foodinfo.domain.Food;
 import com.kp.foodinfo.dto.FileTestUtilControllerDto;
 import com.kp.foodinfo.repository.BrandRepository;
 import com.kp.foodinfo.repository.EventRepository;
 import com.kp.foodinfo.repository.EventTypeRepository;
+import com.kp.foodinfo.repository.FoodRepository;
 import com.kp.foodinfo.request.EventRequest;
 import com.kp.foodinfo.util.FileTestUtil;
 import com.kp.foodinfo.vo.EventListVo;
@@ -38,6 +40,8 @@ class EventServiceTest {
     @Autowired
     EventRepository eventRepository;
 
+    @Autowired
+    FoodRepository foodRepository;
 
     @Test
     @Transactional
@@ -45,7 +49,10 @@ class EventServiceTest {
         //given
         FileTestUtilControllerDto fileRequest = FileTestUtil.getTestMultifileController();
 
-        Brand brand = new Brand("pizzaHut", "/test/test.jpg");
+        Food food = new Food("pizza", "/test/test.jpg");
+        foodRepository.save(food);
+
+        Brand brand = new Brand("pizzaHut", "/test/test.jpg", food);
         brandRepository.save(brand);
 
         EventType eventType = new EventType("OPO", "/test/test.jpg");
@@ -68,7 +75,10 @@ class EventServiceTest {
     @Transactional
     void EVENT_GET_LIST_TEST() {
         //given
-        Brand brand = new Brand("pizzaHut", "/test/test.jpg");
+        Food food = new Food("pizza", "/test/test.jpg");
+        foodRepository.save(food);
+
+        Brand brand = new Brand("pizzaHut", "/test/test.jpg", food);
         brandRepository.save(brand);
 
         EventType eventType = new EventType("OPO", "/test/test.jpg");

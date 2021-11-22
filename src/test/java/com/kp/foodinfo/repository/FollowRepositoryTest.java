@@ -1,9 +1,6 @@
 package com.kp.foodinfo.repository;
 
-import com.kp.foodinfo.domain.Brand;
-import com.kp.foodinfo.domain.Follow;
-import com.kp.foodinfo.domain.Role;
-import com.kp.foodinfo.domain.User;
+import com.kp.foodinfo.domain.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +23,9 @@ class FollowRepositoryTest {
     @Autowired
     BrandRepository brandRepository;
 
+    @Autowired
+    FoodRepository foodRepository;
+
     @Test
     @Transactional
     void FOLLOW_INSERT_TEST() {
@@ -35,7 +35,10 @@ class FollowRepositoryTest {
         User user = new User("test", "test", "test@naver.com", joinDate, Role.USER);
         userRepository.save(user);
 
-        Brand brand = new Brand("pizzaHut", "test/test.jpg");
+        Food food = new Food("pizza", "/test/test.jpg");
+        foodRepository.save(food);
+
+        Brand brand = new Brand("pizzaHut", "test/test.jpg", food);
         brandRepository.save(brand);
 
         Follow follow = new Follow(user, brand);
@@ -56,7 +59,10 @@ class FollowRepositoryTest {
         User user = new User("test", "test", "test@naver.com", joinDate, Role.USER);
         userRepository.save(user);
 
-        Brand brand = new Brand("pizzaHut", "test/test.jpg");
+        Food food = new Food("pizza", "/test/test.jpg");
+        foodRepository.save(food);
+
+        Brand brand = new Brand("pizzaHut", "test/test.jpg", food);
         brandRepository.save(brand);
 
         Follow follow = new Follow(user, brand);
@@ -79,7 +85,10 @@ class FollowRepositoryTest {
         userRepository.save(user1);
         userRepository.save(user2);
 
-        Brand brand = new Brand("pizzaHut", "test/test.jpg");
+        Food food = new Food("pizza", "/test/test.jpg");
+        foodRepository.save(food);
+
+        Brand brand = new Brand("pizzaHut", "test/test.jpg", food);
         brandRepository.save(brand);
 
         Follow follow1 = new Follow(user1, brand);
@@ -104,7 +113,10 @@ class FollowRepositoryTest {
         User user = new User("test", "test", "test@naver.com", joinDate, Role.USER);
         userRepository.save(user);
 
-        Brand brand = new Brand("pizzaHut", "test/test.jpg");
+        Food food = new Food("pizza", "/test/test.jpg");
+        foodRepository.save(food);
+
+        Brand brand = new Brand("pizzaHut", "test/test.jpg", food);
         brandRepository.save(brand);
 
         Follow follow = new Follow(user, brand);

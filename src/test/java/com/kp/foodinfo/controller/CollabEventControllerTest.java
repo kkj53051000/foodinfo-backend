@@ -3,9 +3,11 @@ package com.kp.foodinfo.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kp.foodinfo.domain.Brand;
 import com.kp.foodinfo.domain.CollabPlatform;
+import com.kp.foodinfo.domain.Food;
 import com.kp.foodinfo.dto.FileTestUtilControllerDto;
 import com.kp.foodinfo.repository.BrandRepository;
 import com.kp.foodinfo.repository.CollabPlatformRepository;
+import com.kp.foodinfo.repository.FoodRepository;
 import com.kp.foodinfo.service.CollabEventService;
 import com.kp.foodinfo.util.FileTestUtil;
 import com.kp.foodinfo.vo.BasicVo;
@@ -39,6 +41,9 @@ class CollabEventControllerTest {
     @Autowired
     CollabPlatformRepository collabPlatformRepository;
 
+    @Autowired
+    FoodRepository foodRepository;
+
     @Test
     @Transactional
     public void COLLAB_EVENT_PROCESS_TEST() throws Exception {
@@ -49,7 +54,10 @@ class CollabEventControllerTest {
 
         FileTestUtilControllerDto fileRequest = FileTestUtil.getTestMultifileController();
 
-        Brand brand = new Brand("pizzaHut", "/test/test.jpg");
+        Food food = new Food("pizza", "/test/test.jpg");
+        foodRepository.save(food);
+
+        Brand brand = new Brand("pizzaHut", "/test/test.jpg", food);
         brandRepository.save(brand);
 
         CollabPlatform collabPlatform = new CollabPlatform("card", "/img/img.jpg");

@@ -1,9 +1,11 @@
 package com.kp.foodinfo.service;
 
 import com.kp.foodinfo.domain.Brand;
+import com.kp.foodinfo.domain.Food;
 import com.kp.foodinfo.dto.BrandDto;
 import com.kp.foodinfo.dto.FileTestUtilDto;
 import com.kp.foodinfo.repository.BrandRepository;
+import com.kp.foodinfo.repository.FoodRepository;
 import com.kp.foodinfo.util.FileTestUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -33,6 +35,9 @@ class BrandServiceTest {
     @Autowired
     BrandRepository brandRepository;
 
+    @Autowired
+    FoodRepository foodRepository;
+
     @Test
     @Transactional
     void BRAND_SAVE_TEST() throws IOException {
@@ -41,10 +46,13 @@ class BrandServiceTest {
         FileTestUtilDto fileTestUtilDto = FileTestUtil.getTestMultifile();
 
         FileService fileService = Mockito.mock(FileService.class);
-        BrandService brandService = new BrandService(brandRepository, fileService);
+        BrandService brandService = new BrandService(brandRepository, foodRepository, fileService);
 
         //brandDto 파라미터 생성
-        BrandDto brandDto = new BrandDto("pizzaHut", fileTestUtilDto.getMultipartFile());
+        Food food = new Food("pizza", "/test/test.jpg");
+        foodRepository.save(food);
+
+        BrandDto brandDto = new BrandDto("pizzaHut", fileTestUtilDto.getMultipartFile(), food.getId());
 
         //when
         brandService.saveBrand(brandDto);
@@ -57,10 +65,13 @@ class BrandServiceTest {
     @Transactional
     void BRAND_GET_LIST_TEST() {
         //given
+        Food food = new Food("pizza", "/test/test.jpg");
+        foodRepository.save(food);
+
         List<Brand> brands1 = new ArrayList<>();
 
         for(int i = 0; i < 5; i ++) {
-            Brand brand = new Brand("pizzaHut" + i, "test/test.jpg");
+            Brand brand = new Brand("pizzaHut" + i, "test/test.jpg", food);
 
             brands1.add(brand);
 
@@ -68,7 +79,7 @@ class BrandServiceTest {
         }
 
         //when
-        List<Brand> brands2 = brandService.getBrandList();
+        List<Brand> brands2 = brandService.getBrandList(food.getId());
 
         //then
         Assertions.assertEquals(brands1, brands2);

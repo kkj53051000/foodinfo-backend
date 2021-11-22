@@ -1,6 +1,7 @@
 package com.kp.foodinfo.controller;
 
 import com.kp.foodinfo.domain.Brand;
+import com.kp.foodinfo.request.BrandRequest;
 import com.kp.foodinfo.service.BrandService;
 import com.kp.foodinfo.vo.BasicVo;
 import com.kp.foodinfo.dto.BrandDto;
@@ -8,10 +9,7 @@ import com.kp.foodinfo.vo.BrandListVo;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,11 +24,9 @@ public class BrandController {
     private final BrandService brandService;
 
     @PostMapping("/admin/brandprocess")
-    public BasicVo brandProcess(MultipartFile file, String name, HttpServletRequest request) throws IOException {
+    public BasicVo brandProcess(MultipartFile file, BrandRequest brandRequest) throws IOException {
 
-        BrandDto brandDto = new BrandDto(name, file);
-
-        String realPath = request.getServletContext().getRealPath("");
+        BrandDto brandDto = new BrandDto(brandRequest.getName(), file, brandRequest.getFood_id());
 
         brandService.saveBrand(brandDto);
 
@@ -39,9 +35,9 @@ public class BrandController {
         return basicVo;
     }
 
-    @PostMapping("/brandlist")
-    public BrandListVo brandList() {
-        List<Brand> brands = brandService.getBrandList();
+    @PostMapping("/brandlist/{id}")
+    public BrandListVo brandList(@PathVariable("id") long food_id) {
+        List<Brand> brands = brandService.getBrandList(food_id);
 
         return new BrandListVo(brands);
     }

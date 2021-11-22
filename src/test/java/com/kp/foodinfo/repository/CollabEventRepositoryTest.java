@@ -3,6 +3,7 @@ package com.kp.foodinfo.repository;
 import com.kp.foodinfo.domain.Brand;
 import com.kp.foodinfo.domain.CollabEvent;
 import com.kp.foodinfo.domain.CollabPlatform;
+import com.kp.foodinfo.domain.Food;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,11 +28,17 @@ class CollabEventRepositoryTest {
     @Autowired
     CollabPlatformRepository collabPlatformRepository;
 
+    @Autowired
+    FoodRepository foodRepository;
+
     @Test
     @Transactional
     void COLLAB_EVENT_INSERT_TEST() {
         //given
-        Brand brand = new Brand("pizzaHut", "test/test.jpg");
+        Food food = new Food("pizza", "/test/test.jpg");
+        foodRepository.save(food);
+
+        Brand brand = new Brand("pizzaHut", "test/test.jpg", food);
         brandRepository.save(brand);
 
         CollabPlatform collabPlatform = new CollabPlatform("card", "test/test.jpg");
@@ -53,7 +60,10 @@ class CollabEventRepositoryTest {
     @Transactional
     void COLLAB_EVENT_COUNT_BY_BRAND_AND_COLLAB_PLATFORM_TEST() {
         //given
-        Brand brand = new Brand("pizzaHut", "test/test.jpg");
+        Food food = new Food("pizza", "/test/test.jpg");
+        foodRepository.save(food);
+
+        Brand brand = new Brand("pizzaHut", "test/test.jpg", food);
         brandRepository.save(brand);
 
         CollabPlatform collabPlatform = new CollabPlatform("card", "test/test.jpg");
@@ -81,7 +91,10 @@ class CollabEventRepositoryTest {
     @Transactional
     void COLLAB_EVENT_SELECT_BY_BRAND_COLLAB_PLATFORM_TEST() {
         //given
-        Brand brand = new Brand("pizzaHut", "test/test.jpg");
+        Food food = new Food("pizza", "/test/test.jpg");
+        foodRepository.save(food);
+
+        Brand brand = new Brand("pizzaHut", "test/test.jpg", food);
         brandRepository.save(brand);
 
         CollabPlatform collabPlatform = new CollabPlatform("card", "test/test");
@@ -103,7 +116,10 @@ class CollabEventRepositoryTest {
     @Transactional
     void COLLAB_EVENT_SELECT_BY_BRAND_TEST() {
         //given
-        Brand brand = new Brand("pizzaHut", "test/test.jpg");
+        Food food = new Food("pizza", "/test/test.jpg");
+        foodRepository.save(food);
+
+        Brand brand = new Brand("pizzaHut", "test/test.jpg", food);
         brandRepository.save(brand);
 
         CollabPlatform collabPlatform = new CollabPlatform("card", "test/test");

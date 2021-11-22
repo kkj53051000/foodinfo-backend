@@ -20,9 +20,7 @@ public class MenuController {
     private final MenuService menuService;
 
     @PostMapping("/admin/menuprocess")
-    public BasicVo menuProcess(MultipartFile file, MenuRequest menuRequest, HttpServletRequest request) throws IOException {
-
-        String realPath = request.getServletContext().getRealPath("");
+    public BasicVo menuProcess(MultipartFile file, MenuRequest menuRequest) throws IOException {
 
         menuService.saveMenu(file, menuRequest);
 

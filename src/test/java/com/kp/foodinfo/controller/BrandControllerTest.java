@@ -3,9 +3,11 @@ package com.kp.foodinfo.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kp.foodinfo.domain.Brand;
+import com.kp.foodinfo.domain.Food;
 import com.kp.foodinfo.dto.BrandDto;
 import com.kp.foodinfo.dto.FileTestUtilControllerDto;
 import com.kp.foodinfo.repository.BrandRepository;
+import com.kp.foodinfo.repository.FoodRepository;
 import com.kp.foodinfo.service.BrandService;
 import com.kp.foodinfo.service.FileService;
 import com.kp.foodinfo.util.FileTestUtil;
@@ -44,6 +46,9 @@ class BrandControllerTest {
     @Autowired
     private BrandRepository brandRepository;
 
+    @Autowired
+    FoodRepository foodRepository;
+
 
     @Test
     @Transactional
@@ -72,11 +77,13 @@ class BrandControllerTest {
     @Test
     @Transactional
     public void BRAND_GET_LIST_TEST() throws Exception {
+        Food food = new Food("pizza", "/test/test.jpg");
+        foodRepository.save(food);
 
         List<Brand> brands = new ArrayList<>();
 
         for (int i = 0; i < 10; i++) {
-            Brand brand = new Brand("pizzaHut" + i, "test/test.jpg");
+            Brand brand = new Brand("pizzaHut" + i, "test/test.jpg", food);
 
             brandRepository.save(brand);
 
@@ -89,7 +96,7 @@ class BrandControllerTest {
 
         String jsonBrandListVo = objectMapper.writeValueAsString(brandListVo);
 
-        this.mockMvc.perform(post("/api/brandlist"))
+        this.mockMvc.perform(post("/api/brandlist/" + food.getId()))
                 .andExpect(status().isOk())
                 .andExpect(content().string(jsonBrandListVo))
                 .andDo(print());

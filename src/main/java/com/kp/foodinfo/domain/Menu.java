@@ -37,24 +37,3 @@ public class Menu {
         this.brandMenuKind = brandMenuKind;
     }
 }
-
-//menu.getItem().getName();
-//
-//class Item {
-//    public String name;
-//    public String getName() {
-//        return this.name;
-//    }
-//}
-//
-//class ItemProxy extends Item {
-//    Item item = null;
-//
-//    public String getName() {
-//        if(item = null) {
-//            item = em.find(Item.class, 2L);
-//        }
-//        return item.getName();
-//    }
-//}
-//

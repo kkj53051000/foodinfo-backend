@@ -41,6 +41,9 @@ class FollowServiceTest {
     @Autowired
     EventRepository eventRepository;
 
+    @Autowired
+    FoodRepository foodRepository;
+
     @Test
     @Transactional
     void FOLLOW_SAVE_TEST() {
@@ -50,8 +53,12 @@ class FollowServiceTest {
         User user = new User("test", "test", "test@naver.com", joinDate, Role.USER);
         userRepository.save(user);
 
+        //Food save
+        Food food = new Food("pizza", "/test/test.jpg");
+        foodRepository.save(food);
+
         //Brand save
-        Brand brand = new Brand("pizzaHut", "test/test.jpg");
+        Brand brand = new Brand("pizzaHut", "test/test.jpg", food);
         brandRepository.save(brand);
 
         //Request
@@ -74,8 +81,12 @@ class FollowServiceTest {
         User user = new User("test", "test", "test@naver.com", joinDate, Role.USER);
         userRepository.save(user);
 
+        //Food save
+        Food food = new Food("pizza", "/test/test.jpg");
+        foodRepository.save(food);
+
         //Brand 저장
-        Brand brand = new Brand("pizzaHut", "test/test.jpg");
+        Brand brand = new Brand("pizzaHut", "test/test.jpg", food);
         brandRepository.save(brand);
 
         //FollowRequest 생성
@@ -100,11 +111,15 @@ class FollowServiceTest {
         User user = new User("test", "test", "test@naver.com", joinDate, Role.USER);
         userRepository.save(user);
 
+        //Food save
+        Food food = new Food("pizza", "/test/test.jpg");
+        foodRepository.save(food);
+
         //Brand 저장
-        Brand brand1 = new Brand("pizzaHut", "test/test.jpg");
+        Brand brand1 = new Brand("pizzaHut", "test/test.jpg", food);
         brandRepository.save(brand1);
 
-        Brand brand2 = new Brand("bbq", "test/bbq.jpg");
+        Brand brand2 = new Brand("bbq", "test/bbq.jpg", food);
         brandRepository.save(brand2);
 
         //FollowRequest 생성
@@ -131,9 +146,13 @@ class FollowServiceTest {
         User user = new User("test", "test", "test@naver.com", new Date(), Role.USER);
         userRepository.save(user);
 
+        //Food save
+        Food food = new Food("pizza", "/test/test.jpg");
+        foodRepository.save(food);
+
         //Brand
-        Brand brand1 = new Brand("pizzaHut", "test/test.jpg");
-        Brand brand2 = new Brand("bbq", "/test/test.jpg");
+        Brand brand1 = new Brand("pizzaHut", "test/test.jpg", food);
+        Brand brand2 = new Brand("bbq", "/test/test.jpg", food);
         brandRepository.save(brand1);
         brandRepository.save(brand2);
 

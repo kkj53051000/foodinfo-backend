@@ -31,33 +31,38 @@ public class UserController {
     //회원가입 처리
     @PostMapping("/joinprocess")
     public BasicVo joinProcess(JoinRequest joinRequest){
+        log.info("joinProcess - in");
+
         userService.saveUser(joinRequest);
 
         BasicVo basicVo = new BasicVo("success");
 
+        log.info("joinProcess - basicVo return");
         return basicVo;
     }
 
     @PostMapping("/loginprocess")
     public UserVo loginProcess(LoginRequest loginRequest){
-
-        System.out.println("userid : " + loginRequest.getUserid());
-        System.out.println("userpw : " + loginRequest.getUserpw());
+        log.info("loginProcess - in");
 
         User user = userService.loginUser(loginRequest);
 
         if(user != null){
+            log.info("loginProcess - user != null (Normal)");
             //jwt 발급
             String jwtKey = jwtService.createToken(user.getId());
 
-            UserVo userVo = new UserVo();
+            UserVo userVo;
 
             if(user.getRole() == Role.ADMIN) {
+                log.info("loginProcess - user == Role.ADMIN");
                 userVo = new UserVo("success", jwtKey, true);
             }else{
+                log.info("loginProcess - user != Role.ADMIN");
                 userVo = new UserVo("success", jwtKey, false);
             }
 
+            log.info("loginProcess - userVo return");
             return userVo;
         }else{
             throw new UserNotFoundException();

@@ -1,10 +1,11 @@
 package com.kp.foodinfo.request;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter @Setter
+@Data
 @NoArgsConstructor
 public class MenuRequest {
     private String name;
