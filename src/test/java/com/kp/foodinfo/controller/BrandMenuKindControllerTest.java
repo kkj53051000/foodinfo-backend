@@ -6,16 +6,20 @@ import com.kp.foodinfo.domain.Brand;
 import com.kp.foodinfo.domain.Food;
 import com.kp.foodinfo.repository.BrandRepository;
 import com.kp.foodinfo.repository.FoodRepository;
+import com.kp.foodinfo.request.BrandMenuKindRequest;
 import com.kp.foodinfo.vo.BasicVo;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+
+import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -35,29 +39,28 @@ class BrandMenuKindControllerTest {
     @Autowired
     FoodRepository foodRepository;
 
+    ObjectMapper objectMapper = new ObjectMapper();
+
     @Test
     @Transactional
     public void BRAND_MENU_KIND_UPLOAD_PROCESS_TEST() throws Exception {
-        MultiValueMap<String, String> brandMenuKindRequest = new LinkedMultiValueMap<>();
-
+        //given
         Food food = new Food("pizza", "/test/test.jpg");
         foodRepository.save(food);
 
-        Brand brand = new Brand("pizzaHut", "test/test.jpg", food);
+        Brand brand = new Brand("pizzaHut", "test/test.jpg", new Date(), food);
         brandRepository.save(brand);
 
-        brandMenuKindRequest.add("name", "name");
-        brandMenuKindRequest.add("priority", Integer.toString(1));
-        brandMenuKindRequest.add("brand_id", Long.toString(brand.getId()));
-
-        //Json
-        ObjectMapper objectMapper = new ObjectMapper();
+        BrandMenuKindRequest brandMenuKindRequest = new BrandMenuKindRequest("main", 1, brand.getId());
 
         BasicVo basicVo = new BasicVo("success");
 
         String jsonBasicVo = objectMapper.writeValueAsString(basicVo);
 
-        this.mockMvc.perform(post("/api/admin/brandmenukindprocess").params(brandMenuKindRequest))
+        //when then
+        this.mockMvc.perform(post("/api/admin/brandmenukindprocess")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(brandMenuKindRequest)))
                 .andExpect(status().isOk())
                 .andExpect(content().string(jsonBasicVo))
                 .andDo(print());

@@ -20,12 +20,11 @@ public class Menu {
     @Column(name = "menu_id")
     private Long id;
 
-    @NotNull
     private String name;
     private int price;
+    @Lob
     private String img;
 
-    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "brandmenukind_id")
     private BrandMenuKind brandMenuKind;

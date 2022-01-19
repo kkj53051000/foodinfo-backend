@@ -56,7 +56,7 @@ class BrandEventServiceTest {
         Food food = new Food("pizza", "/test/test.jpg");
         foodRepository.save(food);
 
-        Brand brand = new Brand("pizzaHut", "test/test.jpg", food);
+        Brand brand = new Brand("pizzaHut", "test/test.jpg", new Date(), food);
         brandRepository.save(brand);
 
         BrandEventRequest brandEventRequest = new BrandEventRequest("title", "content", "2021-01-01", "00:00", "2021-01-02", "00:00", brand.getId());
@@ -79,7 +79,7 @@ class BrandEventServiceTest {
         Food food = new Food("pizza", "/test/test.jpg");
         foodRepository.save(food);
 
-        Brand brand = new Brand("pizzaHut", "test/test.jpg", food);
+        Brand brand = new Brand("pizzaHut", "test/test.jpg", new Date(), food);
         brandRepository.save(brand);
 
         Date startDate = new Date();

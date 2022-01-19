@@ -19,10 +19,9 @@ public class EventType {
     @Column(name = "eventtype_id")
     private Long id;
 
-    @NotNull
     private String name;
 
-    @NotNull
+    @Lob
     private String img;
 
     public EventType(String name, String img) {

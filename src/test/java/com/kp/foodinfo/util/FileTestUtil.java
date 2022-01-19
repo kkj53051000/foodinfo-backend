@@ -64,4 +64,10 @@ public class FileTestUtil {
 
         return fileRequest;
     }
+
+    public static MockMultipartFile jsonChangeMockMultipartFile(String json) {
+        MockMultipartFile jsonFile = new MockMultipartFile("value", "", "application/json", json.getBytes());
+
+        return jsonFile;
+    }
 }

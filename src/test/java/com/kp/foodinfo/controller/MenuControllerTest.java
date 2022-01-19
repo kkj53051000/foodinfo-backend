@@ -1,37 +1,34 @@
 package com.kp.foodinfo.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kp.foodinfo.domain.Brand;
 import com.kp.foodinfo.domain.BrandMenuKind;
 import com.kp.foodinfo.domain.Food;
 import com.kp.foodinfo.domain.Menu;
 import com.kp.foodinfo.dto.FileTestUtilControllerDto;
-import com.kp.foodinfo.repository.BrandMenuKindRepository;
-import com.kp.foodinfo.repository.BrandRepository;
-import com.kp.foodinfo.repository.FoodRepository;
-import com.kp.foodinfo.repository.MenuRepository;
+import com.kp.foodinfo.repository.*;
+import com.kp.foodinfo.request.MenuRequest;
+import com.kp.foodinfo.service.FileService;
 import com.kp.foodinfo.service.MenuService;
 import com.kp.foodinfo.util.FileTestUtil;
 import com.kp.foodinfo.vo.BasicVo;
 import com.kp.foodinfo.vo.MenuListVo;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -55,42 +52,53 @@ class MenuControllerTest {
     @Autowired
     FoodRepository foodRepository;
 
+    @Mock
+    FileService fileService;
+
+    @Autowired
+    MenuSizeRepositroy menuSizeRepositroy;
+
+
+
+    ObjectMapper objectMapper = new ObjectMapper();
+
     @Test
     @Transactional
     public void MENU_PROCESS_TEST() throws Exception {
-        // MenuService Change Mock
-        MenuService menuService = Mockito.mock(MenuService.class);
+
+        FileTestUtilControllerDto fileRequest = FileTestUtil.getTestMultifileController();
+
+        // MenuService - FileService Change Mock
+        Mockito.when(fileService.s3UploadProcess(fileRequest.getFile())).thenReturn("test/test.jpg");
+        MenuService menuService = new MenuService(menuRepository, brandMenuKindRepository, fileService, brandRepository, menuSizeRepositroy);
         MenuController menuController = new MenuController(menuService);
         mockMvc = MockMvcBuilders.standaloneSetup(menuController).build();
 
-        FileTestUtilControllerDto fileRequest = FileTestUtil.getTestMultifileController();
+
 
         //given
         Food food = new Food("pizza", "/test/test.jpg");
         foodRepository.save(food);
 
-        Brand brand = new Brand("pizzaHut", "/test/test.jpg", food);
+        Brand brand = new Brand("pizzaHut", "/test/test.jpg", new Date(), food);
         brandRepository.save(brand);
 
         BrandMenuKind brandMenuKind = new BrandMenuKind("Main", 1, brand);
         brandMenuKindRepository.save(brandMenuKind);
 
-        MultiValueMap<String, String> menuRequest = new LinkedMultiValueMap<>();
-
-        menuRequest.add("name", "normalPizza");
-        menuRequest.add("price", "20000");
-        menuRequest.add("brandMenuKind_id", Long.toString(brandMenuKind.getId()));
-
-        ObjectMapper objectMapper = new ObjectMapper();
+        // Setting Request
+        MenuRequest menuRequest = new MenuRequest("normalPizza", 20000, brandMenuKind.getId());
 
         BasicVo basicVo = new BasicVo("success");
 
         String jsonBasicVo = objectMapper.writeValueAsString(basicVo);
 
+        //when then
         this.mockMvc.perform(MockMvcRequestBuilders.multipart("/api/admin/menuprocess")
                 .file(fileRequest.getFile())
                 .requestAttr("request", fileRequest.getRequest())
-                .params(menuRequest))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(menuRequest)))
                 .andExpect(content().string(jsonBasicVo))
                 .andDo(print());
     }
@@ -102,7 +110,7 @@ class MenuControllerTest {
         Food food = new Food("pizza", "/test/test.jpg");
         foodRepository.save(food);
 
-        Brand brand = new Brand("pizzaHut", "/test/test.jpg", food);
+        Brand brand = new Brand("pizzaHut", "/test/test.jpg", new Date(), food);
         brandRepository.save(brand);
 
         BrandMenuKind brandMenuKind = new BrandMenuKind("Main", 1, brand);
@@ -114,15 +122,13 @@ class MenuControllerTest {
             Menu menu = new Menu("normalMenu", 20000, "/test/test.jpg", brandMenuKind);
 
             menuRepository.save(menu);
-
             menus.add(menu);
         }
 
-        ObjectMapper objectMapper = new ObjectMapper();
-
         String jsonMenuListVo = objectMapper.writeValueAsString(new MenuListVo(menus));
 
-        this.mockMvc.perform(post("/api/menulist").param("brandMenuKind_id", Long.toString(brandMenuKind.getId())))
+        //when then
+        this.mockMvc.perform(post("/api/menulist/" + brandMenuKind.getId()))
                 .andExpect(status().isOk())
                 .andExpect(content().string(jsonMenuListVo))
                 .andDo(print());

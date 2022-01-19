@@ -17,8 +17,8 @@ public class FollowContentVoComparator implements Comparator<FollowContentVo> {
         Date day2 = null;
 
         try {
-            day1 = dateFormat.parse(String.valueOf(followContentVo1.getEventStartDate()));
-            day2 = dateFormat.parse(String.valueOf(followContentVo2.getEventStartDate()));
+            day1 = dateFormat.parse(String.valueOf(followContentVo1.getIssueStartDate()));
+            day2 = dateFormat.parse(String.valueOf(followContentVo2.getIssueStartDate()));
         }catch (ParseException e) {
             e.printStackTrace();
         }

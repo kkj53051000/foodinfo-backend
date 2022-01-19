@@ -38,7 +38,7 @@ class CollabEventRepositoryTest {
         Food food = new Food("pizza", "/test/test.jpg");
         foodRepository.save(food);
 
-        Brand brand = new Brand("pizzaHut", "test/test.jpg", food);
+        Brand brand = new Brand("pizzaHut", "test/test.jpg", new Date(), food);
         brandRepository.save(brand);
 
         CollabPlatform collabPlatform = new CollabPlatform("card", "test/test.jpg");
@@ -63,7 +63,7 @@ class CollabEventRepositoryTest {
         Food food = new Food("pizza", "/test/test.jpg");
         foodRepository.save(food);
 
-        Brand brand = new Brand("pizzaHut", "test/test.jpg", food);
+        Brand brand = new Brand("pizzaHut", "test/test.jpg", new Date(), food);
         brandRepository.save(brand);
 
         CollabPlatform collabPlatform = new CollabPlatform("card", "test/test.jpg");
@@ -94,7 +94,7 @@ class CollabEventRepositoryTest {
         Food food = new Food("pizza", "/test/test.jpg");
         foodRepository.save(food);
 
-        Brand brand = new Brand("pizzaHut", "test/test.jpg", food);
+        Brand brand = new Brand("pizzaHut", "test/test.jpg", new Date(), food);
         brandRepository.save(brand);
 
         CollabPlatform collabPlatform = new CollabPlatform("card", "test/test");
@@ -119,7 +119,7 @@ class CollabEventRepositoryTest {
         Food food = new Food("pizza", "/test/test.jpg");
         foodRepository.save(food);
 
-        Brand brand = new Brand("pizzaHut", "test/test.jpg", food);
+        Brand brand = new Brand("pizzaHut", "test/test.jpg", new Date(), food);
         brandRepository.save(brand);
 
         CollabPlatform collabPlatform = new CollabPlatform("card", "test/test");

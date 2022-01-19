@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Data
@@ -19,19 +20,16 @@ public class Notice {
     @Column(name = "notice_id")
     private Long id;
 
-    @NotNull
     private String title;
-    @NotNull
+    @Lob
     private String content;
 
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
+    private Date date;
 
-    public Notice(String title, String content, User user) {
+
+    public Notice(String title, String content, Date date) {
         this.title = title;
         this.content = content;
-        this.user = user;
+        this.date = date;
     }
 }

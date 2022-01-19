@@ -4,8 +4,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kp.foodinfo.domain.Food;
 import com.kp.foodinfo.dto.FileTestUtilControllerDto;
 import com.kp.foodinfo.repository.FoodRepository;
+import com.kp.foodinfo.request.FoodRequest;
 import com.kp.foodinfo.service.FileService;
 import com.kp.foodinfo.service.FoodService;
+import com.kp.foodinfo.service.RecentlyService;
 import com.kp.foodinfo.util.FileTestUtil;
 import com.kp.foodinfo.vo.BasicVo;
 import com.kp.foodinfo.vo.FoodListVo;
@@ -23,6 +25,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.web.PageableArgumentResolver;
+import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.event.annotation.BeforeTestExecution;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -53,31 +57,44 @@ class FoodControllerTest {
     @Autowired
     private FoodRepository foodRepository;
 
+    @Autowired
+    private RecentlyService recentlyService;
+
+    @Mock
+    FileService fileService;
+
+
+    ObjectMapper objectMapper = new ObjectMapper();
+
 
     @Test
     @Transactional
     public void FOOD_UPLOAD_PROCESS_TEST() throws Exception {
-        // FoodService Change Mock
-        FoodService foodService = Mockito.mock(FoodService.class);
-        FoodController foodController = new FoodController(foodService);
-        mockMvc = MockMvcBuilders.standaloneSetup(foodController).build();
-
-
-        String test = "test";
-
+        //given
         FileTestUtilControllerDto fileRequest = FileTestUtil.getTestMultifileController();
 
-        //Jackson
-        ObjectMapper objectMapper = new ObjectMapper();
+        // FoodService - FileService Change Mock
+        Mockito.when(fileService.s3UploadProcess(fileRequest.getFile())).thenReturn("test/test.jpg");
+        FoodService foodService = new FoodService(foodRepository, fileService);
+        FoodController foodController = new FoodController(foodService, recentlyService);
+        mockMvc = MockMvcBuilders.standaloneSetup(foodController).build();
 
+        // FoodRequest Change jsonFile
+        FoodRequest foodRequest = new FoodRequest("test");
+        String jsonFoodRequest = objectMapper.writeValueAsString(foodRequest);
+        MockMultipartFile foodRequestFile = FileTestUtil.jsonChangeMockMultipartFile(jsonFoodRequest);
+
+        // Return BasicVo
         BasicVo basicVo = new BasicVo("success");
+
         String jsonBasicVo = objectMapper.writeValueAsString(basicVo);
 
 
+
+        //when then
         this.mockMvc.perform(MockMvcRequestBuilders.multipart("/api/admin/foodprocess")
                 .file(fileRequest.getFile())
-                .requestAttr("request", fileRequest.getRequest())
-                .param("name", test))
+                .file(foodRequestFile))
                 .andExpect(content().string(jsonBasicVo))
                 .andDo(print());
     }
@@ -97,7 +114,6 @@ class FoodControllerTest {
 
         FoodListVo foodListVo = new FoodListVo(foods);
 
-        ObjectMapper objectMapper = new ObjectMapper();
         String jsonFoodListVo = objectMapper.writeValueAsString(foodListVo);
 
 

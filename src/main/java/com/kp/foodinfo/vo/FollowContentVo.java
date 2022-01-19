@@ -12,29 +12,31 @@ public class FollowContentVo implements Comparable<FollowContentVo>{
     private String brandImg;
     private String eventTypeName;
     private String eventTypeImg;
-    private String eventTitle;
-    private String eventContent;
-    private String eventImg;
-    private String eventStartDate;
-    private String eventEndDate;
+    private String issueTitle;
+    private String issueContent;
+    private String issueImg;
+    private String issueStartDate;
+    private String issueEndDate;
+    private String type;
 
     @Builder
-    public FollowContentVo(String brandName, String brandImg, String eventTypeName, String eventTypeImg, String eventTitle, String eventContent, String eventImg, String eventStartDate, String eventEndDate) {
+    public FollowContentVo(String brandName, String brandImg, String eventTypeName, String eventTypeImg, String issueTitle, String issueContent, String issueImg, String issueStartDate, String issueEndDate, String type) {
         this.brandName = brandName;
         this.brandImg = brandImg;
         this.eventTypeName = eventTypeName;
         this.eventTypeImg = eventTypeImg;
-        this.eventTitle = eventTitle;
-        this.eventContent = eventContent;
-        this.eventImg = eventImg;
-        this.eventStartDate = eventStartDate;
-        this.eventEndDate = eventEndDate;
+        this.issueTitle = issueTitle;
+        this.issueContent = issueContent;
+        this.issueImg = issueImg;
+        this.issueStartDate = issueStartDate;
+        this.issueEndDate = issueEndDate;
+        this.type = type;
     }
 
     @Override
     public int compareTo(FollowContentVo f) {
-        Date thisDate = StringToDateUtil.stringToDateProcess(eventStartDate);
-        Date injectDate = StringToDateUtil.stringToDateProcess(f.eventStartDate);
+        Date thisDate = StringToDateUtil.stringToDateDayProcess(issueStartDate);
+        Date injectDate = StringToDateUtil.stringToDateDayProcess(f.issueStartDate);
 
         if(injectDate.after(thisDate)){
             return 1;

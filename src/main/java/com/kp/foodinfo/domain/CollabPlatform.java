@@ -20,8 +20,8 @@ public class CollabPlatform {
     @Column(name = "collabplatform_id")
     private Long id;
 
-    @NotNull
     private String name;
+    @Lob
     private String img;
 
     public CollabPlatform(String name, String img) {

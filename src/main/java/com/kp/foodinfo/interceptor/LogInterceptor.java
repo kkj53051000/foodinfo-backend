@@ -1,5 +1,7 @@
 package com.kp.foodinfo.interceptor;
 
+import org.springframework.http.HttpMethod;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;

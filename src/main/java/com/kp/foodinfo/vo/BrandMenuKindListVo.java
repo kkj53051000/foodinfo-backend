@@ -20,12 +20,14 @@ public class BrandMenuKindListVo {
     @Data
     class BrandMenuKindVo {
         private long id;
+        private String name;
         private int priority;
         private long brandId;
         private String brandName;
 
         public BrandMenuKindVo(BrandMenuKind brandMenuKind) {
             this.id = brandMenuKind.getId();
+            this.name = brandMenuKind.getName();
             this.priority = brandMenuKind.getPriority();
             this.brandId = brandMenuKind.getBrand().getId();
             this.brandName = brandMenuKind.getBrand().getName();

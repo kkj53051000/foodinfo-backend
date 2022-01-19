@@ -9,7 +9,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface MenuRepository extends JpaRepository<Menu, Long> {
-    public List<Menu> findByBrandMenuKind(BrandMenuKind brandMenuKind);
+    List<Menu> findByBrandMenuKind(BrandMenuKind brandMenuKind);
 
     Optional<Menu> findByName(String name);
+
 }

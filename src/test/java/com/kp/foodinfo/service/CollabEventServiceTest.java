@@ -69,7 +69,7 @@ class CollabEventServiceTest {
         foodRepository.save(food);
 
         //브랜드
-        Brand brand = new Brand("pizzaHut", "test/test.jpg", food);
+        Brand brand = new Brand("pizzaHut", "test/test.jpg", new Date(), food);
         brandRepository.save(brand);
 
         //콜라보 플랫폼
@@ -98,7 +98,7 @@ class CollabEventServiceTest {
         foodRepository.save(food);
 
         //브랜드
-        Brand brand = new Brand("pizzaHut", "test/test.jpg", food);
+        Brand brand = new Brand("pizzaHut", "test/test.jpg", new Date(), food);
         brandRepository.save(brand);
 
         //콜라보 플랫폼
@@ -163,7 +163,7 @@ class CollabEventServiceTest {
         foodRepository.save(food);
 
         //브랜드
-        Brand brand = new Brand("pizzaHut", "test/test.jpg", food);
+        Brand brand = new Brand("pizzaHut", "test/test.jpg", new Date(), food);
         brandRepository.save(brand);
 
         //콜라보 플랫폼

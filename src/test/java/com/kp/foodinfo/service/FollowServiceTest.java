@@ -1,6 +1,7 @@
 package com.kp.foodinfo.service;
 
 import com.kp.foodinfo.domain.*;
+import com.kp.foodinfo.dto.FollowDto;
 import com.kp.foodinfo.repository.*;
 import com.kp.foodinfo.request.FollowRequest;
 import com.kp.foodinfo.vo.FollowContentListVo;
@@ -18,6 +19,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -49,8 +51,12 @@ class FollowServiceTest {
     void FOLLOW_SAVE_TEST() {
         //given
         //User save
+        //회원 인증 UUID 생성
+        String uuid = UUID.randomUUID().toString();
+        String emailUuid = "test@naver.com" + uuid;
+
         Date joinDate = new Date();
-        User user = new User("test", "test", "test@naver.com", joinDate, Role.USER);
+        User user = new User("test@naver.com", "test", joinDate, emailUuid, true, Role.USER);
         userRepository.save(user);
 
         //Food save
@@ -58,14 +64,14 @@ class FollowServiceTest {
         foodRepository.save(food);
 
         //Brand save
-        Brand brand = new Brand("pizzaHut", "test/test.jpg", food);
+        Brand brand = new Brand("pizzaHut", "test/test.jpg", new Date(), food);
         brandRepository.save(brand);
 
         //Request
-        FollowRequest followRequest = new FollowRequest(user.getId(), brand.getId());
+        FollowDto followDto = new FollowDto(user.getId(), brand.getId());
 
         //when
-        followService.saveFollow(followRequest);
+        followService.saveFollow(followDto);
 
         //then
         System.out.println("user_id : " + followRepository.findByUser(user).get(0).getId() + " brand_id : " + followRepository.findByUser(user).get(0).getBrand().getId());
@@ -77,8 +83,12 @@ class FollowServiceTest {
     void FOLLOW_DELETE_TEST() {
         //given
         //User 저장
+        //회원 인증 UUID 생성
+        String uuid = UUID.randomUUID().toString();
+        String emailUuid = "test@naver.com" + uuid;
+
         Date joinDate = new Date();
-        User user = new User("test", "test", "test@naver.com", joinDate, Role.USER);
+        User user = new User("test@naver.com", "test", joinDate, emailUuid, true, Role.USER);
         userRepository.save(user);
 
         //Food save
@@ -86,17 +96,19 @@ class FollowServiceTest {
         foodRepository.save(food);
 
         //Brand 저장
-        Brand brand = new Brand("pizzaHut", "test/test.jpg", food);
+        Brand brand = new Brand("pizzaHut", "test/test.jpg", new Date(), food);
         brandRepository.save(brand);
 
         //FollowRequest 생성
-        FollowRequest followRequest = new FollowRequest(user.getId(), brand.getId());
+//        FollowRequest followRequest = new FollowRequest(user.getId(), brand.getId());
+        //FollowDto 생성
+        FollowDto followDto = new FollowDto(user.getId(), brand.getId());
 
         //Follow 저장
-        followService.saveFollow(followRequest);
+        followService.saveFollow(followDto);
 
         //when
-        followService.deleteFollow(followRequest);
+        followService.deleteFollow(followDto);
 
         //then
         Assertions.assertEquals(followRepository.findAll().size(), 0);
@@ -107,8 +119,12 @@ class FollowServiceTest {
     void FOLLOW_GET_LIST_TEST() {
         //given
         //User 저장
+        //회원 인증 UUID 생성
+        String uuid = UUID.randomUUID().toString();
+        String emailUuid = "test@naver.com" + uuid;
+
         Date joinDate = new Date();
-        User user = new User("test", "test", "test@naver.com", joinDate, Role.USER);
+        User user = new User("test@naver.com", "test", joinDate, emailUuid, true, Role.USER);
         userRepository.save(user);
 
         //Food save
@@ -116,19 +132,19 @@ class FollowServiceTest {
         foodRepository.save(food);
 
         //Brand 저장
-        Brand brand1 = new Brand("pizzaHut", "test/test.jpg", food);
+        Brand brand1 = new Brand("pizzaHut", "test/test.jpg", new Date(), food);
         brandRepository.save(brand1);
 
-        Brand brand2 = new Brand("bbq", "test/bbq.jpg", food);
+        Brand brand2 = new Brand("bbq", "test/bbq.jpg", new Date(), food);
         brandRepository.save(brand2);
 
-        //FollowRequest 생성
-        FollowRequest followRequest1 = new FollowRequest(user.getId(), brand1.getId());
-        FollowRequest followRequest2 = new FollowRequest(user.getId(), brand2.getId());
+        //FollowDto 생성
+        FollowDto followDto1 = new FollowDto(user.getId(), brand1.getId());
+        FollowDto followDto2 = new FollowDto(user.getId(), brand2.getId());
 
         //Follow 저장
-        followService.saveFollow(followRequest1);
-        followService.saveFollow(followRequest2);
+        followService.saveFollow(followDto1);
+        followService.saveFollow(followDto2);
 
         //when
         List<Brand> brands =followService.getFollowList(user.getId());
@@ -143,7 +159,11 @@ class FollowServiceTest {
     void FOLLOW_GET_ALL_CONTENT_LIST_TEST() throws ParseException {
         //given
         //User
-        User user = new User("test", "test", "test@naver.com", new Date(), Role.USER);
+        //회원 인증 UUID 생성
+        String uuid = UUID.randomUUID().toString();
+        String emailUuid = "test@naver.com" + uuid;
+
+        User user = new User("test@naver.com", "test", new Date(), emailUuid, true, Role.USER);
         userRepository.save(user);
 
         //Food save
@@ -151,8 +171,8 @@ class FollowServiceTest {
         foodRepository.save(food);
 
         //Brand
-        Brand brand1 = new Brand("pizzaHut", "test/test.jpg", food);
-        Brand brand2 = new Brand("bbq", "/test/test.jpg", food);
+        Brand brand1 = new Brand("pizzaHut", "test/test.jpg", new Date(), food);
+        Brand brand2 = new Brand("bbq", "/test/test.jpg", new Date(), food);
         brandRepository.save(brand1);
         brandRepository.save(brand2);
 
@@ -212,13 +232,13 @@ class FollowServiceTest {
         eventRepository.save(bbqEvent);
 
         //Follow
-        //FollowRequest 생성
-        FollowRequest followRequest1 = new FollowRequest(user.getId(), brand1.getId());
-        FollowRequest followRequest2 = new FollowRequest(user.getId(), brand2.getId());
+        //FollowDto 생성
+        FollowDto followDto1 = new FollowDto(user.getId(), brand1.getId());
+        FollowDto followDto2 = new FollowDto(user.getId(), brand2.getId());
 
         //Follow 저장
-        followService.saveFollow(followRequest1);
-        followService.saveFollow(followRequest2);
+        followService.saveFollow(followDto1);
+        followService.saveFollow(followDto2);
 
         //when
         List<FollowContentVo> followContentVos = followService.getFollowAllContentList(user.getId());
@@ -226,8 +246,8 @@ class FollowServiceTest {
         //then
         //정렬 잘 됬는지 확인
         for(FollowContentVo f : followContentVos){
-            System.out.println("eventTitle : " + f.getEventTitle());
-            System.out.println("eventStartDate : " + f.getEventStartDate());
+            System.out.println("eventTitle : " + f.getIssueTitle());
+            System.out.println("eventStartDate : " + f.getIssueStartDate());
         }
 
         Assertions.assertEquals(followContentVos.size(), 3);

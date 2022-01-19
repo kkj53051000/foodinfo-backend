@@ -33,7 +33,7 @@ class BrandEventRepositoryTest {
         Food food = new Food("pizza", "/test/test.jpg");
         foodRepository.save(food);
 
-        Brand brand = new Brand("pizzaHut", "test/test.jpg", food);
+        Brand brand = new Brand("pizzaHut", "test/test.jpg", new Date(), food);
 
         brandRepository.save(brand);
 
@@ -57,7 +57,7 @@ class BrandEventRepositoryTest {
         Food food = new Food("pizza", "/test/test.jpg");
         foodRepository.save(food);
 
-        Brand brand = new Brand("pizzaHut", "test/test.jpg", food);
+        Brand brand = new Brand("pizzaHut", "test/test.jpg", new Date(), food);
 
         brandRepository.save(brand);
 

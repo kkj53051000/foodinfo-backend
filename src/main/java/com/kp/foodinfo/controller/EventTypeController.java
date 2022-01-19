@@ -1,12 +1,12 @@
 package com.kp.foodinfo.controller;
 
+import com.kp.foodinfo.request.EventTypeRequest;
 import com.kp.foodinfo.service.EventTypeService;
 import com.kp.foodinfo.vo.BasicVo;
 import com.kp.foodinfo.vo.EventTypeListVo;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,19 +15,26 @@ import java.io.IOException;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
+@Slf4j
 public class EventTypeController {
     private final EventTypeService eventTypeService;
 
     @PostMapping("/admin/eventtypeprocess")
-    public BasicVo eventTypeProcess(MultipartFile file, String name) throws IOException {
+    public BasicVo eventTypeProcess(@RequestPart(name = "file", required = true) MultipartFile file, @RequestPart(name = "value", required = false) EventTypeRequest eventTypeRequest) throws IOException {
+        log.info("eventTypeProcess() : in");
+        log.info("eventTypeProcess() - EventTypeService - saveEventType() : run");
+        eventTypeService.saveEventType(file, eventTypeRequest.getName());
 
-        eventTypeService.saveEventType(file, name);
-
+        log.info("eventTypeProcess() : BasicVo return");
         return new BasicVo("success");
     }
 
-    @PostMapping("/admin/eventlist")
+    @GetMapping("/eventtypelist")
     public EventTypeListVo eventTypeList() {
+        log.info("eventTypeList() : in");
+
+        log.info("eventTypeList() - EventTypeService - getEventTypeList() : run");
+        log.info("eventTypeList() : EventTypeListVo return");
         return eventTypeService.getEventTypeList();
     }
 }

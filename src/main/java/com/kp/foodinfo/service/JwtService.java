@@ -1,12 +1,15 @@
 package com.kp.foodinfo.service;
 
+import com.kp.foodinfo.exception.JwtVerifyFailException;
 import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,22 +30,27 @@ public class JwtService {
     }
 
     public String createToken(long user_id) {
+        log.info("createToken() : in");
 
         //Header 부분 설정
+        log.info("createToken() : Header setting");
         Map<String, Object> headers = new HashMap<>();
         headers.put("typ", "JWT");
         headers.put("alg", "HS256");
 
-        //payload 부분 설정
+        //Payload 부분 설정
+        log.info("createToken() : Payload setting");
         Map<String, Object> payloads = new HashMap<>();
         payloads.put("user_id", user_id);
 
-        Long expiredTime = 1000 * 60L * 2L; // 토큰 유효 시간 (2시간)
+        Long expiredTime = 1000 * 60L * 60L * 2L; // 토큰 유효 시간 (2시간)
 
         Date ext = new Date();
+        log.info("createToken() : Time setting");
         ext.setTime(ext.getTime() + expiredTime);
 
         //토큰 Builder
+        log.info("createToken() : Token Build");
         String jwt = Jwts.builder()
                 .setHeader(headers)
                 .setClaims(payloads)
@@ -51,6 +59,7 @@ public class JwtService {
                 .signWith(SignatureAlgorithm.HS256, key.getBytes())
                 .compact();
 
+        log.info("createToken() : jwt return");
         return jwt;
     }
 
@@ -68,12 +77,53 @@ public class JwtService {
             //Date expiration = claims.get("exp", Date.class);
             //String data = claims.get("data", String.class);
 
-        } catch (ExpiredJwtException e) { // 토큰이 만료되었을 경우
-            System.out.println(e);
+        } catch (ExpiredJwtException e) { // 토큰 만료
+            throw new JwtVerifyFailException();
+//            System.out.println(e);
+//            System.out.println("------------토큰 만료-----------");
         } catch (Exception e) { // 그외 에러났을 경우
-            System.out.println(e);
+            throw new JwtVerifyFailException();
+//            System.out.println(e);
+//            System.out.println("------------토큰 에러-----------");
         }
         return claimMap;
+    }
+
+    public Long getJwtUserId(HttpServletRequest request) throws UnsupportedEncodingException {
+
+        JwtService jwtService = new JwtService();
+
+        Enumeration headerNames = request.getHeaderNames();
+
+        Map<String, Object> returnValue = null;
+
+        while(headerNames.hasMoreElements()){
+            String name = (String)headerNames.nextElement();
+            String value = request.getHeader(name);
+            System.out.println(name + " : " + value + "<br>");
+
+
+            if (name.equals("authorization")) {
+                if (value.equals("null")){
+                    throw new JwtVerifyFailException();
+                }
+                System.out.println("value : " + value);
+                System.out.println(value.getClass().getName());
+
+                returnValue = jwtService.verifyJWT(value);
+
+                System.out.println("returnValue : " + returnValue);
+
+                if(returnValue == null) {
+                    throw new JwtVerifyFailException();
+                }
+            }
+
+        }
+
+        long user_id = Long.valueOf(String.valueOf(returnValue.get("user_id")));
+
+        return user_id;
     }
 
 }

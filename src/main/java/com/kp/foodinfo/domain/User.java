@@ -21,24 +21,22 @@ public class User{
     @Column(name = "user_id")
     private Long id;
 
-    @NotNull
-    private String userid;
-    @NotNull
-    private String userpw;
-    @NotNull
     private String email;
-    @NotNull
+    private String userpw;
     private Date joinDate;
+    private String emailUuid;
+    private boolean emailCheck;
 
     @NotNull
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    public User(String userid, String userpw, String email, Date joinDate, Role role){
-        this.userid = userid;
-        this.userpw = userpw;
+    public User(String email, String userpw, Date joinDate, String emailUuid, boolean emailCheck, Role role){
         this.email = email;
+        this.userpw = userpw;
         this.joinDate = joinDate;
+        this.emailUuid = emailUuid;
+        this.emailCheck = emailCheck;
         this.role = role;
     }
 }

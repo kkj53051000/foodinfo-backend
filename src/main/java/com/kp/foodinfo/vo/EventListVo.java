@@ -20,6 +20,7 @@ public class EventListVo {
 
     @Data
     class EventVo {
+        private long id;
         private String title;
         private String content;
         private String img;
@@ -29,6 +30,7 @@ public class EventListVo {
         private String eventTypeImg;
 
         public EventVo(Event event) {
+            this.id = event.getId();
             this.title = event.getTitle();
             this.content = event.getContent();
             this.img = event.getImg();

@@ -52,13 +52,13 @@ class EventServiceTest {
         Food food = new Food("pizza", "/test/test.jpg");
         foodRepository.save(food);
 
-        Brand brand = new Brand("pizzaHut", "/test/test.jpg", food);
+        Brand brand = new Brand("pizzaHut", "/test/test.jpg", new Date(), food);
         brandRepository.save(brand);
 
         EventType eventType = new EventType("OPO", "/test/test.jpg");
         eventTypeRepository.save(eventType);
 
-        EventRequest eventRequest = new EventRequest("title", "content", "2021-10-10", "00:00", "2021-10-11", "00:00", brand.getId(), eventType.getId());
+        EventRequest eventRequest = new EventRequest("title", "content", "2021-10-10", "2021-10-11", brand.getId(), eventType.getId());
 
         FileService fileService = Mockito.mock(FileService.class);
         eventService = new EventService(eventRepository, fileService, brandRepository, eventTypeRepository);
@@ -78,7 +78,7 @@ class EventServiceTest {
         Food food = new Food("pizza", "/test/test.jpg");
         foodRepository.save(food);
 
-        Brand brand = new Brand("pizzaHut", "/test/test.jpg", food);
+        Brand brand = new Brand("pizzaHut", "/test/test.jpg", new Date(), food);
         brandRepository.save(brand);
 
         EventType eventType = new EventType("OPO", "/test/test.jpg");

@@ -9,6 +9,7 @@ import lombok.Setter;
 public class BasicVo {
     private String status;
     private String cause;
+    private String items = null;
 
     public BasicVo(String status){
         this.status = status;
@@ -18,3 +19,17 @@ public class BasicVo {
         this.cause = cause;
     }
 }
+
+// Entity
+class Order {
+    private String orderStatus = "ORDERED";
+    private int price = 100;
+
+    public void cancel() {
+        this.orderStatus = "CANCELED";
+        this.price = 0;
+        System.out.println(123);
+    }
+}
+
+// order.cancel();

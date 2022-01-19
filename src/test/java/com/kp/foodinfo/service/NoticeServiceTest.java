@@ -30,13 +30,13 @@ class NoticeServiceTest {
     @Transactional
     public void NOTICE_SAVE_TEST() {
         //given
-        User user = new User("test", "test", "test@naver.com", new Date(), Role.ADMIN);
-        userRepository.save(user);
+//        User user = new User("test", "test", "test@naver.com", new Date(), Role.ADMIN);
+//        userRepository.save(user);
 
         NoticeRequest noticeRequest = new NoticeRequest("title", "content");
 
         //when
-        noticeService.saveNotice(noticeRequest, user.getId());
+        noticeService.saveNotice(noticeRequest);
 
         //then
         Assertions.assertNotNull(noticeRepository.findByTitle(noticeRequest.getTitle()).get());

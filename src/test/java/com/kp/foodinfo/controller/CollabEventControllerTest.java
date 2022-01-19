@@ -24,6 +24,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
 import java.io.IOException;
+import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -57,7 +58,7 @@ class CollabEventControllerTest {
         Food food = new Food("pizza", "/test/test.jpg");
         foodRepository.save(food);
 
-        Brand brand = new Brand("pizzaHut", "/test/test.jpg", food);
+        Brand brand = new Brand("pizzaHut", "/test/test.jpg", new Date(), food);
         brandRepository.save(brand);
 
         CollabPlatform collabPlatform = new CollabPlatform("card", "/img/img.jpg");

@@ -25,10 +25,10 @@ class NoticeRepositoryTest {
     @Transactional
     public void NOTICE_INSERT_TEST() {
         //given
-        User user = new User("test", "test", "test@naver.com", new Date(), Role.ADMIN);
-        userRepository.save(user);
+//        User user = new User("test", "test", "test@naver.com", new Date(), Role.ADMIN);
+//        userRepository.save(user);
 
-        Notice notice = new Notice("title", "content", user);
+        Notice notice = new Notice("title", "content", new Date());
         //when
         noticeRepository.save(notice);
 
@@ -40,10 +40,10 @@ class NoticeRepositoryTest {
     @Transactional
     public void NOTICE_FIND_BY_TITLE_TEST() {
         //given
-        User user = new User("test", "test", "test@naver.com", new Date(), Role.ADMIN);
-        userRepository.save(user);
+//        User user = new User("test", "test", "test@naver.com", new Date(), Role.ADMIN);
+//        userRepository.save(user);
 
-        Notice notice = new Notice("title", "content", user);
+        Notice notice = new Notice("title", "content", new Date());
         //when
         noticeRepository.save(notice);
 

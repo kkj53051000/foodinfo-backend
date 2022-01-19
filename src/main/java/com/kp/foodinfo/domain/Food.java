@@ -20,9 +20,8 @@ public class Food {
     @Column(name = "food_id")
     private Long id;
 
-    @NotNull
     private String name;
-    @NotNull
+    @Lob
     private String img;
 
     public Food(String name, String img){

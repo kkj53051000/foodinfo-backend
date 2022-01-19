@@ -14,6 +14,7 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.UUID;
 
 @SpringBootTest
 class UserRepositoryTest {
@@ -28,8 +29,12 @@ class UserRepositoryTest {
     @Rollback(value = false)
     void USER_CREATE_TEST() {
         //given
+        //회원 인증 UUID 생성
+        String uuid = UUID.randomUUID().toString();
+        String emailUuid = "test@naver.com" + uuid;
+
         Date now = new Date();
-        User user = new User("test", "test", "test@naver.com", now, Role.USER);
+        User user = new User("test@naver.com", "test", now, emailUuid, true, Role.USER);
 
         //when
         userRepository.save(user);
@@ -42,14 +47,18 @@ class UserRepositoryTest {
     @Transactional
     void USER_FIND_USERID_TEST() {
         //given
+        //회원 인증 UUID 생성
+        String uuid = UUID.randomUUID().toString();
+        String emailUuid = "test@naver.com" + uuid;
+
         Date now = new Date();
-        User user = new User("test", "test", "test@naver.com", now, Role.USER);
+        User user = new User("test@naver.com", "test", now, emailUuid, true, Role.USER);
 
         //when
         userRepository.save(user);
 
         //then
-        Assertions.assertEquals(userRepository.findByUserid("test").get(), user);
+        Assertions.assertEquals(userRepository.findByEmail("test@naver.com").get(), user);
     }
 
 

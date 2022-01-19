@@ -8,13 +8,11 @@ import lombok.Setter;
 @Data
 @NoArgsConstructor
 public class JoinRequest {
-    private String userid;
-    private String userpw;
     private String email;
+    private String userpw;
 
-    public JoinRequest(String userid, String userpw, String email){
-        this.userid = userid;
-        this.userpw = userpw;
+    public JoinRequest(String email, String userpw){
         this.email = email;
+        this.userpw = userpw;
     }
 }

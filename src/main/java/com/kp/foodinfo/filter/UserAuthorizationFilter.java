@@ -24,7 +24,6 @@ public class UserAuthorizationFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
 
 
-
         System.out.println("in Filter !!!!!");
 
         HttpServletRequest request = (HttpServletRequest)servletRequest;

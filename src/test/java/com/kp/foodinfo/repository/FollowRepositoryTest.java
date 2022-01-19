@@ -8,6 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -30,15 +31,19 @@ class FollowRepositoryTest {
     @Transactional
     void FOLLOW_INSERT_TEST() {
         //given
+        //회원 인증 UUID 생성
+        String uuid = UUID.randomUUID().toString();
+        String emailUuid = "test@naver.com" + uuid;
+
         Date joinDate = new Date();
 
-        User user = new User("test", "test", "test@naver.com", joinDate, Role.USER);
+        User user = new User("test@naver.com", "test", joinDate, emailUuid, true, Role.USER);
         userRepository.save(user);
 
         Food food = new Food("pizza", "/test/test.jpg");
         foodRepository.save(food);
 
-        Brand brand = new Brand("pizzaHut", "test/test.jpg", food);
+        Brand brand = new Brand("pizzaHut", "test/test.jpg", new Date(), food);
         brandRepository.save(brand);
 
         Follow follow = new Follow(user, brand);
@@ -54,15 +59,19 @@ class FollowRepositoryTest {
     @Transactional
     void FOLLOW_SELECT_BY_BRAND_AND_USER_TEST() {
         //given
+        //회원 인증 UUID 생성
+        String uuid = UUID.randomUUID().toString();
+        String emailUuid = "test@naver.com" + uuid;
+
         Date joinDate = new Date();
 
-        User user = new User("test", "test", "test@naver.com", joinDate, Role.USER);
+        User user = new User("test@naver.com", "test", joinDate, emailUuid, true, Role.USER);
         userRepository.save(user);
 
         Food food = new Food("pizza", "/test/test.jpg");
         foodRepository.save(food);
 
-        Brand brand = new Brand("pizzaHut", "test/test.jpg", food);
+        Brand brand = new Brand("pizzaHut", "test/test.jpg", new Date(), food);
         brandRepository.save(brand);
 
         Follow follow = new Follow(user, brand);
@@ -78,17 +87,22 @@ class FollowRepositoryTest {
     @Transactional
     void FOLLOW_DELETE_TEST() {
         //given
+        //회원 인증 UUID 생성
+        String uuid = UUID.randomUUID().toString();
+        String emailUuid1 = "test1@naver.com" + uuid;
+        String emailUuid2 = "test2@naver.com" + uuid;
+
         Date joinDate = new Date();
 
-        User user1 = new User("test1", "test", "test@naver.com", joinDate, Role.USER);
-        User user2 = new User("test2", "test", "test@naver.com", joinDate, Role.USER);
+        User user1 = new User("test1@naver.com", "test", joinDate, emailUuid1, true, Role.USER);
+        User user2 = new User("test2@naver.com", "test", joinDate, emailUuid2, true, Role.USER);
         userRepository.save(user1);
         userRepository.save(user2);
 
         Food food = new Food("pizza", "/test/test.jpg");
         foodRepository.save(food);
 
-        Brand brand = new Brand("pizzaHut", "test/test.jpg", food);
+        Brand brand = new Brand("pizzaHut", "test/test.jpg", new Date(), food);
         brandRepository.save(brand);
 
         Follow follow1 = new Follow(user1, brand);
@@ -108,15 +122,19 @@ class FollowRepositoryTest {
     @Transactional
     void FOLLOW_SELECT_BY_USER_TEST() {
         //given
+        //회원 인증 UUID 생성
+        String uuid = UUID.randomUUID().toString();
+        String emailUuid = "test@naver.com" + uuid;
+
         Date joinDate = new Date();
 
-        User user = new User("test", "test", "test@naver.com", joinDate, Role.USER);
+        User user = new User("test@naver.com", "test", joinDate, emailUuid, true, Role.USER);
         userRepository.save(user);
 
         Food food = new Food("pizza", "/test/test.jpg");
         foodRepository.save(food);
 
-        Brand brand = new Brand("pizzaHut", "test/test.jpg", food);
+        Brand brand = new Brand("pizzaHut", "test/test.jpg", new Date(), food);
         brandRepository.save(brand);
 
         Follow follow = new Follow(user, brand);

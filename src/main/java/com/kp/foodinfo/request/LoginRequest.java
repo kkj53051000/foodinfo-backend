@@ -3,13 +3,13 @@ package com.kp.foodinfo.request;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter @Setter
+@Getter
 public class LoginRequest {
-    private String userid;
+    private String email;
     private String userpw;
 
-    public LoginRequest(String userid, String userpw){
-        this.userid = userid;
+    public LoginRequest(String email, String userpw){
+        this.email = email;
         this.userpw = userpw;
     }
 }

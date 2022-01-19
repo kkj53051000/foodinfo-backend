@@ -22,20 +22,20 @@ class UserServiceTest {
     @Test
     void USER_SAVE_TEST(){
         // given
-        JoinRequest joinForm = new JoinRequest("test", "test", "test@naver.com");
+        JoinRequest joinForm = new JoinRequest("test@naver.com", "test");
 
         // when
         userService.saveUser(joinForm);
 
         // then
-        Assertions.assertNotNull(userRepository.findByUserid("test"));
+        Assertions.assertNotNull(userRepository.findByEmail("test@naver.com"));
     }
 
     @Test
     //@Rollback(value = false)
     void USER_LOGIN_TEST() {
         //given
-        JoinRequest joinForm = new JoinRequest("test", "test", "test@naver.com");
+        JoinRequest joinForm = new JoinRequest("test@naver.com", "test");
         userService.saveUser(joinForm);
 
         LoginRequest loginForm = new LoginRequest("test", "test");

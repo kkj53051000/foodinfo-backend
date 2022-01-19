@@ -20,6 +20,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -62,13 +63,17 @@ class FollowControllerTest {
     @Transactional
     public void FOLLOW_PROCESS_TEST() throws Exception {
         //given
-        User user = new User("test", "test", "test@nver.com", new Date(), Role.USER);
+        //회원 인증 UUID 생성
+        String uuid = UUID.randomUUID().toString();
+        String emailUuid = "test@naver.com" + uuid;
+
+        User user = new User("test@nver.com", "test", new Date(), emailUuid, true, Role.USER);
         userRepository.save(user);
 
         Food food = new Food("pizza", "/test/test.jpg");
         foodRepository.save(food);
 
-        Brand brand = new Brand("pizzaHut", "/test/test.jpg", food);
+        Brand brand = new Brand("pizzaHut", "/test/test.jpg", new Date(), food);
         brandRepository.save(brand);
 
         MultiValueMap<String, String> followRequest = new LinkedMultiValueMap<>();
@@ -92,13 +97,17 @@ class FollowControllerTest {
     @Transactional
     public void FOLLOW_CANCEL_TEST() throws Exception {
         //given
-        User user = new User("test", "test", "test@nver.com", new Date(), Role.USER);
+        //회원 인증 UUID 생성
+        String uuid = UUID.randomUUID().toString();
+        String emailUuid = "test@naver.com" + uuid;
+
+        User user = new User("test@nver.com", "test", new Date(), emailUuid, true, Role.USER);
         userRepository.save(user);
 
         Food food = new Food("pizza", "/test/test.jpg");
         foodRepository.save(food);
 
-        Brand brand = new Brand("pizzaHut", "/test/test.jpg", food);
+        Brand brand = new Brand("pizzaHut", "/test/test.jpg", new Date(), food);
         brandRepository.save(brand);
 
         Follow follow = new Follow(user, brand);
@@ -122,14 +131,18 @@ class FollowControllerTest {
     @Transactional
     public void FOLLOW_BRAND_LIST_TEST() throws Exception {
         //given
-        User user = new User("test", "test", "test@nver.com", new Date(), Role.USER);
+        //회원 인증 UUID 생성
+        String uuid = UUID.randomUUID().toString();
+        String emailUuid = "test@naver.com" + uuid;
+
+        User user = new User("test@nver.com", "test", new Date(), emailUuid, true, Role.USER);
         userRepository.save(user);
 
         Food food = new Food("pizza", "/test/test.jpg");
         foodRepository.save(food);
 
-        Brand brand1 = new Brand("pizzaHut", "/test/test.jpg", food);
-        Brand brand2 = new Brand("bbq", "/test/test.jpg", food);
+        Brand brand1 = new Brand("pizzaHut", "/test/test.jpg", new Date(), food);
+        Brand brand2 = new Brand("bbq", "/test/test.jpg", new Date(), food);
         brandRepository.save(brand1);
         brandRepository.save(brand2);
 
@@ -151,8 +164,8 @@ class FollowControllerTest {
 
 
 
-        FollowContentVo followContentVo1 = new FollowContentVo(brand1.getName(), brand1.getImg(), "brandEvent", null, brandEvent.getTitle(), brandEvent.getContent(), brandEvent.getImg(), dateFormat.format(brandEvent.getStartDate()), dateFormat.format(brandEvent.getEndDate()));
-        FollowContentVo followContentVo2 = new FollowContentVo(brand2.getName(), brand2.getImg(), "collabEvent", collabPlatform.getName(), collabEvent.getTitle(), collabEvent.getContent(), collabEvent.getImg(), dateFormat.format(collabEvent.getStartDate()), dateFormat.format(collabEvent.getEndDate()));
+        FollowContentVo followContentVo1 = new FollowContentVo(brand1.getName(), brand1.getImg(), "brandEvent", null, brandEvent.getTitle(), brandEvent.getContent(), brandEvent.getImg(), dateFormat.format(brandEvent.getStartDate()), dateFormat.format(brandEvent.getEndDate()), "이벤");
+        FollowContentVo followContentVo2 = new FollowContentVo(brand2.getName(), brand2.getImg(), "collabEvent", collabPlatform.getName(), collabEvent.getTitle(), collabEvent.getContent(), collabEvent.getImg(), dateFormat.format(collabEvent.getStartDate()), dateFormat.format(collabEvent.getEndDate()), "이벤트");
 
         followContentVos.add(followContentVo1);
         followContentVos.add(followContentVo2);

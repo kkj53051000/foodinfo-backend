@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -31,7 +32,7 @@ class BrandRepositoryTest {
         Food food = new Food("pizza", "/test/test.jpg");
         foodRepository.save(food);
 
-        Brand brand = new Brand("pizzaHut", "test/test.jpg", food);
+        Brand brand = new Brand("pizzaHut", "test/test.jpg", new Date(), food);
 
         //when
         brandRepository.save(brand);
@@ -50,7 +51,7 @@ class BrandRepositoryTest {
         List<Brand> brands = new ArrayList<>();
 
         for(int i = 0; i < 100; i++) {
-            Brand brand = new Brand("pizzaHut" + i, "test/test.jpg", food);
+            Brand brand = new Brand("pizzaHut" + i, "test/test.jpg", new Date(), food);
 
             brands.add(brand);
 

@@ -7,6 +7,7 @@ import com.kp.foodinfo.domain.Role;
 import com.kp.foodinfo.domain.User;
 import com.kp.foodinfo.repository.UserRepository;
 import com.kp.foodinfo.request.JoinRequest;
+import com.kp.foodinfo.request.LoginRequest;
 import com.kp.foodinfo.service.JwtService;
 import com.kp.foodinfo.service.UserService;
 import com.kp.foodinfo.vo.BasicVo;
@@ -16,8 +17,11 @@ import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
@@ -48,6 +52,8 @@ class UserControllerTest {
     @Autowired
     UserRepository userRepository;
 
+    ObjectMapper objectMapper = new ObjectMapper();
+
     @Test
     public void mockMvcGetTest() throws Exception {
 
@@ -62,56 +68,47 @@ class UserControllerTest {
     }
 
     @Test
+    @Transactional
     public void USER_JOIN_PROCESS_TEST() throws Exception {
 
-        MultiValueMap<String, String> joinRequest = new LinkedMultiValueMap<>();
-
-        joinRequest.add("userid", "test");
-        joinRequest.add("userpw", "test");
-        joinRequest.add("email", "test@naver.com");
+        JoinRequest joinRequest = new JoinRequest("test@naver.com", "test");
 
         BasicVo basicVo = new BasicVo("success");
 
-        //Jackson
-        ObjectMapper objectMapper = new ObjectMapper();
         String jsonBasicVo = objectMapper.writeValueAsString(basicVo);
 
-
         this.mockMvc.perform(post("/api/joinprocess")
-                .params(joinRequest)).andExpect(status().isOk())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(joinRequest))).andExpect(status().isOk())
                 .andExpect(content().string(jsonBasicVo))
                 .andDo(print());
 
     }
 
     @Test
+    @Transactional
     public void USER_LOGIN_PROCESS_TEST() throws Exception {
 
-        MultiValueMap<String, String> loginRequest = new LinkedMultiValueMap<>();
-
-        JoinRequest joinRequest = new JoinRequest("test", "test", "test@naver.com");
+        JoinRequest joinRequest = new JoinRequest("test@naver.com", "test");
 
         userService.saveUser(joinRequest);
 
-        User user = userRepository.findByUserid("test")
+        User user = userRepository.findByEmail("test@naver.com")
                 .get();
 
         String jwtKey = jwtService.createToken(user.getId());
 
         //비교할 객체
-        UserVo userVo = new UserVo("success", jwtKey, true);
+        UserVo userVo = new UserVo("success", jwtKey, user.getEmail(), true);
 
-        //Jackson
-        ObjectMapper objectMapper = new ObjectMapper();
+        LoginRequest loginRequest = new LoginRequest("test", "test");
+
         String jsonUserVo = objectMapper.writeValueAsString(userVo);
 
-        System.out.println("jsonUserVo : " + jsonUserVo);
-
-        loginRequest.add("userid", "test");
-        loginRequest.add("userpw", "test");
 
         this.mockMvc.perform(post("/api/loginprocess")
-        .params(loginRequest)).andExpect(status().isOk())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(loginRequest))).andExpect(status().isOk())
                 .andExpect(content().string(jsonUserVo))
                 .andDo(print());
 
