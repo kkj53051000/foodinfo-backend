@@ -65,6 +65,8 @@ public class MenuService {
         BrandMenuKind brandMenuKind = brandMenuKindRepository.findById(menuKind_id)
                 .get();
 
+        System.out.println("brandMenuKind id : " + brandMenuKind.getId());
+
         log.info("getMenuList() - MenuRepository - findByBrandMenuKind() : run");
         List<Menu> menus = menuRepository.findByBrandMenuKind(brandMenuKind);
 

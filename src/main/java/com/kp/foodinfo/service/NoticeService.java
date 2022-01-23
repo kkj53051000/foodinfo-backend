@@ -54,10 +54,19 @@ public class NoticeService {
     }
 
     public BasicVo updateNotice(NoticeModifyRequest noticeModifyRequest) {
+        
         Notice notice = noticeRepository.findById(noticeModifyRequest.getNotice_id()).get();
 
         notice.setTitle(noticeModifyRequest.getTitle());
         notice.setContent(noticeModifyRequest.getContent());
+
+        return new BasicVo(ReturnStatus.success);
+    }
+
+    public BasicVo deleteNotice(long notice_id) {
+        Notice notice = noticeRepository.findById(notice_id).get();
+
+        noticeRepository.delete(notice);
 
         return new BasicVo(ReturnStatus.success);
     }

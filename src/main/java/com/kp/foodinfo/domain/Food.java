@@ -28,4 +28,9 @@ public class Food {
         this.name = name;
         this.img = img;
     }
+
+//    public void 품절() {
+//        img = "ppdsfsdf.jpg";
+//        name = name + "(품절)";
+//    }
 }
