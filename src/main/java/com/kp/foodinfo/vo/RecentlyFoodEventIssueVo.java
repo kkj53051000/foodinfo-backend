@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class RecentlyFoodEventIssueVo implements Comparable<RecentlyFoodEventIssueVo> {
+    private long id;
     private String brandName;
     private String brandImg;
     private String eventTypeName;
@@ -21,7 +22,8 @@ public class RecentlyFoodEventIssueVo implements Comparable<RecentlyFoodEventIss
     private String type;
 
 
-    public RecentlyFoodEventIssueVo(String brandName, String brandImg, String eventTypeName, String eventTypeImg, String title, String content, String img, String startDate, String endDate, String type) {
+    public RecentlyFoodEventIssueVo(long id, String brandName, String brandImg, String eventTypeName, String eventTypeImg, String title, String content, String img, String startDate, String endDate, String type) {
+        this.id = id;
         this.brandName = brandName;
         this.brandImg = brandImg;
         this.eventTypeName = eventTypeName;

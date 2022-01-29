@@ -18,6 +18,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -30,6 +31,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -85,10 +87,13 @@ class BrandEventControllerTest {
 
         String jsonBasicVo = objectMapper.writeValueAsString(basicVo);
 
+
+        MockMultipartFile file = new MockMultipartFile("file", fileRequest.getFile().getBytes());
+        MockMultipartFile value = new MockMultipartFile("value", "", "application/json", objectMapper.writeValueAsString(brandEventRequest).getBytes());
+
         this.mockMvc.perform(MockMvcRequestBuilders.multipart("/api/admin/brandeventprocess")
-                .file(fileRequest.getFile())
-                .requestAttr("request", fileRequest.getRequest())
-                .params(brandEventRequest))
+                .file(file)
+                .file(value))
                 .andExpect(content().string(jsonBasicVo))
                 .andDo(print());
     }

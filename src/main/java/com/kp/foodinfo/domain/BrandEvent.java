@@ -1,7 +1,6 @@
 package com.kp.foodinfo.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.sun.istack.internal.NotNull;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,19 +21,16 @@ public class BrandEvent {
     @Column(name = "brandevent_id")
     private Long id;
 
-    @NotNull
     private String title;
     private String content;
     private String img;
 
-    @NotNull
     @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm", timezone="Asia/Seoul")
     private Date startDate;
 
     @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm", timezone="Asia/Seoul")
     private Date endDate;
 
-    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "brand_id")
     private Brand brand;

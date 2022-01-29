@@ -39,4 +39,10 @@ public class ExceptionController {
         return new BasicVo("failure", "FollowChekcException");
     }
 
+    @ExceptionHandler(UserExistsException.class)
+    public BasicVo userExistsException() {
+        log.error("DbNotFoundException() : in");
+        return new BasicVo("failure", "UserExistsException");
+    }
+
 }

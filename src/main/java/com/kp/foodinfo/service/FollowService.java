@@ -177,6 +177,7 @@ public class FollowService {
 
             for(int j = 0; j < issueEventListVo.getItems().size(); j++){
                 FollowContentVo followContentVo = FollowContentVo.builder()
+                        .id(j)
                         .brandName(brand.getName())
                         .brandImg(brand.getImg())
                         .eventTypeName(issueEventListVo.getItems().get(j).getEventTypeName())

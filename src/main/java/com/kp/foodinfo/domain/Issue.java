@@ -1,7 +1,5 @@
 package com.kp.foodinfo.domain;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.sun.istack.internal.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -38,7 +36,6 @@ public class Issue {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date date;
 
-    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "brand_id")
     private Brand brand;

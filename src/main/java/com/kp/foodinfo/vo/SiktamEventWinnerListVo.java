@@ -21,10 +21,12 @@ public class SiktamEventWinnerListVo {
 
     @Data
     class SiktamEventWinnerVo {
+        private long id;
         private String email;
         private String phoneNumber;
 
         public SiktamEventWinnerVo(SiktamEventWinner siktamEventWinner) {
+            this.id = siktamEventWinner.getId();
             this.email = siktamEventWinner.getUser().getEmail();
             this.phoneNumber = siktamEventWinner.getPhoneNumber();
         }

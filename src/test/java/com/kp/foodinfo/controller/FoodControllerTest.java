@@ -117,7 +117,7 @@ class FoodControllerTest {
         String jsonFoodListVo = objectMapper.writeValueAsString(foodListVo);
 
 
-        this.mockMvc.perform(post("/api/foodlist"))
+        this.mockMvc.perform(get("/api/foodlist"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(jsonFoodListVo))
                 .andDo(print());

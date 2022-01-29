@@ -1,6 +1,5 @@
 package com.kp.foodinfo.domain;
 
-import com.sun.istack.internal.NotNull;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,7 +26,6 @@ public class User{
     private String emailUuid;
     private boolean emailCheck;
 
-    @NotNull
     @Enumerated(EnumType.STRING)
     private Role role;
 

@@ -8,6 +8,7 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 public class FollowContentVo implements Comparable<FollowContentVo>{
+    private long id;
     private String brandName;
     private String brandImg;
     private String eventTypeName;
@@ -20,7 +21,8 @@ public class FollowContentVo implements Comparable<FollowContentVo>{
     private String type;
 
     @Builder
-    public FollowContentVo(String brandName, String brandImg, String eventTypeName, String eventTypeImg, String issueTitle, String issueContent, String issueImg, String issueStartDate, String issueEndDate, String type) {
+    public FollowContentVo(long id, String brandName, String brandImg, String eventTypeName, String eventTypeImg, String issueTitle, String issueContent, String issueImg, String issueStartDate, String issueEndDate, String type) {
+        this.id = id;
         this.brandName = brandName;
         this.brandImg = brandImg;
         this.eventTypeName = eventTypeName;

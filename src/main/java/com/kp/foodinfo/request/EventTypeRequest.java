@@ -7,4 +7,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class EventTypeRequest {
     private String name;
+
+    public EventTypeRequest(String name) {
+        this.name = name;
+    }
 }

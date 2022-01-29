@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kp.foodinfo.domain.EventType;
 import com.kp.foodinfo.dto.FileTestUtilControllerDto;
 import com.kp.foodinfo.repository.EventTypeRepository;
+import com.kp.foodinfo.request.EventTypeRequest;
 import com.kp.foodinfo.service.EventTypeService;
 import com.kp.foodinfo.util.FileTestUtil;
 import com.kp.foodinfo.vo.BasicVo;
@@ -14,6 +15,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -23,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -52,16 +55,29 @@ class EventTypeControllerTest {
 
         String name = "test";
 
+        EventTypeRequest eventTypeRequest = new EventTypeRequest("test");
+
         ObjectMapper objectMapper = new ObjectMapper();
         String jsonBasicVo = objectMapper.writeValueAsString(new BasicVo("success"));
 
+
+        MockMultipartFile file = new MockMultipartFile("file", fileRequest.getFile().getBytes());
+        MockMultipartFile value = new MockMultipartFile("value", "", "application/json", objectMapper.writeValueAsString(eventTypeRequest).getBytes());
+
         //when then
+//        this.mockMvc.perform(MockMvcRequestBuilders.multipart("/api/admin/eventtypeprocess")
+//                .file(fileRequest.getFile())
+//                .requestAttr("request", fileRequest.getRequest())
+//                .param("name", name))
+//                .andExpect(content().string(jsonBasicVo))
+//                .andDo(print());
+
         this.mockMvc.perform(MockMvcRequestBuilders.multipart("/api/admin/eventtypeprocess")
-                .file(fileRequest.getFile())
-                .requestAttr("request", fileRequest.getRequest())
-                .param("name", name))
+                .file(file)
+                .file(value))
                 .andExpect(content().string(jsonBasicVo))
                 .andDo(print());
+
     }
 
     @Test
@@ -80,7 +96,7 @@ class EventTypeControllerTest {
 
         String jsonEventTypeListVo = objectMapper.writeValueAsString(new EventTypeListVo(eventTypes));
 
-        this.mockMvc.perform(post("/api/admin/eventlist"))
+        this.mockMvc.perform(get("/api/eventtypelist"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(jsonEventTypeListVo))
                 .andDo(print());

@@ -11,6 +11,7 @@ import com.kp.foodinfo.repository.FoodRepository;
 import com.kp.foodinfo.request.BrandRequest;
 import com.kp.foodinfo.service.BrandService;
 import com.kp.foodinfo.service.FileService;
+import com.kp.foodinfo.service.JwtService;
 import com.kp.foodinfo.util.FileTestUtil;
 import com.kp.foodinfo.vo.BasicVo;
 import com.kp.foodinfo.vo.BrandListVo;
@@ -23,7 +24,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -36,6 +39,7 @@ import java.util.Date;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -54,13 +58,11 @@ class BrandControllerTest {
     @Autowired
     private FoodRepository foodRepository;
 
+    @Autowired
+    JwtService jwtService;
+
 
     ObjectMapper objectMapper = new ObjectMapper();
-
-    @PostConstruct
-    public void test() {
-        System.out.println("123");
-    }
 
     @BeforeEach
     public void init() {
@@ -70,6 +72,7 @@ class BrandControllerTest {
         BrandController brandController = new BrandController(brandService);
         mockMvc = MockMvcBuilders.standaloneSetup(brandController).build();
     }
+
 
     @Test
     @Transactional
@@ -85,11 +88,23 @@ class BrandControllerTest {
         BasicVo basicVo = new BasicVo("success");
         String jsonBasicVo = objectMapper.writeValueAsString(basicVo);
 
+
+
+        MockMultipartFile file = new MockMultipartFile("file", fileRequest.getFile().getBytes());
+        MockMultipartFile value = new MockMultipartFile("value", "", "application/json", objectMapper.writeValueAsString(brandRequest).getBytes());
+
+//        this.mockMvc.perform(MockMvcRequestBuilders.multipart("/api/admin/brandprocess")
+//                .file(fileRequest.getFile())
+//                .requestAttr("request", fileRequest.getRequest())
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .content(objectMapper.writeValueAsString(brandRequest)))
+//                .andExpect(content().string(jsonBasicVo))
+//                .andDo(print());
+
         this.mockMvc.perform(MockMvcRequestBuilders.multipart("/api/admin/brandprocess")
-                .file(fileRequest.getFile())
-                .requestAttr("request", fileRequest.getRequest())
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(brandRequest)))
+                .file(file)
+                .file(value))
+                .andExpect(status().isOk())
                 .andExpect(content().string(jsonBasicVo))
                 .andDo(print());
 
@@ -117,7 +132,7 @@ class BrandControllerTest {
 
         String jsonBrandListVo = objectMapper.writeValueAsString(brandListVo);
 
-        this.mockMvc.perform(post("/api/brandlist/" + food.getId()))
+        this.mockMvc.perform(get("/api/brandlist/" + food.getId()))
                 .andExpect(status().isOk())
                 .andExpect(content().string(jsonBrandListVo))
                 .andDo(print());

@@ -1,7 +1,5 @@
 package com.kp.foodinfo.domain;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.sun.istack.internal.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

@@ -4,6 +4,7 @@ import com.kp.foodinfo.exception.JwtVerifyFailException;
 import com.kp.foodinfo.service.JwtService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -38,11 +39,11 @@ public class UserAuthInterceptor implements HandlerInterceptor {
             System.out.println(name + " : " + value + "<br>");
 
 
-            if (name.equals("authorization")) {
+            if (name.equals("Authorization") || name.equals("authorization")) {
                 authorizationCheck = true;
                 if (value.equals("null")){
                     log.error("UserAuthInterceptor - JwtVerifyFailException: value equals null");
-                   throw new JwtVerifyFailException();
+                    throw new JwtVerifyFailException();
                 }
                 System.out.println("value : " + value);
                 System.out.println(value.getClass().getName());

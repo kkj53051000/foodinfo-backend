@@ -1,6 +1,5 @@
 package com.kp.foodinfo.domain;
 
-import com.sun.istack.internal.NotNull;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,12 +19,9 @@ public class BrandMenuKind {
     @Column(name = "brandmenukind_id")
     private Long id;
 
-    @NotNull
     private String name;
-    @NotNull
     private int priority;
 
-    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "brand_id")
     private Brand brand;

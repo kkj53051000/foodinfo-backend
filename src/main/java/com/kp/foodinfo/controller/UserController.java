@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.mail.internet.MimeMessage;
 import java.util.Random;
@@ -65,6 +66,15 @@ public class UserController {
 
         log.info("joinProcess() : BasicVo return");
         return basicVo;
+    }
+
+    //이메일 인증
+    @GetMapping("/emailauthprocess")
+    public RedirectView emailAuthProcess(@RequestParam("uuid") String uuid) {
+
+        userService.emailAuth(uuid);
+
+        return new RedirectView("http://siktamsik.com/emailauthsuccess");
     }
 
     @PostMapping("/loginprocess")

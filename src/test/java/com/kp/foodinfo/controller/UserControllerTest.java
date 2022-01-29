@@ -101,7 +101,7 @@ class UserControllerTest {
         //비교할 객체
         UserVo userVo = new UserVo("success", jwtKey, user.getEmail(), true);
 
-        LoginRequest loginRequest = new LoginRequest("test", "test");
+        LoginRequest loginRequest = new LoginRequest("test@naver.com", "test");
 
         String jsonUserVo = objectMapper.writeValueAsString(userVo);
 

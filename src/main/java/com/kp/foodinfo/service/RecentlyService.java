@@ -103,7 +103,7 @@ public class RecentlyService {
 
         List<MainRecentlyIssueVo> mainRecentlyIssueVos = new ArrayList<>();
 
-        Food food = foodRepository.findByName(foodName).get();
+        Food food = foodRepository.findByName(foodName).orElseThrow(() -> new DbNotFoundException());
 
 
         //issues
@@ -149,7 +149,11 @@ public class RecentlyService {
             mainRecentlyIssueVos.add(mainRecentlyIssueVo);
         }
 
-        Collections.sort(mainRecentlyIssueVos);
+        if(mainRecentlyIssueVos.size() == 0) {
+            throw new DbNotFoundException();
+        }else{
+            Collections.sort(mainRecentlyIssueVos);
+        }
 
         return new MainRecentlyIssueListVo(mainRecentlyIssueVos);
     }
@@ -158,6 +162,7 @@ public class RecentlyService {
     public RecentlyFoodEventIssueListVo getRecentlyEventIssueList(Long foodId) {
 
         List<RecentlyFoodEventIssueVo> recentlyFoodEventIssueVos = new ArrayList<>();
+        long recentlyFoodEventIssueId = 0;
 
         Food food = foodRepository.findById(foodId).get();
 
@@ -168,6 +173,7 @@ public class RecentlyService {
         for (Issue issue : issues) {
 
             RecentlyFoodEventIssueVo recentlyFoodEventIssueVo = RecentlyFoodEventIssueVo.builder()
+                    .id(recentlyFoodEventIssueId)
                     .brandName(issue.getBrand().getName())
                     .brandImg(issue.getBrand().getImg())
                     .eventTypeName(null)
@@ -182,6 +188,7 @@ public class RecentlyService {
 
 
             recentlyFoodEventIssueVos.add(recentlyFoodEventIssueVo);
+            recentlyFoodEventIssueId += 1;
         }
 
         //events
@@ -190,6 +197,7 @@ public class RecentlyService {
         for (Event event : events) {
 
             RecentlyFoodEventIssueVo recentlyFoodEventIssueVo = RecentlyFoodEventIssueVo.builder()
+                    .id(recentlyFoodEventIssueId)
                     .brandName(event.getBrand().getName())
                     .brandImg(event.getBrand().getImg())
                     .eventTypeName(event.getEventType().getName())
@@ -203,6 +211,7 @@ public class RecentlyService {
                     .build();
 
             recentlyFoodEventIssueVos.add(recentlyFoodEventIssueVo);
+            recentlyFoodEventIssueId += 1;
         }
 
         Collections.sort(recentlyFoodEventIssueVos);

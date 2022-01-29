@@ -1,6 +1,5 @@
 package com.kp.foodinfo.domain;
 
-import com.sun.istack.internal.NotNull;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,23 +20,17 @@ public class CollabEvent {
     @Column(name = "collabevent_id")
     private Long id;
 
-    @NotNull
     private String title;
-    @NotNull
     private String content;
     private String img;
 
-    @NotNull
     private Date startDate;
-    @NotNull
     private Date endDate;
 
-    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "brand_id")
     private Brand brand;
 
-    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "collabplatform_id")
     private CollabPlatform collabPlatform;

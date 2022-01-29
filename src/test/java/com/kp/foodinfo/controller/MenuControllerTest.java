@@ -9,17 +9,21 @@ import com.kp.foodinfo.dto.FileTestUtilControllerDto;
 import com.kp.foodinfo.repository.*;
 import com.kp.foodinfo.request.MenuRequest;
 import com.kp.foodinfo.service.FileService;
+import com.kp.foodinfo.service.JwtService;
 import com.kp.foodinfo.service.MenuService;
 import com.kp.foodinfo.util.FileTestUtil;
 import com.kp.foodinfo.vo.BasicVo;
 import com.kp.foodinfo.vo.MenuListVo;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -29,6 +33,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -57,8 +62,6 @@ class MenuControllerTest {
 
     @Autowired
     MenuSizeRepositroy menuSizeRepositroy;
-
-
 
     ObjectMapper objectMapper = new ObjectMapper();
 
@@ -89,18 +92,23 @@ class MenuControllerTest {
         // Setting Request
         MenuRequest menuRequest = new MenuRequest("normalPizza", 20000, brandMenuKind.getId());
 
+        MockMultipartFile file = new MockMultipartFile("file", fileRequest.getFile().getBytes());
+        MockMultipartFile value = new MockMultipartFile("value", "", "application/json", objectMapper.writeValueAsString(menuRequest).getBytes());
+
+
         BasicVo basicVo = new BasicVo("success");
 
         String jsonBasicVo = objectMapper.writeValueAsString(basicVo);
 
+
         //when then
         this.mockMvc.perform(MockMvcRequestBuilders.multipart("/api/admin/menuprocess")
-                .file(fileRequest.getFile())
-                .requestAttr("request", fileRequest.getRequest())
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(menuRequest)))
+                .file(file)
+                .file(value))
+                .andExpect(status().isOk())
                 .andExpect(content().string(jsonBasicVo))
                 .andDo(print());
+
     }
 
     @Test
@@ -128,7 +136,7 @@ class MenuControllerTest {
         String jsonMenuListVo = objectMapper.writeValueAsString(new MenuListVo(menus));
 
         //when then
-        this.mockMvc.perform(post("/api/menulist/" + brandMenuKind.getId()))
+        this.mockMvc.perform(get("/api/menulist/" + brandMenuKind.getId()))
                 .andExpect(status().isOk())
                 .andExpect(content().string(jsonMenuListVo))
                 .andDo(print());

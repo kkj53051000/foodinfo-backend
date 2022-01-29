@@ -1,6 +1,5 @@
 package com.kp.foodinfo.domain;
 
-import com.sun.istack.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

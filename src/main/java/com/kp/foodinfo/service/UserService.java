@@ -2,6 +2,8 @@ package com.kp.foodinfo.service;
 
 import com.kp.foodinfo.domain.Role;
 import com.kp.foodinfo.domain.User;
+import com.kp.foodinfo.exception.DbNotFoundException;
+import com.kp.foodinfo.exception.UserExistsException;
 import com.kp.foodinfo.exception.UserNotFoundException;
 import com.kp.foodinfo.request.ChangeUserPwRequest;
 import com.kp.foodinfo.request.JoinRequest;
@@ -37,8 +39,24 @@ public class UserService {
 
     public void saveUser(JoinRequest joinRequest) {
         log.info("saveUser() : in");
-        //메일인증 부분
 
+        //회원가입시 동일 이메일의 emailCheck false 계정이 있을때. ( 기존 계정 삭제 후 재 가입 )
+        int userCheckCount = userRepository.countByEmail(joinRequest.getEmail());
+
+        System.out.printf("userCheckCount : " + userCheckCount);
+
+        if(userCheckCount != 0) {
+            User user = userRepository.findByEmail(joinRequest.getEmail()).get();
+
+            //Email 인증 안되어있을 때
+            if (!user.isEmailCheck()) {
+                userRepository.delete(user);
+            }else { //Email 인증된 계정이 존재함
+                throw new UserExistsException();
+            }
+        }
+
+        //메일인증 부분
         //회원 인증 UUID 생성
         String uuid = UUID.randomUUID().toString();
 
@@ -55,7 +73,7 @@ public class UserService {
                 messageHelper.setFrom("siktamstamsik@gmail.com"); // 보내는사람 생략하면 정상작동을 안함
                 messageHelper.setTo(joinRequest.getEmail()); // 받는사람 이메일
                 messageHelper.setSubject("식탐의탐식 회원가입 인증 메일입니다."); // 메일제목은 생략이 가능하다
-                messageHelper.setText("클릭 후 인증을 완료하세요 : " + "http://localhost:8080/emailauthprocess?uuid=" + emailUuid); // 메일 내용
+                messageHelper.setText("클릭 후 인증을 완료하세요 : " + "http://localhost:8080/api/emailauthprocess?uuid=" + emailUuid); // 메일 내용
 
                 mailSender.send(message);
             } catch (Exception e) {
@@ -74,6 +92,16 @@ public class UserService {
 
         log.info("saveUser() - UserRepository - save() : run");
         userRepository.save(user);
+    }
+
+    public void emailAuth(String uuid) {
+        User user = userRepository.findByEmailUuid(uuid).orElseThrow(() -> new EmailAuthFailException());
+
+        user.setEmailCheck(true);
+    }
+
+    class EmailAuthFailException extends RuntimeException {
+
     }
 
     public User loginUser(LoginRequest loginRequest) {
@@ -96,7 +124,7 @@ public class UserService {
     }
 
     public HeaderUserInfoVo getHeaderUserInfo(Long userId) {
-        User user = userRepository.findById(userId).get();
+        User user = userRepository.findById(userId).orElseThrow(() -> new DbNotFoundException());
 
         HeaderUserInfoVo headerUserInfoVo = new HeaderUserInfoVo(user.getEmail());
 
