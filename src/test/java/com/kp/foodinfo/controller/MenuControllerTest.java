@@ -12,8 +12,11 @@ import com.kp.foodinfo.service.FileService;
 import com.kp.foodinfo.service.JwtService;
 import com.kp.foodinfo.service.MenuService;
 import com.kp.foodinfo.util.FileTestUtil;
+import com.kp.foodinfo.util.FormatUtil;
 import com.kp.foodinfo.vo.BasicVo;
 import com.kp.foodinfo.vo.MenuListVo;
+import com.kp.foodinfo.vo.MenuVo;
+import com.kp.foodinfo.vo.MenuVoList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -126,14 +129,26 @@ class MenuControllerTest {
 
         List<Menu> menus = new ArrayList<>();
 
+        List<MenuVo> menuVos = new ArrayList<>();
+
         for (int i = 0; i < 10; i++) {
             Menu menu = new Menu("normalMenu", 20000, "/test/test.jpg", brandMenuKind);
 
             menuRepository.save(menu);
             menus.add(menu);
+
+            MenuVo menuVo = MenuVo.builder()
+                    .id(menus.get(i).getId())
+                    .name(menus.get(i).getName())
+                    .price(FormatUtil.menuPriceFormat(menus.get(i).getPrice()))
+                    .menuSizeVo(null)
+                    .img(menus.get(i).getImg())
+                    .build();
+
+            menuVos.add(menuVo);
         }
 
-        String jsonMenuListVo = objectMapper.writeValueAsString(new MenuListVo(menus));
+        String jsonMenuListVo = objectMapper.writeValueAsString(new MenuVoList(menuVos));
 
         //when then
         this.mockMvc.perform(get("/api/menulist/" + brandMenuKind.getId()))

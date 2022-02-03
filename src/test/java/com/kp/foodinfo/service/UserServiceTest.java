@@ -38,7 +38,7 @@ class UserServiceTest {
         JoinRequest joinForm = new JoinRequest("test@naver.com", "test");
         userService.saveUser(joinForm);
 
-        LoginRequest loginForm = new LoginRequest("test", "test");
+        LoginRequest loginForm = new LoginRequest("test@naver.com", "test");
 
         //when
         User user = userService.loginUser(loginForm);

@@ -9,12 +9,14 @@
 
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>./log/log.txt</file>
+<!--        <file>/home/ubuntu/log.txt</file>-->
         <encoder>
             <charset>UTF-8</charset>
             <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %-50logger{50} : %msg%n</Pattern>
         </encoder>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>./log/log.txt.%d{yyyy-MM-dd}.%i</fileNamePattern>
+<!--            <fileNamePattern>/home/ubuntu/log.txt.%d{yyyy-MM-dd}.%i</fileNamePattern>-->
             <timeBasedFileNamingAndTriggeringPolicy
                     class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <maxFileSize>128MB</maxFileSize>

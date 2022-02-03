@@ -43,23 +43,23 @@ class UserRepositoryTest {
         Assertions.assertNotNull(user.getId());
     }
 
-    @Test
-    @Transactional
-    void USER_FIND_USERID_TEST() {
-        //given
-        //회원 인증 UUID 생성
-        String uuid = UUID.randomUUID().toString();
-        String emailUuid = "test@naver.com" + uuid;
-
-        Date now = new Date();
-        User user = new User("test@naver.com", "test", now, emailUuid, true, Role.USER);
-
-        //when
-        userRepository.save(user);
-
-        //then
-        Assertions.assertEquals(userRepository.findByEmail("test@naver.com").get(), user);
-    }
+//    @Test
+//    @Transactional
+//    void USER_FIND_USERID_TEST() {
+//        //given
+//        //회원 인증 UUID 생성
+//        String uuid = UUID.randomUUID().toString();
+//        String emailUuid = "test@naver.com" + uuid;
+//
+//        Date now = new Date();
+//        User user = new User("test@naver.com", "test", now, emailUuid, true, Role.USER);
+//
+//        //when
+//        userRepository.save(user);
+//
+//        //then
+//        Assertions.assertEquals(userRepository.findByEmail("test@naver.com").get(), user);
+//    }
 
 
     // 다른 서비스에 요청을 보내는 TestCode의 경우 Mock객체를 만들어서 테스트하는 예제

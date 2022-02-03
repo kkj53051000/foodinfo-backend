@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kp.foodinfo.domain.*;
 import com.kp.foodinfo.repository.*;
 import com.kp.foodinfo.service.JwtService;
+import com.kp.foodinfo.util.DateFormatTestUtil;
 import com.kp.foodinfo.vo.BasicVo;
 import com.kp.foodinfo.vo.FollowContentListVo;
 import com.kp.foodinfo.vo.FollowContentVo;
@@ -15,9 +16,12 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.filter.CharacterEncodingFilter;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -62,14 +66,23 @@ class FollowControllerTest {
     @Autowired
     JwtService jwtService;
 
+    @Autowired
+    EventTypeRepository eventTypeRepository;
+
+    @Autowired
+    EventRepository eventRepository;
+
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
     private String jwtKey;
 
     private User user;
 
+    @Autowired private WebApplicationContext ctx;
+
     @BeforeEach
     public void getJwtKey() throws Exception {
+        this.mockMvc = MockMvcBuilders.webAppContextSetup(ctx).addFilters(new CharacterEncodingFilter("UTF-8", true)) .build();
 
         String uuid = UUID.randomUUID().toString();
         String emailUuid = "test@naver.com" + uuid;
@@ -152,24 +165,20 @@ class FollowControllerTest {
         followRepository.save(follow1);
         followRepository.save(follow2);
 
-        CollabPlatform collabPlatform = new CollabPlatform("card", "/test/test.jpg");
-        collabPlatformRepository.save(collabPlatform);
+        EventType eventType = new EventType("test", "test/test.jpg");
+        eventTypeRepository.save(eventType);
 
-        BrandEvent brandEvent = new BrandEvent("brandEventTitle", "content", "/test/test.jpg", new Date(), new Date(), brand1);
-        brandEventRepository.save(brandEvent);
-
-        CollabEvent collabEvent = new CollabEvent("collabEventTitle", "content", "/test/test.jpg", new Date(), new Date(), brand2, collabPlatform);
-        collabEventRepository.save(collabEvent);
+        Event event = new Event("title", "coontent", "test/test.jpg", new Date(), new Date(), brand1, eventType);
+        eventRepository.save(event);
 
         List<FollowContentVo> followContentVos = new ArrayList<>();
 
 
 
-        FollowContentVo followContentVo1 = new FollowContentVo(0, brand1.getName(), brand1.getImg(), "brandEvent", null, brandEvent.getTitle(), brandEvent.getContent(), brandEvent.getImg(), dateFormat.format(brandEvent.getStartDate()), dateFormat.format(brandEvent.getEndDate()), "이벤");
-        FollowContentVo followContentVo2 = new FollowContentVo(1, brand2.getName(), brand2.getImg(), "collabEvent", collabPlatform.getName(), collabEvent.getTitle(), collabEvent.getContent(), collabEvent.getImg(), dateFormat.format(collabEvent.getStartDate()), dateFormat.format(collabEvent.getEndDate()), "이벤트");
+        FollowContentVo followContentVo = new FollowContentVo(0, brand1.getName(), brand1.getImg(), eventType.getName(), eventType.getImg(), event.getTitle(), event.getContent(), event.getImg(), DateFormatTestUtil.dateToStringDayProcess(event.getStartDate()), DateFormatTestUtil.dateToStringDayProcess(event.getEndDate()), "이벤트");
 
-        followContentVos.add(followContentVo1);
-        followContentVos.add(followContentVo2);
+        followContentVos.add(followContentVo);
+
 
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -178,7 +187,8 @@ class FollowControllerTest {
 
         String jsonFollowContentListVo = objectMapper.writeValueAsString(new FollowContentListVo(followContentVos));
 
-        this.mockMvc.perform(get("/api/user/followallcontentlist").header(HttpHeaders.AUTHORIZATION, jwtKey))
+        this.mockMvc.perform(get("/api/user/followallcontentlist")
+                        .header(HttpHeaders.AUTHORIZATION, jwtKey))
                 .andExpect(status().isOk())
                 .andExpect(content().string(jsonFollowContentListVo))
                 .andDo(print());

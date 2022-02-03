@@ -67,23 +67,23 @@ class UserControllerTest {
             .andDo(print());
     }
 
-    @Test
-    @Transactional
-    public void USER_JOIN_PROCESS_TEST() throws Exception {
-
-        JoinRequest joinRequest = new JoinRequest("test@naver.com", "test");
-
-        BasicVo basicVo = new BasicVo("success");
-
-        String jsonBasicVo = objectMapper.writeValueAsString(basicVo);
-
-        this.mockMvc.perform(post("/api/joinprocess")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(joinRequest))).andExpect(status().isOk())
-                .andExpect(content().string(jsonBasicVo))
-                .andDo(print());
-
-    }
+//    @Test
+//    @Transactional
+//    public void USER_JOIN_PROCESS_TEST() throws Exception {
+//
+//        JoinRequest joinRequest = new JoinRequest("test@naver.com", "test");
+//
+//        BasicVo basicVo = new BasicVo("success");
+//
+//        String jsonBasicVo = objectMapper.writeValueAsString(basicVo);
+//
+//        this.mockMvc.perform(post("/api/joinprocess")
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .content(objectMapper.writeValueAsString(joinRequest))).andExpect(status().isOk())
+//                .andExpect(content().string(jsonBasicVo))
+//                .andDo(print());
+//
+//    }
 
     @Test
     @Transactional

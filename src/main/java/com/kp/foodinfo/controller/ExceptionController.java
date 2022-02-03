@@ -29,7 +29,7 @@ public class ExceptionController {
     }
 
     @ExceptionHandler(DbNotFoundException.class)
-    public BasicVo dbNotFoundHandler() {
+    public BasicVo dbNotFoundHandler(DbNotFoundException e) {
         log.error("DbNotFoundException() : in");
         return new BasicVo("failure", "DbNotFound");
     }

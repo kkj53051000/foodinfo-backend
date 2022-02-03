@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @Service
 @Transactional
@@ -38,12 +39,16 @@ public class SiktamEventWinnerService {
 
         List<SiktamEventEntry> siktamEventEntries = siktamEventEntryRepository.findBySiktamEvent(siktamEvent);
 
-        // 랜덤 추출 (3개)
+        // 랜덤 추출 (n개)
         List<SiktamEventEntry> siktamEventWinners = new ArrayList<>();
 
         for (int i = 0; i < siktamEvent.getWinnerCount(); i++) {
             double randomValue = Math.random();
-            int random = (int)(randomValue * siktamEventEntries.size()) -1;
+            int random = (int)(randomValue * siktamEventEntries.size());
+
+
+//            Random random = new Random();
+//            int randomInt = random.nextInt(siktamEventEntries.size())+1;
 
             SiktamEventEntry randomSiktamEventEntry = siktamEventEntries.get(random);
             siktamEventWinners.add(randomSiktamEventEntry);
