@@ -1,10 +1,16 @@
 package com.kp.foodinfo.config;
 
+import com.amazonaws.regions.Regions;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.kp.foodinfo.argumentresolver.LoginUserArgumentResolver;
 import com.kp.foodinfo.interceptor.LogInterceptor;
 import com.kp.foodinfo.interceptor.AdminAuthInterceptor;
 import com.kp.foodinfo.interceptor.UserAuthInterceptor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -14,6 +20,8 @@ import java.util.List;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
+
+
 
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
@@ -49,6 +57,20 @@ public class WebConfig implements WebMvcConfigurer {
                 .order(3)
                 .addPathPatterns("/api/admin/**");
     }
+
+//    @Autowired
+//    private Environment env;
+//
+//    @Bean
+//    public AmazonS3 amazonS3Client() {
+//        Regions clientRegions = Regions.valueOf(env.getRequiredProperty("s3.tree.bucket.regions"));
+//
+//        return AmazonS3ClientBuilder.standard()
+//                .withRegion(clientRegions)
+//                .enablePathStyleAccess()
+//                .build();
+//    }
+
 
 
 //    @Bean

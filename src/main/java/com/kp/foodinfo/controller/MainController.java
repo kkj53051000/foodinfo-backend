@@ -27,7 +27,6 @@ public class MainController {
     @GetMapping("/maintodayupdatebrands")
     public MainUpdateBrandListVo mainTodayUpdateBrands() throws ParseException {
         MainUpdateBrandListVo mainUpdateBrandListVo = recentlyService.getMainTodayUpdateBrands();
-
         return mainUpdateBrandListVo;
     }
 

@@ -51,7 +51,7 @@ public class RecentlyService {
         }
 
         if (brands.size() > 3) {
-            brands.subList(0, 3);
+            brands = brands.subList(0, 3);
         }
 
         return new MainUpdateBrandListVo(brands);
@@ -65,7 +65,7 @@ public class RecentlyService {
         Collections.sort(brands);
 
         if (brands.size() > 3) {
-            brands.subList(0, 3);
+            brands = brands.subList(0, 3);
         }
 
         return new MainUpdateBrandListVo(brands);

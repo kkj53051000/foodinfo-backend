@@ -46,6 +46,9 @@ class MenuServiceTest {
     @Autowired
     MenuSizeRepositroy menuSizeRepositroy;
 
+    @Autowired
+    MenuSizeKindRepository menuSizeKindRepository;
+
 
 
     ObjectMapper objectMapper = new ObjectMapper();
@@ -58,7 +61,7 @@ class MenuServiceTest {
 
         //Mock MenuService 생성
         FileService fileService = Mockito.mock(FileService.class);
-        MenuService menuService = new MenuService(menuRepository, brandMenuKindRepository, fileService, brandRepository, menuSizeRepositroy);
+        MenuService menuService = new MenuService(menuRepository, brandMenuKindRepository, fileService, brandRepository, menuSizeRepositroy, menuSizeKindRepository);
 
         //Food save
         Food food = new Food("pizza", "/test/test.jpg");
@@ -87,7 +90,7 @@ class MenuServiceTest {
         //given
         //Mock MenuService 생성
         FileService fileService = Mockito.mock(FileService.class);
-        MenuService menuService = new MenuService(menuRepository, brandMenuKindRepository, fileService, brandRepository, menuSizeRepositroy);
+        MenuService menuService = new MenuService(menuRepository, brandMenuKindRepository, fileService, brandRepository, menuSizeRepositroy, menuSizeKindRepository);
 
         //Food save
         Food food = new Food("pizza", "/test/test.jpg");

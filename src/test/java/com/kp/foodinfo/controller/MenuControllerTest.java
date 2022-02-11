@@ -66,6 +66,9 @@ class MenuControllerTest {
     @Autowired
     MenuSizeRepositroy menuSizeRepositroy;
 
+    @Autowired
+    MenuSizeKindRepository menuSizeKindRepository;
+
     ObjectMapper objectMapper = new ObjectMapper();
 
     @Test
@@ -76,7 +79,7 @@ class MenuControllerTest {
 
         // MenuService - FileService Change Mock
         Mockito.when(fileService.s3UploadProcess(fileRequest.getFile())).thenReturn("test/test.jpg");
-        MenuService menuService = new MenuService(menuRepository, brandMenuKindRepository, fileService, brandRepository, menuSizeRepositroy);
+        MenuService menuService = new MenuService(menuRepository, brandMenuKindRepository, fileService, brandRepository, menuSizeRepositroy, menuSizeKindRepository);
         MenuController menuController = new MenuController(menuService);
         mockMvc = MockMvcBuilders.standaloneSetup(menuController).build();
 

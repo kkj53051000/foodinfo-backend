@@ -48,6 +48,9 @@ public class AdminAuthInterceptor implements HandlerInterceptor {
 
                 userId = Long.valueOf(String.valueOf(returnValue.get("user_id")));
 
+
+                // Admin 검증
+
                 if(returnValue == null) {
                     log.error("UserAuthInterceptor - JwtVerifyFailException: returnValue equals null");
                     throw new JwtVerifyFailException();

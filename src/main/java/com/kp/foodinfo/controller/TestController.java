@@ -1,20 +1,29 @@
 package com.kp.foodinfo.controller;
 
 import com.kp.foodinfo.domain.Item;
+import com.kp.foodinfo.dto.ExcelMenuDto;
 import com.kp.foodinfo.repository.ItemRepository;
+import com.kp.foodinfo.util.ReturnStatus;
+import com.kp.foodinfo.vo.BasicVo;
 import com.kp.foodinfo.vo.TestVo;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.PostConstruct;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -28,7 +37,7 @@ public class TestController {
     @Autowired
     ItemRepository itemRepository;
 
-    @GetMapping("api/testapi")
+    @GetMapping("/api/testapi")
     public String testapiProcess(){
         return "testtttttttt";
     }
@@ -93,5 +102,43 @@ public class TestController {
         System.out.println("시간 : " + (end - start));
 
         return items;
+    }
+
+
+    @PostMapping("/exceltest")
+    public BasicVo testExcel(@RequestPart(value="file", required=true) MultipartFile file) throws IOException {
+
+        List<ExcelMenuDto> excelMenuDtos = new ArrayList<>();
+
+        String extension = FilenameUtils.getExtension(file.getOriginalFilename()); // 3
+
+        if (!extension.equals("xlsx") && !extension.equals("xls")) {
+            System.out.printf("에러");
+        }
+
+        Workbook workbook = null;
+
+        if (extension.equals("xlsx")) {
+            workbook = new XSSFWorkbook(file.getInputStream());
+        } else if (extension.equals("xls")) {
+            workbook = new HSSFWorkbook(file.getInputStream());
+        }
+
+        Sheet worksheet = workbook.getSheetAt(0);
+
+        for (int i = 1; i < worksheet.getPhysicalNumberOfRows(); i++) { // 4
+
+            Row row = worksheet.getRow(i);
+
+            System.out.printf("\n num : " + row.getCell(0).getNumericCellValue());
+            System.out.printf(" name : " + row.getCell(1).getStringCellValue());
+            System.out.printf(" type : " + row.getCell(2).getStringCellValue());
+            System.out.printf(" size : " + row.getCell(3).getStringCellValue());
+            System.out.printf(" price : " + row.getCell(4).getNumericCellValue());
+            System.out.printf(" img : " + row.getCell(5).getStringCellValue());
+        }
+
+        return new BasicVo(ReturnStatus.success);
+
     }
 }

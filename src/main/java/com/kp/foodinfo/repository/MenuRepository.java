@@ -13,4 +13,8 @@ public interface MenuRepository extends JpaRepository<Menu, Long> {
 
     Optional<Menu> findByName(String name);
 
+    int countByNameAndBrandMenuKind(String name, BrandMenuKind brandMenuKind);
+
+    Optional<Menu> findByNameAndBrandMenuKind(String name, BrandMenuKind brandMenuKind);
+
 }

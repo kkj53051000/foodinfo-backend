@@ -42,4 +42,9 @@ public class IssueController {
         log.info("issueEventList() : IssueEventListVo return");
         return issueEventListVo;
     }
+
+    @PostMapping("/admin/issuedelete/{id}")
+    public BasicVo issueDelete(@PathVariable("id") long issue_id) {
+        return issueService.deleteIssue(issue_id);
+    }
 }

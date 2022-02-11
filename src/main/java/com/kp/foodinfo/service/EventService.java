@@ -7,7 +7,9 @@ import com.kp.foodinfo.repository.BrandRepository;
 import com.kp.foodinfo.repository.EventRepository;
 import com.kp.foodinfo.repository.EventTypeRepository;
 import com.kp.foodinfo.request.EventRequest;
+import com.kp.foodinfo.util.ReturnStatus;
 import com.kp.foodinfo.util.StringToDateUtil;
+import com.kp.foodinfo.vo.BasicVo;
 import com.kp.foodinfo.vo.EventListVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -73,5 +75,13 @@ public class EventService {
 
         log.info("getEventList() : EventListVo return");
         return new EventListVo(events);
+    }
+
+    public BasicVo deleteEvent(long event_id) {
+        Event event = eventRepository.findById(event_id).get();
+
+        eventRepository.delete(event);
+
+        return new BasicVo(ReturnStatus.success);
     }
 }

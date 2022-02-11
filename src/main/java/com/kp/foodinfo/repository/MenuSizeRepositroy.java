@@ -10,4 +10,5 @@ public interface MenuSizeRepositroy extends JpaRepository<MenuSize, Long> {
     long countByMenu(Menu menu);
 
     List<MenuSize> findByMenu(Menu menu);
+
 }

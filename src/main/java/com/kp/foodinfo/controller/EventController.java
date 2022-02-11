@@ -39,4 +39,9 @@ public class EventController {
         log.info("eventList() : EventListVo return");
         return eventService.getEventList(brand_id);
     }
+
+    @PostMapping("/admin/eventdelete/{id}")
+    public BasicVo eventDelete(@PathVariable("id") long event_id) {
+        return eventService.deleteEvent(event_id);
+    }
 }

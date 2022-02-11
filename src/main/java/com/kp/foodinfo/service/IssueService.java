@@ -7,7 +7,9 @@ import com.kp.foodinfo.repository.BrandRepository;
 import com.kp.foodinfo.repository.EventRepository;
 import com.kp.foodinfo.repository.IssueRepository;
 import com.kp.foodinfo.request.IssueRequest;
+import com.kp.foodinfo.util.ReturnStatus;
 import com.kp.foodinfo.util.StringToDateUtil;
+import com.kp.foodinfo.vo.BasicVo;
 import com.kp.foodinfo.vo.IssueEventListVo;
 import com.kp.foodinfo.vo.IssueEventVo;
 import com.kp.foodinfo.vo.IssueListVo;
@@ -146,6 +148,13 @@ public class IssueService {
 //        }
 
         return new IssueEventListVo(issueEventVos);
+    }
 
+    public BasicVo deleteIssue(long issue_id) {
+        Issue issue = issueRepository.findById(issue_id).get();
+
+        issueRepository.delete(issue);
+
+        return new BasicVo(ReturnStatus.success);
     }
 }

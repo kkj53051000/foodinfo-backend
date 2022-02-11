@@ -34,6 +34,11 @@ public class MenuController {
         return basicVo;
     }
 
+    @PostMapping("/admin/menuexcelprocess/{id}")
+    public BasicVo menuExcelProcess(@RequestPart(value="file", required=true) MultipartFile file, @PathVariable("id") long brand_id) throws IOException {
+        return menuService.saveExcelMenu(file, brand_id);
+    }
+
     @GetMapping("/menulist/{id}")
     public MenuVoList menuList(@PathVariable("id") long brandMenuKind_id) {
         log.info("menuList() : in");
@@ -49,5 +54,10 @@ public class MenuController {
         MenuListVo menuListVo = menuService.getMenuAll(brand_id);
 
         return menuListVo;
+    }
+
+    @PostMapping("/admin/menudelete/{id}")
+    public BasicVo menuDelete(@PathVariable("id") long menu_id){
+        return menuService.deleteMenu(menu_id);
     }
 }
