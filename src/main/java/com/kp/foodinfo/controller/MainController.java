@@ -6,16 +6,17 @@ import com.kp.foodinfo.repository.FoodRepository;
 import com.kp.foodinfo.request.MainRecentlyIssueTopTenRequest;
 import com.kp.foodinfo.request.RecentlyFoodEventIssueRequest;
 import com.kp.foodinfo.service.RecentlyService;
-import com.kp.foodinfo.vo.FollowContentVo;
-import com.kp.foodinfo.vo.MainRecentlyIssueListVo;
-import com.kp.foodinfo.vo.MainUpdateBrandListVo;
-import com.kp.foodinfo.vo.UpdateBrandListVo;
+import com.kp.foodinfo.vo.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequiredArgsConstructor
@@ -24,9 +25,21 @@ import java.text.ParseException;
 public class MainController {
     private final RecentlyService recentlyService;
 
+    @Autowired
+    RedisTemplate redisTemplate;
+
     @GetMapping("/maintodayupdatebrands")
     public MainUpdateBrandListVo mainTodayUpdateBrands() throws ParseException {
-        MainUpdateBrandListVo mainUpdateBrandListVo = recentlyService.getMainTodayUpdateBrands();
+        ValueOperations<String, MainUpdateBrandListVo> valueOperations = redisTemplate.opsForValue();
+
+        String redisName = "MainController.mainTodayUpdateBrands()";
+
+        MainUpdateBrandListVo mainUpdateBrandListVo = valueOperations.get(redisName);
+        if(mainUpdateBrandListVo == null) {
+            mainUpdateBrandListVo = recentlyService.getMainTodayUpdateBrands();
+            valueOperations.set(redisName, mainUpdateBrandListVo, 10L, TimeUnit.MINUTES);
+        }
+
         return mainUpdateBrandListVo;
     }
 
@@ -53,11 +66,12 @@ public class MainController {
 
     @PostMapping("/mainrecentlyissueten")
     public MainRecentlyIssueListVo mainRecentlyIssueTopTen(@RequestBody MainRecentlyIssueTopTenRequest mainRecentlyIssueTopTenRequest) {
-        log.info("mainIssueTopTen() : run");
-        MainRecentlyIssueListVo mainRecentlyIssueListVo = recentlyService.getMainIssueList(mainRecentlyIssueTopTenRequest.getFoodName());
+        MainRecentlyIssueListVo mainRecentlyIssueListVo = recentlyService.getMainIssueList(mainRecentlyIssueTopTenRequest.getFoodId());
 
-        log.info("mainIssueTopTen() : MainRecentlyIssueListVo Return");
         return mainRecentlyIssueListVo;
     }
+
+
+
 
 }

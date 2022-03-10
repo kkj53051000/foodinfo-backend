@@ -1,8 +1,13 @@
 package com.kp.foodinfo.interceptor;
 
+import com.kp.foodinfo.domain.Role;
+import com.kp.foodinfo.domain.User;
 import com.kp.foodinfo.exception.JwtVerifyFailException;
+import com.kp.foodinfo.repository.UserRepository;
 import com.kp.foodinfo.service.JwtService;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -14,6 +19,10 @@ import java.util.Map;
 
 @Slf4j
 public class AdminAuthInterceptor implements HandlerInterceptor {
+
+    @Autowired
+    UserRepository userRepository;
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
@@ -23,7 +32,7 @@ public class AdminAuthInterceptor implements HandlerInterceptor {
 
         JwtService jwtService = new JwtService();
 
-        System.out.println("---------------AdminAuthInterceptor-----------------");
+//        System.out.println("---------------AdminAuthInterceptor-----------------");
         Enumeration headerNames = request.getHeaderNames();
 
         boolean authorizationCheck = false;
@@ -33,7 +42,7 @@ public class AdminAuthInterceptor implements HandlerInterceptor {
         while(headerNames.hasMoreElements()){
             String name = (String)headerNames.nextElement();
             String value = request.getHeader(name);
-            System.out.println(name + " : " + value + "<br>");
+//            System.out.println(name + " : " + value + "<br>");
 
 
             if (name.equals("Authorization") || name.equals("authorization")) {
@@ -64,8 +73,16 @@ public class AdminAuthInterceptor implements HandlerInterceptor {
             throw new JwtVerifyFailException();
         }
 
-        request.setAttribute("userId", userId);
+        System.out.println("userId : " + userId);
 
-        return true;
+        User user = userRepository.findById(userId).get();
+
+        if (user.getRole() == Role.ADMIN) {
+            return true;
+        }else {
+            return false;
+        }
+
+//        request.setAttribute("userId", userId);
     }
 }

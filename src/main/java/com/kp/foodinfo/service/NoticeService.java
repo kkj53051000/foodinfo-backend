@@ -1,13 +1,11 @@
 package com.kp.foodinfo.service;
 
 import com.kp.foodinfo.domain.Notice;
-import com.kp.foodinfo.domain.User;
 import com.kp.foodinfo.repository.NoticeRepository;
-import com.kp.foodinfo.repository.UserRepository;
 import com.kp.foodinfo.request.NoticeModifyRequest;
 import com.kp.foodinfo.request.NoticeRequest;
 import com.kp.foodinfo.util.ReturnStatus;
-import com.kp.foodinfo.util.StringToDateUtil;
+import com.kp.foodinfo.util.DateFormatUtil;
 import com.kp.foodinfo.vo.BasicVo;
 import com.kp.foodinfo.vo.NoticeListVo;
 import com.kp.foodinfo.vo.NoticeVo;
@@ -17,6 +15,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -37,11 +36,23 @@ public class NoticeService {
     public NoticeVo getNotice(long notice_id) {
         Notice notice = noticeRepository.findById(notice_id).get();
 
+
+        Calendar cal = Calendar.getInstance();
+
+        Date date = notice.getDate();
+
+        cal.setTime(date);
+        cal.add(Calendar.HOUR, 9);
+
+        date = cal.getTime();
+
+
+
         NoticeVo noticeVo = NoticeVo.builder()
                 .id(notice.getId())
                 .content(notice.getContent())
                 .title(notice.getTitle())
-                .date(StringToDateUtil.dateToStringDayTimeProcess(notice.getDate()))
+                .date(DateFormatUtil.dateToStringDayTimeProcess(date))
                 .build();
 
         return noticeVo;

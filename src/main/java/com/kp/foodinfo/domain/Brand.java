@@ -25,7 +25,7 @@ public class Brand implements Comparable<Brand> {
     @Lob
     private String img;
     private Date recentlyUpdate;
-
+    private int priority;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "food_id")

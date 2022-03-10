@@ -30,27 +30,21 @@ public class JwtService {
     }
 
     public String createToken(long user_id) {
-        log.info("createToken() : in");
-
         //Header 부분 설정
-        log.info("createToken() : Header setting");
         Map<String, Object> headers = new HashMap<>();
         headers.put("typ", "JWT");
         headers.put("alg", "HS256");
 
         //Payload 부분 설정
-        log.info("createToken() : Payload setting");
         Map<String, Object> payloads = new HashMap<>();
         payloads.put("user_id", user_id);
 
         Long expiredTime = 1000 * 60L * 60L * 2L; // 토큰 유효 시간 (2시간)
 
         Date ext = new Date();
-        log.info("createToken() : Time setting");
         ext.setTime(ext.getTime() + expiredTime);
 
         //토큰 Builder
-        log.info("createToken() : Token Build");
         String jwt = Jwts.builder()
                 .setHeader(headers)
                 .setClaims(payloads)
@@ -59,7 +53,6 @@ public class JwtService {
                 .signWith(SignatureAlgorithm.HS256, key.getBytes())
                 .compact();
 
-        log.info("createToken() : jwt return");
         return jwt;
     }
 

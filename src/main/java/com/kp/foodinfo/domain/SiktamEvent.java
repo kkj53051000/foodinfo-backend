@@ -25,15 +25,21 @@ public class SiktamEvent {
     private String img;
     private Date startDate;
     private Date endDate;
+
+    private int startDateInt;
+    private int endDateInt;
+
     private int winnerCount;
     private boolean status;
 
     @Builder
-    public SiktamEvent(String title, String img, Date startDate, Date endDate, int winnerCount, boolean status) {
+    public SiktamEvent(String title, String img, Date startDate, Date endDate, int startDateInt, int endDateInt, int winnerCount, boolean status) {
         this.title = title;
         this.img = img;
         this.startDate =startDate;
         this.endDate = endDate;
+        this.startDateInt = startDateInt;
+        this.endDateInt = endDateInt;
         this.winnerCount = winnerCount;
         this.status = status;
     }

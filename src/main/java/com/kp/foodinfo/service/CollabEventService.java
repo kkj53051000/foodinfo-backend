@@ -9,15 +9,13 @@ import com.kp.foodinfo.request.CollabEventListRequest;
 import com.kp.foodinfo.repository.BrandRepository;
 import com.kp.foodinfo.repository.CollabEventRepository;
 import com.kp.foodinfo.repository.CollabPlatformRepository;
-import com.kp.foodinfo.util.StringToDateUtil;
+import com.kp.foodinfo.util.DateFormatUtil;
 import com.kp.foodinfo.vo.CollabEventInfoVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -46,8 +44,8 @@ public class CollabEventService {
                 .get();
 
         // String -> Date
-        Date startDate = StringToDateUtil.stringToDateProcess(collabEventRequest.getStartDate() + " " + collabEventRequest.getStartTime());
-        Date endDate = StringToDateUtil.stringToDateProcess(collabEventRequest.getEndDate() + " " + collabEventRequest.getEndTime());
+        Date startDate = DateFormatUtil.stringToDateProcess(collabEventRequest.getStartDate() + " " + collabEventRequest.getStartTime());
+        Date endDate = DateFormatUtil.stringToDateProcess(collabEventRequest.getEndDate() + " " + collabEventRequest.getEndTime());
 
         CollabEvent collabEvent = new CollabEvent(collabEventRequest.getTitle(), collabEventRequest.getContent(), clientPath, startDate, endDate, brand, collabPlatform);
 

@@ -25,6 +25,7 @@ public class Menu {
     private int price;
     @Lob
     private String img;
+    private int priority;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "brandmenukind_id")

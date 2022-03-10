@@ -26,6 +26,13 @@ public class IssueController {
         return new BasicVo("success");
     }
 
+    @PostMapping("/admin/normalissueprocess")
+    public BasicVo normalIssueProcess(@RequestBody IssueRequest issueRequest) throws IOException {
+        issueService.saveNoramlIssue(issueRequest);
+
+        return new BasicVo("success");
+    }
+
     @GetMapping("/issuelist/{id}")
     public IssueListVo issueList(@PathVariable("id") long brand_id) {
         IssueListVo issueListVo = issueService.getIssueList(brand_id);
@@ -35,11 +42,8 @@ public class IssueController {
 
     @PostMapping("/issueeventlist/{id}")
     public IssueEventListVo issueEventList(@PathVariable("id") long brand_id) {
-        log.info("issueEventList() : in");
-        log.info("issueEventList() - IssueService - getIssueEventList() : run");
         IssueEventListVo issueEventListVo = issueService.getIssueEventList(brand_id);
 
-        log.info("issueEventList() : IssueEventListVo return");
         return issueEventListVo;
     }
 

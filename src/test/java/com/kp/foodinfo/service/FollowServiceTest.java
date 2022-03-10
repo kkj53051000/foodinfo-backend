@@ -4,6 +4,7 @@ import com.kp.foodinfo.domain.*;
 import com.kp.foodinfo.dto.FollowDto;
 import com.kp.foodinfo.repository.*;
 import com.kp.foodinfo.request.FollowRequest;
+import com.kp.foodinfo.util.DateFormatUtil;
 import com.kp.foodinfo.vo.FollowContentListVo;
 import com.kp.foodinfo.vo.FollowContentVo;
 import org.junit.jupiter.api.Assertions;
@@ -56,7 +57,7 @@ class FollowServiceTest {
         String emailUuid = "test@naver.com" + uuid;
 
         Date joinDate = new Date();
-        User user = new User("test@naver.com", "test", joinDate, emailUuid, true, Role.USER);
+        User user = new User("test@naver.com", "test", new Date(), DateFormatUtil.dateToStringProcess(new Date()), new Date(), emailUuid, true, Role.USER, false);
         userRepository.save(user);
 
         //Food save
@@ -88,7 +89,7 @@ class FollowServiceTest {
         String emailUuid = "test@naver.com" + uuid;
 
         Date joinDate = new Date();
-        User user = new User("test@naver.com", "test", joinDate, emailUuid, true, Role.USER);
+        User user = new User("test@naver.com", "test", new Date(), DateFormatUtil.dateToStringProcess(new Date()), new Date(), emailUuid, true, Role.USER, false);
         userRepository.save(user);
 
         //Food save
@@ -124,7 +125,7 @@ class FollowServiceTest {
         String emailUuid = "test@naver.com" + uuid;
 
         Date joinDate = new Date();
-        User user = new User("test@naver.com", "test", joinDate, emailUuid, true, Role.USER);
+        User user = new User("test@naver.com", "test", new Date(), DateFormatUtil.dateToStringProcess(new Date()), new Date(), emailUuid, true, Role.USER, false);
         userRepository.save(user);
 
         //Food save
@@ -163,7 +164,7 @@ class FollowServiceTest {
         String uuid = UUID.randomUUID().toString();
         String emailUuid = "test@naver.com" + uuid;
 
-        User user = new User("test@naver.com", "test", new Date(), emailUuid, true, Role.USER);
+        User user = new User("test@naver.com", "test", new Date(), DateFormatUtil.dateToStringProcess(new Date()), new Date(), emailUuid, true, Role.USER, false);
         userRepository.save(user);
 
         //Food save
@@ -241,7 +242,8 @@ class FollowServiceTest {
         followService.saveFollow(followDto2);
 
         //when
-        List<FollowContentVo> followContentVos = followService.getFollowAllContentList(user.getId());
+        // 수정 필요함. 인자
+        List<FollowContentVo> followContentVos = followService.getFollowAllContentList(user.getId(), 0);
 
         //then
         //정렬 잘 됬는지 확인

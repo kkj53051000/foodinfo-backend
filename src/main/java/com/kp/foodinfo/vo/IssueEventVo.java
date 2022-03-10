@@ -1,11 +1,9 @@
 package com.kp.foodinfo.vo;
 
-import com.kp.foodinfo.util.StringToDateUtil;
+import com.kp.foodinfo.util.DateFormatUtil;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.Date;
 
 @Data
 @NoArgsConstructor
@@ -33,6 +31,6 @@ public class IssueEventVo implements Comparable<IssueEventVo> {
 
     @Override
     public int compareTo(IssueEventVo o) {
-        return StringToDateUtil.stringToDateDayProcess(o.getStartDateStr()).compareTo(StringToDateUtil.stringToDateDayProcess(getStartDateStr()));
+        return DateFormatUtil.stringToDateDayProcess(o.getStartDateStr()).compareTo(DateFormatUtil.stringToDateDayProcess(getStartDateStr()));
     }
 }

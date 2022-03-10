@@ -1,10 +1,10 @@
 package com.kp.foodinfo.vo;
 
 import com.kp.foodinfo.domain.SiktamEvent;
-import com.kp.foodinfo.util.StringToDateUtil;
-import lombok.Builder;
+import com.kp.foodinfo.util.DateFormatUtil;
 import lombok.Data;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,15 +34,18 @@ public class SiktamEventListVo {
             this.id = siktamEvent.getId();
             this.title = siktamEvent.getTitle();
             this.img = siktamEvent.getImg();
-            this.startDate = StringToDateUtil.dateToStringProcess(siktamEvent.getStartDate());
-            this.endDate = StringToDateUtil.dateToStringProcess(siktamEvent.getEndDate());
+            this.startDate = DateFormatUtil.dateToStringProcess(siktamEvent.getStartDate());
+            this.endDate = DateFormatUtil.dateToStringProcess(siktamEvent.getEndDate());
             this.winnerCount = siktamEvent.getWinnerCount();
 
             Date now = new Date();
-            if(now.after(siktamEvent.getEndDate())){
-                this.status = false;
-            }else{
+
+            int nowInt = DateFormatUtil.dateToIntegerProcess(now);
+
+            if(nowInt <= DateFormatUtil.dateToIntegerProcess(siktamEvent.getEndDate())){
                 this.status = true;
+            }else{
+                this.status = false;
             }
         }
     }

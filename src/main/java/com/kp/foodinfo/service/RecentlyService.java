@@ -1,27 +1,19 @@
 package com.kp.foodinfo.service;
 
-import com.kp.foodinfo.domain.Brand;
-import com.kp.foodinfo.domain.Event;
-import com.kp.foodinfo.domain.Food;
-import com.kp.foodinfo.domain.Issue;
+import com.kp.foodinfo.domain.*;
 import com.kp.foodinfo.exception.DbNotFoundException;
 import com.kp.foodinfo.repository.BrandRepository;
 import com.kp.foodinfo.repository.EventRepository;
 import com.kp.foodinfo.repository.FoodRepository;
 import com.kp.foodinfo.repository.IssueRepository;
-import com.kp.foodinfo.util.StringToDateUtil;
+import com.kp.foodinfo.util.DateFormatUtil;
 import com.kp.foodinfo.vo.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PostMapping;
 
-import java.text.ParseException;
 import java.util.*;
 
 @Service
@@ -42,16 +34,16 @@ public class RecentlyService {
 
         Date today = new Date();
 
-        Date date = StringToDateUtil.dateToDateProcess(today);
+        Date date = DateFormatUtil.dateToDateProcess(today);
 
         List<Brand> brands = brandRepository.findByRecentlyUpdate(date);
 
-        if (brands.size() == 0) {
-            new DbNotFoundException();
-        }
+        int brandsSize = brands.size();
 
-        if (brands.size() > 3) {
-            brands = brands.subList(0, 3);
+        if (brandsSize == 0) {
+            new DbNotFoundException();
+        }else if (brandsSize > 3) {
+            brands = brands.subList(0, 4);
         }
 
         return new MainUpdateBrandListVo(brands);
@@ -65,7 +57,7 @@ public class RecentlyService {
         Collections.sort(brands);
 
         if (brands.size() > 3) {
-            brands = brands.subList(0, 3);
+            brands = brands.subList(0, 4);
         }
 
         return new MainUpdateBrandListVo(brands);
@@ -75,7 +67,7 @@ public class RecentlyService {
 
         Date today = new Date();
 
-        Date date = StringToDateUtil.dateToDateProcess(today);
+        Date date = DateFormatUtil.dateToDateProcess(today);
 
         List<Brand> brands = brandRepository.findByRecentlyUpdate(date);
 
@@ -94,7 +86,7 @@ public class RecentlyService {
         return new UpdateBrandListVo(brands);
     }
 
-    public MainRecentlyIssueListVo getMainIssueList(String foodName) {
+    public MainRecentlyIssueListVo getMainIssueList(Long FoodId) {
 
         String lengthChangeTitle = "";
 
@@ -103,7 +95,7 @@ public class RecentlyService {
 
         List<MainRecentlyIssueVo> mainRecentlyIssueVos = new ArrayList<>();
 
-        Food food = foodRepository.findByName(foodName).orElseThrow(() -> new DbNotFoundException());
+        Food food = foodRepository.findById(FoodId).orElseThrow(() -> new DbNotFoundException());
 
 
         //issues
@@ -112,8 +104,8 @@ public class RecentlyService {
         for (Issue issue : issues) {
 
             // Title 길이 수정
-            if(issue.getTitle().length() > 20) {
-                lengthChangeTitle = issue.getTitle().substring(0, 20) + "...";
+            if(issue.getTitle().length() > 15) {
+                lengthChangeTitle = issue.getTitle().substring(0, 15) + "...";
             }else{
                 lengthChangeTitle = issue.getTitle();
             }
@@ -123,6 +115,7 @@ public class RecentlyService {
                     .brandId(issue.getBrand().getId())
                     .brandImg(issue.getBrand().getImg())
                     .startDate(issue.getDate())
+                    .type(Type.ISSUE)
                     .build();
 
             mainRecentlyIssueVos.add(mainRecentlyIssueVo);
@@ -133,8 +126,8 @@ public class RecentlyService {
 
         for (Event event : events) {
             // Title 길이 수정
-            if(event.getTitle().length() > 20) {
-                lengthChangeTitle = event.getTitle().substring(0, 20) + "...";
+            if(event.getTitle().length() > 15) {
+                lengthChangeTitle = event.getTitle().substring(0, 15) + "...";
             }else{
                 lengthChangeTitle = event.getTitle();
             }
@@ -144,6 +137,7 @@ public class RecentlyService {
                     .brandId(event.getBrand().getId())
                     .brandImg(event.getBrand().getImg())
                     .startDate(event.getStartDate())
+                    .type(Type.EVENT)
                     .build();
 
             mainRecentlyIssueVos.add(mainRecentlyIssueVo);
@@ -181,11 +175,10 @@ public class RecentlyService {
                     .title(issue.getTitle())
                     .content(issue.getContent())
                     .img(issue.getImg())
-                    .startDate(StringToDateUtil.dateToStringProcess(issue.getDate()))
+                    .startDate(DateFormatUtil.dateToStringProcess(issue.getDate()))
                     .endDate(null)
                     .type("이슈")
                     .build();
-
 
             recentlyFoodEventIssueVos.add(recentlyFoodEventIssueVo);
             recentlyFoodEventIssueId += 1;
@@ -205,8 +198,8 @@ public class RecentlyService {
                     .title(event.getTitle())
                     .content(event.getContent())
                     .img(event.getImg())
-                    .startDate(StringToDateUtil.dateToStringProcess(event.getStartDate()))
-                    .endDate(StringToDateUtil.dateToStringProcess(event.getEndDate()))
+                    .startDate(DateFormatUtil.dateToStringProcess(event.getStartDate()))
+                    .endDate(DateFormatUtil.dateToStringProcess(event.getEndDate()))
                     .type("이벤트")
                     .build();
 

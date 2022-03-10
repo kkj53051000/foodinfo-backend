@@ -4,5 +4,5 @@ import lombok.Getter;
 
 @Getter
 public class MainRecentlyIssueTopTenRequest {
-    String foodName;
+    Long foodId;
 }

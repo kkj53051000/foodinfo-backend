@@ -21,20 +21,14 @@ public class EventTypeController {
 
     @PostMapping("/admin/eventtypeprocess")
     public BasicVo eventTypeProcess(@RequestPart(name = "file", required = true) MultipartFile file, @RequestPart(name = "value", required = false) EventTypeRequest eventTypeRequest) throws IOException {
-        log.info("eventTypeProcess() : in");
-        log.info("eventTypeProcess() - EventTypeService - saveEventType() : run");
         eventTypeService.saveEventType(file, eventTypeRequest.getName());
 
-        log.info("eventTypeProcess() : BasicVo return");
         return new BasicVo("success");
     }
 
     @GetMapping("/eventtypelist")
     public EventTypeListVo eventTypeList() {
-        log.info("eventTypeList() : in");
 
-        log.info("eventTypeList() - EventTypeService - getEventTypeList() : run");
-        log.info("eventTypeList() : EventTypeListVo return");
         return eventTypeService.getEventTypeList();
     }
 }

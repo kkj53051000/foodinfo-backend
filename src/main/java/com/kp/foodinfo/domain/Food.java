@@ -22,14 +22,10 @@ public class Food {
     private String name;
     @Lob
     private String img;
+    private int priority;
 
     public Food(String name, String img){
         this.name = name;
         this.img = img;
     }
-
-//    public void 품절() {
-//        img = "ppdsfsdf.jpg";
-//        name = name + "(품절)";
-//    }
 }

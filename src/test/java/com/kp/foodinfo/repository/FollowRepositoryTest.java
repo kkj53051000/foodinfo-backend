@@ -1,6 +1,7 @@
 package com.kp.foodinfo.repository;
 
 import com.kp.foodinfo.domain.*;
+import com.kp.foodinfo.util.DateFormatUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +38,7 @@ class FollowRepositoryTest {
 
         Date joinDate = new Date();
 
-        User user = new User("test@naver.com", "test", joinDate, emailUuid, true, Role.USER);
+        User user = new User("test@naver.com", "test", new Date(), DateFormatUtil.dateToStringProcess(new Date()), new Date(), emailUuid, true, Role.USER, false);
         userRepository.save(user);
 
         Food food = new Food("pizza", "/test/test.jpg");
@@ -65,7 +66,7 @@ class FollowRepositoryTest {
 
         Date joinDate = new Date();
 
-        User user = new User("test@naver.com", "test", joinDate, emailUuid, true, Role.USER);
+        User user = new User("test@naver.com", "test", new Date(), DateFormatUtil.dateToStringProcess(new Date()), new Date(), emailUuid, true, Role.USER, false);
         userRepository.save(user);
 
         Food food = new Food("pizza", "/test/test.jpg");
@@ -94,8 +95,8 @@ class FollowRepositoryTest {
 
         Date joinDate = new Date();
 
-        User user1 = new User("test1@naver.com", "test", joinDate, emailUuid1, true, Role.USER);
-        User user2 = new User("test2@naver.com", "test", joinDate, emailUuid2, true, Role.USER);
+        User user1 = new User("test@naver.com", "test", new Date(), DateFormatUtil.dateToStringProcess(new Date()), new Date(), emailUuid1, true, Role.USER, false);
+        User user2 = new User("test@naver.com", "test", new Date(), DateFormatUtil.dateToStringProcess(new Date()), new Date(), emailUuid2, true, Role.USER, false);
         userRepository.save(user1);
         userRepository.save(user2);
 
@@ -128,7 +129,7 @@ class FollowRepositoryTest {
 
         Date joinDate = new Date();
 
-        User user = new User("test@naver.com", "test", joinDate, emailUuid, true, Role.USER);
+        User user = new User("test@naver.com", "test", new Date(), DateFormatUtil.dateToStringProcess(new Date()), new Date(), emailUuid, true, Role.USER, false);
         userRepository.save(user);
 
         Food food = new Food("pizza", "/test/test.jpg");

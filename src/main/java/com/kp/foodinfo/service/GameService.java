@@ -3,6 +3,8 @@ package com.kp.foodinfo.service;
 import com.kp.foodinfo.domain.Brand;
 import com.kp.foodinfo.domain.Menu;
 import com.kp.foodinfo.domain.MenuSize;
+import com.kp.foodinfo.exception.PriceGameMenuNotFondException;
+import com.kp.foodinfo.repository.BrandRepository;
 import com.kp.foodinfo.repository.MenuRepository;
 import com.kp.foodinfo.repository.MenuSizeRepositroy;
 import com.kp.foodinfo.util.FormatUtil;
@@ -12,10 +14,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -25,52 +25,86 @@ public class GameService {
 
     private final MenuSizeRepositroy menuSizeRepositroy;
 
+    private final BrandRepository brandRepository;
+
 
     public PriceGameVoList getPriceGameList(int insertPrice) {
 
-        List<Menu> menus = menuRepository.findAll();
-
-        int priceHigh = insertPrice + 1000;
-        int priceLow = insertPrice - 1000;
+        int highPrice = 0;
+        int lowPrice = 0;
 
         // 가격에따라 + - 다르게 적용
-
-        List<Menu> tempMenus = new ArrayList<>();
-        List<Long> tempMenuIds = new ArrayList<>();
-
-        // 메뉴 중복 검사
-        for (Menu menu : menus) {
-            if(menu.getPrice() >= priceLow && menu.getPrice() <= priceHigh) {
-                tempMenus.add(menu);
-                tempMenuIds.add(menu.getId());
-            }
+        if (insertPrice < 20000){
+            highPrice = insertPrice + 1000;
+            lowPrice = insertPrice - 1000;
+        }else {
+            highPrice = insertPrice + 2000;
+            lowPrice = insertPrice - 2000;
         }
 
-        if(tempMenus.size() == 0) {
-            // 예외 처리
+
+        // one sql
+
+        List<Menu> rangeMenus = menuRepository.findByPriceRange(highPrice, lowPrice).get();
+
+        if(rangeMenus.size() == 0) {
+            throw new PriceGameMenuNotFondException();
         }
 
-        // tempMenus에서 primaryId 기준 랜덤 3개 뽑아야함.
+        // randomIdxes [0, 10, 100]
+
+        // temMenus [0,10,100]
+
+        // List<MenuSize> menuSizes = menuSizeRepositroy.findAllByMenuIds({0, 10, 100});
+
+        // conversations
+        // List<Conversation> // conversationRepository.findAll();
+        // List<Long> conversationMessageIds = conversations.map(conversation => conversation.getMessageId));
+        // List<Message> // messageRepsoitory.findAll(conversationMessageIds);
+
+        // messages
+
+
+        // visited = set()
+        // 1 in visited
+        // [                        ]
+
+        /*
+        * [dooli, mic, test]
+        * dooli
+        * mic
+        * test
+        *
+        * hash algorithm
+        * 3
+        * 2
+        * 5
+        *
+        *
+        * [ , ,mic , dooli , , test ]
+        *
+        *
+        * dooli
+        * hashMap.contains("dooli") => 3   arr[3]
+        *
+        * */
+
+        // 랜덤 인덱스
+        List<Integer> menuRandomIndexs = new ArrayList<>();
+        while (menuRandomIndexs.size() < 3){
+            int menuRandomIndex = (int)(Math.random() * rangeMenus.size());
+            menuRandomIndexs.add(menuRandomIndex);
+        }
 
         List<PriceGameVo> randomPriceGames = new ArrayList<>();
 
-        while (randomPriceGames.size() < 3) {
-            int menuRandomIndex = (int)(Math.random() * tempMenus.size());
-
-            Menu menu = tempMenus.get(menuRandomIndex);
-
-            for(int i = 0; i < randomPriceGames.size(); i++) {
-                if (randomPriceGames.get(i).getMenuName().equals(menu.getName())){
-                    break;
-                }
-            }
-
+        for(int menuRandomIndex : menuRandomIndexs) {
+            Menu menu = rangeMenus.get(menuRandomIndex);
             Brand brand = menu.getBrandMenuKind().getBrand();
 
             List<MenuSize> menuSizes = menuSizeRepositroy.findByMenu(menu);
 
-
-
+             // MenuSize 가 없을 경우.
             if(menuSizes.size() == 0) {
                 PriceGameVo priceGameVo = PriceGameVo.builder()
                         .id(menu.getId())
@@ -85,7 +119,7 @@ public class GameService {
                         .build();
 
                 randomPriceGames.add(priceGameVo);
-            }else{
+            }else{ // MenuSize 가 있을 경우.
 
                 int menuSizeRandomIndex = (int)(Math.random() * menuSizes.size());
 
@@ -119,11 +153,11 @@ public class GameService {
 
     String priceCompare(String name, int insertPrice, int menuPrice) {
         if(insertPrice > menuPrice) {
-            return name + "을 먹으면 " + FormatUtil.menuPriceFormat(insertPrice - menuPrice) + "원이 남아요!";
+            return name + "을 먹으면 " + FormatUtil.menuPriceFormat(insertPrice - menuPrice) + "원이 남아요! " + "(" + FormatUtil.menuPriceFormat(menuPrice) + "₩)";
         }else if (insertPrice < menuPrice){
-            return FormatUtil.menuPriceFormat(menuPrice - insertPrice) + "원만 얹으면 " + name + "을 먹을 수 있어요!";
+            return FormatUtil.menuPriceFormat(menuPrice - insertPrice) + "원만 얹으면 " + name + "을 먹을 수 있어요! " + "(" + FormatUtil.menuPriceFormat(menuPrice) + "₩)";
         }else{
-            return name + "을 먹으면 딱이에요!";
+            return name + "을 먹으면 딱이에요! " + "(" + FormatUtil.menuPriceFormat(menuPrice) + "₩)";
         }
     }
 }

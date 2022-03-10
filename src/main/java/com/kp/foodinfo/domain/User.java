@@ -23,18 +23,24 @@ public class User{
     private String email;
     private String userpw;
     private Date joinDate;
+    private String joinDateStr;
+    private Date recentlyVisitDate;
     private String emailUuid;
     private boolean emailCheck;
+    private boolean deleteAt;
 
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    public User(String email, String userpw, Date joinDate, String emailUuid, boolean emailCheck, Role role){
+    public User(String email, String userpw, Date joinDate, String joinDateStr, Date recentlyVisitDate, String emailUuid, boolean emailCheck, Role role, boolean deleteAt){
         this.email = email;
         this.userpw = userpw;
         this.joinDate = joinDate;
+        this.joinDateStr = joinDateStr;
+        this.recentlyVisitDate = recentlyVisitDate;
         this.emailUuid = emailUuid;
         this.emailCheck = emailCheck;
         this.role = role;
+        this.deleteAt = deleteAt;
     }
 }

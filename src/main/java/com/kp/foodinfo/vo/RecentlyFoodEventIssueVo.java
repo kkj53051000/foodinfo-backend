@@ -1,6 +1,6 @@
 package com.kp.foodinfo.vo;
 
-import com.kp.foodinfo.util.StringToDateUtil;
+import com.kp.foodinfo.util.DateFormatUtil;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -38,6 +38,6 @@ public class RecentlyFoodEventIssueVo implements Comparable<RecentlyFoodEventIss
 
     @Override
     public int compareTo(RecentlyFoodEventIssueVo o) {
-        return StringToDateUtil.stringToDateDayProcess(o.getStartDate()).compareTo(StringToDateUtil.stringToDateDayProcess(getStartDate()));
+        return DateFormatUtil.stringToDateDayProcess(o.getStartDate()).compareTo(DateFormatUtil.stringToDateDayProcess(getStartDate()));
     }
 }

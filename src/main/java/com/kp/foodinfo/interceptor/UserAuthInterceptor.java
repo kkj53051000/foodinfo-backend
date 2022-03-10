@@ -26,7 +26,7 @@ public class UserAuthInterceptor implements HandlerInterceptor {
 
         JwtService jwtService = new JwtService();
 
-        System.out.println("---------------UserAuthInterceptor-----------------");
+//        System.out.println("---------------UserAuthInterceptor-----------------");
         Enumeration headerNames = request.getHeaderNames();
 
         Long userId = null;
@@ -36,7 +36,7 @@ public class UserAuthInterceptor implements HandlerInterceptor {
         while(headerNames.hasMoreElements()){
             String name = (String)headerNames.nextElement();
             String value = request.getHeader(name);
-            System.out.println(name + " : " + value + "<br>");
+//            System.out.println(name + " : " + value + "<br>");
 
 
             if (name.equals("Authorization") || name.equals("authorization")) {

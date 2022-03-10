@@ -1,8 +1,7 @@
 package com.kp.foodinfo.vo;
 
 import com.kp.foodinfo.domain.SiktamEvent;
-import com.kp.foodinfo.util.StringToDateUtil;
-import lombok.Data;
+import com.kp.foodinfo.util.DateFormatUtil;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -18,8 +17,8 @@ public class SiktamEventVo {
     public SiktamEventVo(SiktamEvent siktamEvent) {
         this.title = siktamEvent.getTitle();
         this.img = siktamEvent.getImg();
-        this.startDate = StringToDateUtil.dateToStringProcess(siktamEvent.getStartDate());
-        this.endDate = StringToDateUtil.dateToStringProcess(siktamEvent.getEndDate());
+        this.startDate = DateFormatUtil.dateToStringProcess(siktamEvent.getStartDate());
+        this.endDate = DateFormatUtil.dateToStringProcess(siktamEvent.getEndDate());
         this.winnerCount = siktamEvent.getWinnerCount();
     }
 }

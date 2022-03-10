@@ -6,14 +6,13 @@ import com.kp.foodinfo.exception.DbNotFoundException;
 import com.kp.foodinfo.request.BrandEventRequest;
 import com.kp.foodinfo.repository.BrandEventRepository;
 import com.kp.foodinfo.repository.BrandRepository;
-import com.kp.foodinfo.util.StringToDateUtil;
+import com.kp.foodinfo.util.DateFormatUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -36,8 +35,8 @@ public class BrandEventService {
                 .get();
 
         // Date String -> Date
-        Date startDate = StringToDateUtil.stringToDateProcess(brandEventRequest.getStartDate() + " " + brandEventRequest.getStartTime());
-        Date endDate = StringToDateUtil.stringToDateProcess(brandEventRequest.getEndDate() + " " + brandEventRequest.getEndTime());
+        Date startDate = DateFormatUtil.stringToDateProcess(brandEventRequest.getStartDate() + " " + brandEventRequest.getStartTime());
+        Date endDate = DateFormatUtil.stringToDateProcess(brandEventRequest.getEndDate() + " " + brandEventRequest.getEndTime());
 
         SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 

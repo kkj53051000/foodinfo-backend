@@ -24,8 +24,6 @@ public class MyPageService {
 
         int followCount = (int)followRepository.countByUser(user);
 
-        System.out.println("followCount : "  + followCount);
-
-        return new MyPageVo(email, followCount);
+        return new MyPageVo(user.getId(), email, followCount);
     }
 }

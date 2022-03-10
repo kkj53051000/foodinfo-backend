@@ -8,7 +8,7 @@ import com.kp.foodinfo.repository.EventRepository;
 import com.kp.foodinfo.repository.EventTypeRepository;
 import com.kp.foodinfo.request.EventRequest;
 import com.kp.foodinfo.util.ReturnStatus;
-import com.kp.foodinfo.util.StringToDateUtil;
+import com.kp.foodinfo.util.DateFormatUtil;
 import com.kp.foodinfo.vo.BasicVo;
 import com.kp.foodinfo.vo.EventListVo;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -35,17 +37,13 @@ public class EventService {
     private final EventTypeRepository eventTypeRepository;
 
     public void saveEvent(MultipartFile file, EventRequest eventRequest) throws IOException {
-        log.info("saveEvent() : in");
-        log.info("saveEvent() - FileService - s3UploadProcess() : run");
         String clientPath = fileService.s3UploadProcess(file);
 
-        log.info("saveEvent() - BrandRepository - findById() : run");
         Brand brand = brandRepository.findById(eventRequest.getBrand_id()).get();
-        log.info("saveEvent() - EventTypeRepository - findById() : run");
         EventType eventType = eventTypeRepository.findById(eventRequest.getEventtype_id()).get();
 
-        Date startDate = StringToDateUtil.stringToDateProcess(eventRequest.getStartDateStr());
-        Date endDate = StringToDateUtil.stringToDateProcess(eventRequest.getEndDateStr());
+        Date startDate = DateFormatUtil.stringToDateDayProcess(eventRequest.getStartDateStr());
+        Date endDate = DateFormatUtil.stringToDateDayProcess(eventRequest.getEndDateStr());
 
         Event event = Event.builder()
                 .title(eventRequest.getTitle())
@@ -53,11 +51,13 @@ public class EventService {
                 .img(clientPath)
                 .startDate(startDate)
                 .endDate(endDate)
+                .startDateInt(DateFormatUtil.stringToIntegerProcess(eventRequest.getStartDateStr()))
+                .endDateInt(DateFormatUtil.stringToIntegerProcess(eventRequest.getEndDateStr()))
                 .brand(brand)
                 .eventType(eventType)
                 .build();
 
-        log.info("saveEvent() - EventRepository - save()");
+
         eventRepository.save(event);
 
         //Brand RecentlyUpdate 최신화
@@ -66,15 +66,27 @@ public class EventService {
     }
 
     public EventListVo getEventList(long brand_id) {
-        log.info("getEventList() : in");
-        log.info("getEventList() - BrandRepository - findById() : run");
         Brand brand = brandRepository.findById(brand_id).get();
 
-        log.info("getEventList() - EventRepository - findByBrand() : run");
         List<Event> events = eventRepository.findByBrand(brand);
 
-        log.info("getEventList() : EventListVo return");
-        return new EventListVo(events);
+        List<Event> availableEvents = new ArrayList<>();
+
+        Date now = DateFormatUtil.dateToDateProcess(new Date());
+        int nowInt = DateFormatUtil.dateToIntegerProcess(now);
+
+        for (Event event : events){
+            if(nowInt <= DateFormatUtil.dateToIntegerProcess(event.getEndDate())){
+                availableEvents.add(event);
+            }else {
+                continue;
+            }
+        }
+
+        Collections.reverse(availableEvents);
+
+
+        return new EventListVo(availableEvents);
     }
 
     public BasicVo deleteEvent(long event_id) {

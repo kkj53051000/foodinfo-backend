@@ -1,7 +1,7 @@
 package com.kp.foodinfo.vo;
 
 import com.kp.foodinfo.domain.Event;
-import com.kp.foodinfo.util.StringToDateUtil;
+import com.kp.foodinfo.util.DateFormatUtil;
 import lombok.Data;
 
 import java.util.List;
@@ -34,8 +34,8 @@ public class EventListVo {
             this.title = event.getTitle();
             this.content = event.getContent();
             this.img = event.getImg();
-            this.startDate = StringToDateUtil.dateToStringProcess(event.getStartDate());
-            this.endDate = StringToDateUtil.dateToStringProcess(event.getEndDate());
+            this.startDate = DateFormatUtil.dateToStringProcess(event.getStartDate());
+            this.endDate = DateFormatUtil.dateToStringProcess(event.getEndDate());
             this.eventTypeName = event.getEventType().getName();
             this.eventTypeImg = event.getEventType().getImg();
         }

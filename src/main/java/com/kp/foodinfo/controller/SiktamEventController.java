@@ -1,6 +1,8 @@
 package com.kp.foodinfo.controller;
 
+import com.kp.foodinfo.argumentresolver.Login;
 import com.kp.foodinfo.domain.SiktamEvent;
+import com.kp.foodinfo.domain.UserSession;
 import com.kp.foodinfo.request.SiktamEventRequest;
 import com.kp.foodinfo.service.SiktamEventService;
 import com.kp.foodinfo.vo.BasicVo;
@@ -9,6 +11,7 @@ import com.kp.foodinfo.vo.SiktamEventVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.method.annotation.RequestPartMethodArgumentResolver;
 
 import java.io.IOException;
 
@@ -37,11 +40,5 @@ public class SiktamEventController {
         SiktamEventVo siktamEventVo = siktamEventService.getSiktamEvent(siktamevent_id);
 
         return siktamEventVo;
-    }
-}
-
-class HelloJava {
-    public static void main(String[] args) {
-        System.out.println("Hello Java!!!");
     }
 }

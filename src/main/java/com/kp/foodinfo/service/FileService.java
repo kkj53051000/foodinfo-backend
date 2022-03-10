@@ -38,7 +38,7 @@ public class FileService {
             tempPath += realPath.charAt(i);
         }
 
-        log.info("mimetype ======> %s", file.getContentType());
+//        log.info("mimetype ======> %s", file.getContentType());
 
         String publicRealPath = tempPath + "src" + File.separator + "main" + File.separator + "resources" + File.separator + "static" + File.separator + "img" + File.separator;
 
@@ -86,7 +86,7 @@ public class FileService {
 
         String fileName = uuid + file.getOriginalFilename();
 
-        PutObjectRequest putObjectRequest = new PutObjectRequest("foodinfotest-bucket2", fileName, fis, objectMetadata)
+        PutObjectRequest putObjectRequest = new PutObjectRequest("siktamsik-img", fileName, fis, objectMetadata)
                 .withCannedAcl(CannedAccessControlList.PublicRead);
 
         String url = "";
@@ -95,9 +95,7 @@ public class FileService {
             s3Client.putObject(putObjectRequest);
             // upload success
 
-            url = String.format("https://%s.s3.ap-northeast-2.amazonaws.com/%s", "foodinfotest-bucket2", fileName);
-
-            System.out.println("upload url : " + url);
+            url = String.format("https://%s.s3.ap-northeast-2.amazonaws.com/%s", "siktamsik-img", fileName);
 
             // s3Client.getUrl()
             // update or insert to db ... url ...

@@ -3,11 +3,12 @@ package com.kp.foodinfo.vo;
 import com.kp.foodinfo.domain.Brand;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Data
-public class BrandListVo {
+public class BrandListVo implements Serializable {
 
     private List<BrandVo> items = null;
 
@@ -18,7 +19,7 @@ public class BrandListVo {
     }
 
     @Data
-    class BrandVo {
+    class BrandVo implements Serializable {
         private long id;
         private String name;
         private String img;

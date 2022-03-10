@@ -1,6 +1,6 @@
 package com.kp.foodinfo.vo;
 
-import com.kp.foodinfo.util.StringToDateUtil;
+import com.kp.foodinfo.util.DateFormatUtil;
 import lombok.*;
 
 import java.util.Date;
@@ -37,8 +37,8 @@ public class FollowContentVo implements Comparable<FollowContentVo>{
 
     @Override
     public int compareTo(FollowContentVo f) {
-        Date thisDate = StringToDateUtil.stringToDateDayProcess(issueStartDate);
-        Date injectDate = StringToDateUtil.stringToDateDayProcess(f.issueStartDate);
+        Date thisDate = DateFormatUtil.stringToDateDayProcess(issueStartDate);
+        Date injectDate = DateFormatUtil.stringToDateDayProcess(f.issueStartDate);
 
         if(injectDate.after(thisDate)){
             return 1;

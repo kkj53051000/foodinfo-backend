@@ -22,21 +22,16 @@ public class NoticeController {
     public BasicVo noticeProcess(@RequestBody NoticeRequest noticeRequest) {
 
         System.out.println("NoticeRequest value : " + noticeRequest.getTitle() + noticeRequest.getContent());
-        log.info("noticeProcess() : in");
-        log.info("noticeProcess() - NoticeService - saveNotice() : run");
         noticeService.saveNotice(noticeRequest);
 
-        log.info("noticeProcess() : BasicVo return");
         return new BasicVo("success");
     }
 
     // 공지사항 가져오기
     @GetMapping("/notice/{id}")
     public NoticeVo notice(@PathVariable("id") long notice_id) {
-        log.info("notice() : in");
         NoticeVo noticeVo = noticeService.getNotice(notice_id);
 
-        log.info("notice() : return noticeVo");
         return noticeVo;
     }
 
@@ -51,7 +46,6 @@ public class NoticeController {
     // 공지사항 수정
     @PostMapping("/admin/updatenotice")
     public BasicVo noticeModify(@RequestBody NoticeModifyRequest noticeModifyRequest) {
-        log.info("noticeModify() : in");
         BasicVo basicVo = noticeService.updateNotice(noticeModifyRequest);
 
         return basicVo;

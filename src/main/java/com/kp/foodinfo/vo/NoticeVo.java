@@ -1,10 +1,7 @@
 package com.kp.foodinfo.vo;
 
-import com.kp.foodinfo.domain.Notice;
-import com.kp.foodinfo.util.StringToDateUtil;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
 //@NoArgsConstructor

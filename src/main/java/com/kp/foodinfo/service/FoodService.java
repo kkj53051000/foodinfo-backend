@@ -24,16 +24,12 @@ public class FoodService {
     private final FileService fileService;
 
     public void saveFood(FoodDto foodDto) throws IOException {
-        log.info("saveFood() : in");
-        log.info("saveFood() - foodDto.getFile()");
         MultipartFile file = foodDto.getFile();
 
-        log.info("saveFood() - FileService - s3UploadProcess() : run");
         String clientPath = fileService.s3UploadProcess(file);
 
         Food food = new Food(foodDto.getName(), clientPath);
 
-        log.info("saveFood() - FoodRepository - save() : run");
         foodRepository.save(food);
     }
 

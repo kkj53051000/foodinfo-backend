@@ -6,6 +6,7 @@ import com.kp.foodinfo.domain.*;
 import com.kp.foodinfo.repository.*;
 import com.kp.foodinfo.service.JwtService;
 import com.kp.foodinfo.util.DateFormatTestUtil;
+import com.kp.foodinfo.util.DateFormatUtil;
 import com.kp.foodinfo.vo.BasicVo;
 import com.kp.foodinfo.vo.FollowContentListVo;
 import com.kp.foodinfo.vo.FollowContentVo;
@@ -87,7 +88,7 @@ class FollowControllerTest {
         String uuid = UUID.randomUUID().toString();
         String emailUuid = "test@naver.com" + uuid;
 
-        this.user = new User("test@nver.com", "test", new Date(), emailUuid, true, Role.USER);
+        this.user = new User("test@nver.com", "test", new Date(), DateFormatUtil.dateToStringProcess(new Date()), new Date(), emailUuid, true, Role.USER, false);
         userRepository.save(user);
 
         this.jwtKey = jwtService.createToken(user.getId());
@@ -168,7 +169,7 @@ class FollowControllerTest {
         EventType eventType = new EventType("test", "test/test.jpg");
         eventTypeRepository.save(eventType);
 
-        Event event = new Event("title", "coontent", "test/test.jpg", new Date(), new Date(), brand1, eventType);
+        Event event = new Event("title", "coontent", "test/test.jpg", new Date(), new Date(), DateFormatUtil.dateToIntegerProcess(new Date()), DateFormatUtil.dateToIntegerProcess(new Date()), brand1, eventType);
         eventRepository.save(event);
 
         List<FollowContentVo> followContentVos = new ArrayList<>();

@@ -44,20 +44,12 @@ public class MenuService {
     private final MenuSizeKindRepository menuSizeKindRepository;
 
     public void saveMenu(MultipartFile file, MenuRequest menuRequest) throws IOException {
-        log.info("saveMenu() : in");
-        log.info("saveMenu() - FileService - s3UploadProcess() : run");
         String clientPath = fileService.s3UploadProcess(file);
 
-        System.out.println("clientPath : " + clientPath);
-        System.out.println("name : " + menuRequest.getName());
-        System.out.println("brandMenuKind_id : " + menuRequest.getBrandMenuKind_id());
-
-        log.info("saveMenu() - BrandMenuKindRepository - findById() : run");
         BrandMenuKind brandMenuKind = brandMenuKindRepository.findById(menuRequest.getBrandMenuKind_id()).get();
 
         Menu menu = new Menu(menuRequest.getName(), menuRequest.getPrice(), clientPath, brandMenuKind);
 
-        log.info("saveMenu() - MenuRepository - save() : run");
         menuRepository.save(menu);
     }
 
@@ -90,12 +82,12 @@ public class MenuService {
 
             Row row = worksheet.getRow(i);
 
-            System.out.printf("\n num : " + row.getCell(0).getNumericCellValue());
-            System.out.printf(" name : " + row.getCell(1).getStringCellValue());
-            System.out.printf(" type : " + row.getCell(2).getStringCellValue());
-            System.out.printf(" size : " + row.getCell(3).getStringCellValue());
-            System.out.printf(" price : " + row.getCell(4).getNumericCellValue());
-            System.out.printf(" img : " + row.getCell(5).getStringCellValue());
+//            System.out.printf("\n num : " + row.getCell(0).getNumericCellValue());
+//            System.out.printf(" name : " + row.getCell(1).getStringCellValue());
+//            System.out.printf(" type : " + row.getCell(2).getStringCellValue());
+//            System.out.printf(" size : " + row.getCell(3).getStringCellValue());
+//            System.out.printf(" price : " + row.getCell(4).getNumericCellValue());
+//            System.out.printf(" img : " + row.getCell(5).getStringCellValue());
 
             // excel Data
             String name = row.getCell(1).getStringCellValue();
@@ -177,14 +169,9 @@ public class MenuService {
     }
 
     public MenuVoList getMenuList(long menuKind_id){
-        log.info("getMenuList() : in");
-        log.info("getMenuList() - BrandMenuKindRepository - findById() : run");
         BrandMenuKind brandMenuKind = brandMenuKindRepository.findById(menuKind_id)
                 .get();
 
-        System.out.println("brandMenuKind id : " + brandMenuKind.getId());
-
-        log.info("getMenuList() - MenuRepository - findByBrandMenuKind() : run");
         List<Menu> menus = menuRepository.findByBrandMenuKind(brandMenuKind);
 
 
@@ -192,8 +179,6 @@ public class MenuService {
 
         for (int i = 0; i < menus.size(); i++) {
             long count = menuSizeRepositroy.countByMenu(menus.get(i));
-
-            System.out.println("count : " + count);
 
             if(count > 0){
                 List<MenuSize> menuSizes = menuSizeRepositroy.findByMenu(menus.get(i));
@@ -228,15 +213,10 @@ public class MenuService {
             }
         }
 
-        System.out.println("menus.size() : " + menus.size());
-        System.out.println("menuVos.size() : " + menuVos.size());
-
         if(menus.size() == 0){
-            log.error("getMenuList() - DbNotFoundException() : menu not found");
             throw new DbNotFoundException();
         }
 
-        log.info("getMenuList() : MenuListVo return");
         return new MenuVoList(menuVos);
     }
 

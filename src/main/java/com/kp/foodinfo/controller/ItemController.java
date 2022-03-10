@@ -24,18 +24,6 @@ public class ItemController {
     @Autowired
     EntityManager em;
 
-    /*
-    @PostConstruct
-    @Transactional
-    public void init() {
-        for(int i = 0; i < 100; i++) {
-            Item item = new Item();
-            item.setTitle("title" + i);
-
-            itemRepository.save(item);
-        }
-    }
-     */
 
     @GetMapping("/items")
     public List<Item> getItems() {

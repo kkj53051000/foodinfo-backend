@@ -4,6 +4,7 @@ import com.kp.foodinfo.domain.Role;
 import com.kp.foodinfo.domain.User;
 import com.kp.foodinfo.service.MemberService;
 import com.kp.foodinfo.service.PaymentService;
+import com.kp.foodinfo.util.DateFormatUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -34,7 +35,7 @@ class UserRepositoryTest {
         String emailUuid = "test@naver.com" + uuid;
 
         Date now = new Date();
-        User user = new User("test@naver.com", "test", now, emailUuid, true, Role.USER);
+        User user = new User("test@naver.com", "test", now, DateFormatUtil.dateToStringProcess(new Date()), now, emailUuid, true, Role.USER, false);
 
         //when
         userRepository.save(user);

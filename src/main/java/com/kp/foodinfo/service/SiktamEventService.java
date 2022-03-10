@@ -4,7 +4,7 @@ import com.kp.foodinfo.domain.SiktamEvent;
 import com.kp.foodinfo.repository.SiktamEventRepository;
 import com.kp.foodinfo.request.SiktamEventRequest;
 import com.kp.foodinfo.util.ReturnStatus;
-import com.kp.foodinfo.util.StringToDateUtil;
+import com.kp.foodinfo.util.DateFormatUtil;
 import com.kp.foodinfo.vo.BasicVo;
 import com.kp.foodinfo.vo.SiktamEventListVo;
 import com.kp.foodinfo.vo.SiktamEventVo;
@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -24,15 +25,17 @@ public class SiktamEventService {
 
     private final FileService fileService;
 
-    public BasicVo saveSiktamEvent(MultipartFile file,  SiktamEventRequest siktamEventRequest) throws IOException {
+    public BasicVo saveSiktamEvent(MultipartFile file, SiktamEventRequest siktamEventRequest) throws IOException {
 
         String clientPath = fileService.s3UploadProcess(file);
 
         SiktamEvent siktamEvent = SiktamEvent.builder()
                 .title(siktamEventRequest.getTitle())
                 .img(clientPath)
-                .startDate(StringToDateUtil.stringToDateDayProcess(siktamEventRequest.getStartDate()))
-                .endDate(StringToDateUtil.stringToDateDayProcess(siktamEventRequest.getEndDate()))
+                .startDate(DateFormatUtil.stringToDateDayProcess(siktamEventRequest.getStartDate()))
+                .endDate(DateFormatUtil.stringToDateDayProcess(siktamEventRequest.getEndDate()))
+                .startDateInt(DateFormatUtil.stringToIntegerProcess(siktamEventRequest.getStartDate()))
+                .endDateInt(DateFormatUtil.stringToIntegerProcess(siktamEventRequest.getEndDate()))
                 .winnerCount(siktamEventRequest.getWinnerCount())
                 .status(true)
                 .build();
@@ -44,6 +47,8 @@ public class SiktamEventService {
 
     public SiktamEventListVo getSiktamEventList() {
         List<SiktamEvent> siktamEvents = siktamEventRepository.findAll();
+
+        Collections.reverse(siktamEvents);
 
         return new SiktamEventListVo(siktamEvents);
     }

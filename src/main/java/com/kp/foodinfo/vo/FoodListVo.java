@@ -2,13 +2,17 @@ package com.kp.foodinfo.vo;
 
 import com.kp.foodinfo.domain.Food;
 import lombok.Data;
+import org.springframework.data.redis.core.RedisHash;
+import org.springframework.data.redis.core.TimeToLive;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Data
-public class FoodListVo {
+@RedisHash(value = "FoodListVo", timeToLive = 3600)
+public class FoodListVo implements Serializable {
     private List<FoodVo> items = null;
 
     public FoodListVo(List<Food> foods) {
@@ -19,7 +23,8 @@ public class FoodListVo {
     }
 
     @Data
-    class FoodVo {
+    @RedisHash(value = "FoodVo", timeToLive = 3600)
+    class FoodVo implements Serializable {
         private long id;
         private String name;
         private String img;

@@ -1,7 +1,7 @@
 package com.kp.foodinfo.vo;
 
 import com.kp.foodinfo.domain.Notice;
-import com.kp.foodinfo.util.StringToDateUtil;
+import com.kp.foodinfo.util.DateFormatUtil;
 import lombok.Data;
 
 import java.util.List;
@@ -29,7 +29,7 @@ public class NoticeListVo {
             this.id = notice.getId();
             this.title = notice.getTitle();
             this.content = notice.getContent();
-            this.date = StringToDateUtil.dateToStringDayTimeProcess(notice.getDate());
+            this.date = DateFormatUtil.dateToStringDayTimeProcess(notice.getDate());
         }
     }
 }

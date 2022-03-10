@@ -9,7 +9,4 @@ public class HealthController {
     public String healthCheck() {
         return "ok";
     }
-
-//    @PutMapping
-//    @DeleteMapping
 }

@@ -1,7 +1,7 @@
 package com.kp.foodinfo.vo;
 
 import com.kp.foodinfo.domain.Issue;
-import com.kp.foodinfo.util.StringToDateUtil;
+import com.kp.foodinfo.util.DateFormatUtil;
 import lombok.Data;
 
 import java.util.List;
@@ -32,7 +32,7 @@ public class IssueListVo {
             this.title = issue.getTitle();
             this.content = issue.getContent();
             this.img = issue.getImg();
-            this.dateStr = StringToDateUtil.dateToStringProcess(issue.getDate());
+            this.dateStr = DateFormatUtil.dateToStringProcess(issue.getDate());
         }
     }
 }

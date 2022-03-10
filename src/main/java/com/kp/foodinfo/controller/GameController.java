@@ -18,8 +18,6 @@ public class GameController {
     @GetMapping("/pricegame")
     public PriceGameVoList priceGameProcess(@RequestParam("price") int price) {
 
-        System.out.printf("price : " + price);
-
         return gameService.getPriceGameList(price);
     }
 }

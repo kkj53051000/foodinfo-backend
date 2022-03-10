@@ -22,21 +22,16 @@ public class EventController {
 
     @PostMapping("/admin/eventprocess")
     public BasicVo eventProcess(@RequestPart(name = "file", required = true) MultipartFile file, @RequestPart(name = "value", required = false) EventRequest eventRequest) throws IOException {
-        log.info("eventProcess() : in");
-        log.info("eventProcess() - EventService - saveEvent() : run");
+
         eventService.saveEvent(file, eventRequest);
 
         BasicVo basicVo = new BasicVo("success");
 
-        log.info("eventProcess() : BasicVo return");
         return basicVo;
     }
 
     @GetMapping("/eventlist/{id}")
     public EventListVo eventList(@PathVariable("id") long brand_id) {
-        log.info("eventList() : in");
-        log.info("eventList() - EventService - getEventList() : run");
-        log.info("eventList() : EventListVo return");
         return eventService.getEventList(brand_id);
     }
 

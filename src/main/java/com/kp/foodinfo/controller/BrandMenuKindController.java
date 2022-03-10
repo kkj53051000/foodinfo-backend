@@ -20,23 +20,18 @@ public class BrandMenuKindController {
 
     @PostMapping("/admin/brandmenukindprocess")
     public BasicVo brandMenuKindUploadProcess(@RequestBody BrandMenuKindRequest brandMenuKindRequest) {
-        log.info("brandMenuKindUploadProcess() - in");
-        log.info("brandMenuKindUploadProcess() - BrandMenuKindService - saveBrandMenuKind() run");
         brandMenuKindService.saveBrandMenuKind(brandMenuKindRequest);
 
         BasicVo basicVo = new BasicVo("success");
 
-        log.info("brandMenuKindUploadProcess() - BasicVo return");
         return basicVo;
     }
 
     @GetMapping("/brandmenukindlist/{id}")
     public BrandMenuKindListVo brandMenuKindList(@PathVariable("id") long brand_id) {
-        log.info("brandMenuKindList() - in");
-        log.info("brandMenuKindList() - BrandMenuKindService - getBrandMenuKinds() run");
+
         List<BrandMenuKind> brandMenuKinds = brandMenuKindService.getBrandMenuKinds(brand_id);
 
-        log.info("brandMenuKindList() - BrandMenuKindListVo return");
         return new BrandMenuKindListVo(brandMenuKinds);
     }
 }

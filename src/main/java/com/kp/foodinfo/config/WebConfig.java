@@ -1,16 +1,10 @@
 package com.kp.foodinfo.config;
 
-import com.amazonaws.regions.Regions;
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.kp.foodinfo.argumentresolver.LoginUserArgumentResolver;
-import com.kp.foodinfo.interceptor.LogInterceptor;
 import com.kp.foodinfo.interceptor.AdminAuthInterceptor;
 import com.kp.foodinfo.interceptor.UserAuthInterceptor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.Environment;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -42,22 +36,20 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-//        registry.addInterceptor(new CorsInterceptor())
-//                .order(1)
-
-        registry.addInterceptor(new LogInterceptor())
-                .order(1)
-                .addPathPatterns("/**");
 
         registry.addInterceptor(new UserAuthInterceptor())
-                .order(2)
+                .order(1)
                 .addPathPatterns("/api/user/**");
 
-        registry.addInterceptor(new AdminAuthInterceptor())
-                .order(3)
+        registry.addInterceptor(adminAuthInterceptor())
+                .order(2)
                 .addPathPatterns("/api/admin/**");
     }
 
+    @Bean
+    public AdminAuthInterceptor adminAuthInterceptor() {
+        return new AdminAuthInterceptor();
+    }
 //    @Autowired
 //    private Environment env;
 //

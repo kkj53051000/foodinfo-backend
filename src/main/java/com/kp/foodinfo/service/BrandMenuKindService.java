@@ -24,25 +24,18 @@ public class BrandMenuKindService {
     private final BrandRepository brandRepository;
 
     public void saveBrandMenuKind(BrandMenuKindRequest brandMenuKindRequest) {
-        log.info("saveBrandMenuKind() - in");
-        log.info("saveBrandMenuKind() - BrandRepository - findById() run");
         Brand brand = brandRepository.findById(brandMenuKindRequest.getBrand_id()).get();
 
         BrandMenuKind brandMenuKind = new BrandMenuKind(brandMenuKindRequest.getName(), brandMenuKindRequest.getPriority(), brand);
 
-        log.info("saveBrandMenuKind() - BrandMenuKindRepository - save() run");
         brandMenuKindRepository.save(brandMenuKind);
     }
 
     public List<BrandMenuKind> getBrandMenuKinds(long brand_id) {
-        log.info("getBrandMenuKinds() - in");
-        log.info("getBrandMenuKinds() - BrandRepository - findById() run");
         Brand brand = brandRepository.findById(brand_id).get();
 
-        log.info("getBrandMenuKinds() - BrandMenuKindRepository - findByBrand() run");
         List<BrandMenuKind> brandMenuKinds = brandMenuKindRepository.findByBrand(brand);
 
-        log.info("getBrandMenuKinds() - List<BrandMenuKind> return");
         return brandMenuKinds;
     }
 }

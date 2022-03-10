@@ -7,6 +7,7 @@ import com.kp.foodinfo.domain.User;
 import com.kp.foodinfo.repository.UserRepository;
 import com.kp.foodinfo.request.NoticeRequest;
 import com.kp.foodinfo.service.JwtService;
+import com.kp.foodinfo.util.DateFormatUtil;
 import com.kp.foodinfo.vo.BasicVo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -63,7 +64,7 @@ class NoticeControllerTest {
         String uuid = UUID.randomUUID().toString();
         String emailUuid = "test@naver.com" + uuid;
 
-        this.user = new User("test@nver.com", "test", new Date(), emailUuid, true, Role.USER);
+        this.user = new User("test@nver.com", "test", new Date(), DateFormatUtil.dateToStringProcess(new Date()), new Date(), emailUuid, true, Role.USER,false);
         userRepository.save(user);
 
         this.jwtKey = jwtService.createToken(user.getId());

@@ -3,13 +3,12 @@ package com.kp.foodinfo.service;
 import com.kp.foodinfo.domain.*;
 import com.kp.foodinfo.dto.FollowDto;
 import com.kp.foodinfo.exception.DbNotFoundException;
+import com.kp.foodinfo.exception.FollowAllContentEndException;
 import com.kp.foodinfo.exception.FollowCheckException;
-import com.kp.foodinfo.request.FollowRequest;
 import com.kp.foodinfo.repository.*;
-import com.kp.foodinfo.util.StringToDateUtil;
+import com.kp.foodinfo.util.ReturnStatus;
 import com.kp.foodinfo.vo.BasicVo;
 import com.kp.foodinfo.vo.FollowContentVo;
-import com.kp.foodinfo.util.FollowContentVoComparator;
 import com.kp.foodinfo.vo.IssueEventListVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,11 +16,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -39,12 +37,9 @@ public class FollowService {
     private final IssueService issueService;
 
     public void saveFollow(FollowDto followDto) {
-        log.info("saveFollow() : in");
-        log.info("saveFollow() - UserRepository - findById() : run");
         User user = userRepository.findById(followDto.getUser_id())
                 .get();
 
-        log.info("saveFollow() - BrandRepository - findById() : run");
         Brand brand = brandRepository.findById(followDto.getBrand_id())
                 .get();
 
@@ -53,7 +48,6 @@ public class FollowService {
 
         Follow follow = new Follow(user, brand);
 
-        log.info("saveFollow() - FollowRepository - save() : run");
         followRepository.save(follow);
     }
 
@@ -68,7 +62,7 @@ public class FollowService {
         followRepository.findByUserAndBrand(user, brand)
                 .orElseThrow(() -> new DbNotFoundException());
 
-        return new BasicVo("success");
+        return new BasicVo(ReturnStatus.success);
     }
 
     public void checkFollow(FollowDto followDto) {
@@ -87,31 +81,23 @@ public class FollowService {
     }
 
     public void deleteFollow(FollowDto followDto) {
-        log.info("deleteFollow() : in");
-        log.info("deleteFollow() - BrandRepository - findById() : run");
         Brand brand = brandRepository.findById(followDto.getBrand_id())
                 .get();
 
-        log.info("deleteFollow() - UserRepository - findById() : run");
         User user = userRepository.findById(followDto.getUser_id())
                 .get();
 
-        log.info("deleteFollow() - FollowRepository - findByBrandAndUser() : run");
         Follow follow = followRepository.findByBrandAndUser(brand, user)
                 .orElseThrow(() -> new DbNotFoundException());
 
-        log.info("deleteFollow() - FollowRepository - delete() : run");
         followRepository.delete(follow);
     }
 
     //User가 Follow하고있는 브랜드 목록
     public List<Brand> getFollowList(long user_id) {
-        log.info("getFollowList() : in");
-        log.info("getFollowList() - UserRepository - findById() : run");
         User user = userRepository.findById(user_id)
                 .get();
 
-        log.info("getFollowList() - FollowRepository - findByUser() : run");
         List<Follow> follows = followRepository.findByUser(user);
 
         List<Brand> brands = new ArrayList<>();
@@ -120,18 +106,15 @@ public class FollowService {
             brands.add(follows.get(i).getBrand());
         }
 
-        log.info("getFollowList() : List<Brand> return");
         return brands;
     }
 
     //User가 Follow하고있는 브랜드 목록
     public List<Brand> getTimelineFollowList(long user_id) {
-        log.info("getFollowList() : in");
-        log.info("getFollowList() - UserRepository - findById() : run");
+
         User user = userRepository.findById(user_id)
                 .get();
 
-        log.info("getFollowList() - FollowRepository - findByUser() : run");
         List<Follow> follows = followRepository.findByUser(user);
 
         List<Brand> brands = new ArrayList<>();
@@ -144,19 +127,34 @@ public class FollowService {
             }
         }
 
-        log.info("getFollowList() : List<Brand> return");
         return brands;
     }
 
-    //User가 Follow하고있는 Brand All Event
-    public List<FollowContentVo> getFollowAllContentList(long user_id) throws ParseException {
-        log.info("getFollowAllContentList() : in");
-        log.info("getFollowAllContentList()  - UserRepository - findById() : run");
+
+    /*
+    * 3 page ( 10 count )
+    * 5 page ( 10 count )
+    *
+    * 115
+    * 104
+    * eventId: 111 ( 10 count )
+    * issueId: 101 ( 10 count )
+    *
+    * */
+
+    //User가 Follow하고있는 Brand All Event, Issue
+    public List<FollowContentVo> getFollowAllContentList(long user_id, int page) throws ParseException {
+        // boolean b = userRepository.existsById(3L);
+//        Optional<User> byId = userRepository.findById(3L);
+//        if(byId.isPresent()) {
+//
+//        }
+
+
         User user = userRepository.findById(user_id)
                 .get();
 
         // 브랜드
-        log.info("getFollowAllContentList()  - FollowRepository - findByUser() : run");
         List<Follow> follows = followRepository.findByUser(user);
 
 
@@ -164,7 +162,23 @@ public class FollowService {
 
         List<FollowContentVo> followContentVos = new ArrayList<>();
 
-        log.info("getFollowAllContentList() : get List<FollowContentVo> for run");
+        /*
+        * my brand
+        * my brand issue
+        * ...page ...
+        *
+        * select * from issue where brand_id in (0,3,5,10) order by issue.date desc limit 0, 10;
+        *
+        *
+        * [
+        * mac issue1
+        * mac issue2
+        * mac issue3
+        * gyo issue1
+        * gyo issue2
+        * ]
+        * */
+
         for(int i = 0; i < follows.size(); i++) {
             //브랜드
             Brand brand = follows.get(i).getBrand();
@@ -176,6 +190,7 @@ public class FollowService {
             IssueEventListVo issueEventListVo = issueService.getIssueEventList(brand.getId());
 
             for(int j = 0; j < issueEventListVo.getItems().size(); j++){
+
                 FollowContentVo followContentVo = FollowContentVo.builder()
                         .id(j)
                         .brandName(brand.getName())
@@ -193,38 +208,30 @@ public class FollowService {
                 followContentVos.add(followContentVo);
             }
 
-//            //이벤트
-//            log.info("getFollowAllContentList() - EventRepository - findByBrand() : run");
-//            List<Event> events = eventRepository.findByBrand(brand);
-//
-//            for(int j = 0; j < events.size(); j++){
-//
-//                Event event = events.get(j);
-//
-//                FollowContentVo followContentVo = FollowContentVo.builder()
-//                        .brandName(brand.getName())
-//                        .brandImg(brand.getImg())
-//                        .eventTypeName(event.getEventType().getName())
-//                        .eventTypeImg(event.getEventType().getImg())
-//                        .eventTitle(event.getTitle())
-//                        .eventContent(event.getContent())
-//                        .eventImg(event.getImg())
-//                        .eventStartDate(StringToDateUtil.dateToStringProcess(event.getStartDate()))
-//                        .eventEndDate(StringToDateUtil.dateToStringProcess(event.getEndDate()))
-//                        .build();
-//
-//                followContentVos.add(followContentVo);
-//            }
-
 
         }
 
         // 객체 날짜별 정렬
         //Collections.sort(followContentVos, new FollowContentVoComparator().reversed());
-        log.info("getFollowAllContentList() : List<FollowContentVo> sort");
         Collections.sort(followContentVos);
 
-        log.info("getFollowAllContentList() : List<FollowContentVo> return");
+        if(followContentVos.size() <= 10){
+            return followContentVos;
+        }else if(followContentVos.size() > ((page * 10) + 10)){
+            int startPage = (page * 10) - 10;
+            int endPage = page * 10;
+
+            followContentVos =followContentVos.subList(startPage, endPage);
+
+        }else if(followContentVos.size() > ((page * 10))){
+            int startPage = (page * 10) - 10;
+            int endPage = (page * 10) + (followContentVos.size() - (page * 10));
+
+            followContentVos = followContentVos.subList(startPage, endPage);
+        }else{
+            throw new FollowAllContentEndException();
+        }
+
         return followContentVos;
     }
 
