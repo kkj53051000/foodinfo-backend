@@ -42,7 +42,7 @@ public class RecentlyService {
 
         if (brandsSize == 0) {
             new DbNotFoundException();
-        }else if (brandsSize > 3) {
+        } else if (brandsSize > 3) {
             brands = brands.subList(0, 4);
         }
 
@@ -99,14 +99,14 @@ public class RecentlyService {
 
 
         //issues
-        List<Issue> issues = issueRepository.findRecentlyFive(food, pageRequest);
+        List<Issue> issues = issueRepository.findByBrand_Food(food);
 
         for (Issue issue : issues) {
 
             // Title 길이 수정
-            if(issue.getTitle().length() > 15) {
+            if (issue.getTitle().length() > 15) {
                 lengthChangeTitle = issue.getTitle().substring(0, 15) + "...";
-            }else{
+            } else {
                 lengthChangeTitle = issue.getTitle();
             }
 
@@ -122,13 +122,13 @@ public class RecentlyService {
         }
 
         //events
-        List<Event> events = eventRepository.findRecentlyFive(food, pageRequest);
+        List<Event> events = eventRepository.findByBrand_FoodAndEndDateGreaterThanEqual(food, DateFormatUtil.dateToDateProcess(new Date()));
 
         for (Event event : events) {
             // Title 길이 수정
-            if(event.getTitle().length() > 15) {
+            if (event.getTitle().length() > 15) {
                 lengthChangeTitle = event.getTitle().substring(0, 15) + "...";
-            }else{
+            } else {
                 lengthChangeTitle = event.getTitle();
             }
 
@@ -143,11 +143,15 @@ public class RecentlyService {
             mainRecentlyIssueVos.add(mainRecentlyIssueVo);
         }
 
-        if(mainRecentlyIssueVos.size() == 0) {
+        if (mainRecentlyIssueVos.size() == 0) {
             throw new DbNotFoundException();
-        }else{
+        } else if (mainRecentlyIssueVos.size() > 10) {
+            Collections.sort(mainRecentlyIssueVos);
+            mainRecentlyIssueVos = mainRecentlyIssueVos.subList(0, 10);
+        } else {
             Collections.sort(mainRecentlyIssueVos);
         }
+
 
         return new MainRecentlyIssueListVo(mainRecentlyIssueVos);
     }
@@ -168,6 +172,7 @@ public class RecentlyService {
 
             RecentlyFoodEventIssueVo recentlyFoodEventIssueVo = RecentlyFoodEventIssueVo.builder()
                     .id(recentlyFoodEventIssueId)
+                    .brandId(issue.getBrand().getId())
                     .brandName(issue.getBrand().getName())
                     .brandImg(issue.getBrand().getImg())
                     .eventTypeName(null)
@@ -185,12 +190,13 @@ public class RecentlyService {
         }
 
         //events
-        List<Event> events = eventRepository.findRecentlyByFood(food);
+        List<Event> events = eventRepository.findByBrand_FoodAndEndDateGreaterThanEqual(food, DateFormatUtil.dateToDateProcess(new Date()));
 
         for (Event event : events) {
 
             RecentlyFoodEventIssueVo recentlyFoodEventIssueVo = RecentlyFoodEventIssueVo.builder()
                     .id(recentlyFoodEventIssueId)
+                    .brandId(event.getBrand().getId())
                     .brandName(event.getBrand().getName())
                     .brandImg(event.getBrand().getImg())
                     .eventTypeName(event.getEventType().getName())

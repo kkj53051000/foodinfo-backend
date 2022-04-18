@@ -102,8 +102,8 @@ class EventControllerTest {
 
 
         this.mockMvc.perform(MockMvcRequestBuilders.multipart("/api/admin/eventprocess")
-                .file(file)
-                .file(value))
+                        .file(file)
+                        .file(value))
                 .andExpect(content().string(objectMapper.writeValueAsString(new BasicVo("success"))))
                 .andDo(print());
 
@@ -125,7 +125,7 @@ class EventControllerTest {
 
         List<Event> events = new ArrayList<>();
 
-        for(int i = 0; i < 10; i++) {
+        for (int i = 0; i < 10; i++) {
             Event event = Event.builder()
                     .title("title" + i)
                     .content("content")

@@ -15,8 +15,9 @@ import java.util.Date;
         name = "USER_SEQ_GENERATOR",
         table = "FOODINFO_SEQUENCES",
         pkColumnValue = "USER_SEQ", allocationSize = 50)
-public class User{
-    @Id @GeneratedValue(strategy = GenerationType.AUTO, generator = "USER_SEQ_GENERATOR")
+public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "USER_SEQ_GENERATOR")
     @Column(name = "user_id")
     private Long id;
 
@@ -32,7 +33,7 @@ public class User{
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    public User(String email, String userpw, Date joinDate, String joinDateStr, Date recentlyVisitDate, String emailUuid, boolean emailCheck, Role role, boolean deleteAt){
+    public User(String email, String userpw, Date joinDate, String joinDateStr, Date recentlyVisitDate, String emailUuid, boolean emailCheck, Role role, boolean deleteAt) {
         this.email = email;
         this.userpw = userpw;
         this.joinDate = joinDate;

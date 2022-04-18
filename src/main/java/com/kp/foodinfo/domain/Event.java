@@ -34,16 +34,11 @@ public class Event {
     @Lob
     private String img;
 
-//    @Temporal(TemporalType.DATE)
-    //@JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm", timezone="Asia/Seoul")
+    @Temporal(TemporalType.DATE)
     private Date startDate;
 
-//    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.DATE)
     private Date endDate;
-
-    // private LocalDateTime endDate;
-    // private LocalDate
-    // private LocalTime
 
     private int startDateInt;
     private int endDateInt;

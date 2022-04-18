@@ -148,7 +148,7 @@ class FollowServiceTest {
         followService.saveFollow(followDto2);
 
         //when
-        List<Brand> brands =followService.getFollowList(user.getId());
+        List<Brand> brands = followService.getFollowList(user.getId());
 
         //then
         System.out.println("follow_brand_name_1 : " + brands.get(0).getName() + "follow_brand_name_2 : " + brands.get(1).getName());
@@ -247,7 +247,7 @@ class FollowServiceTest {
 
         //then
         //정렬 잘 됬는지 확인
-        for(FollowContentVo f : followContentVos){
+        for (FollowContentVo f : followContentVos) {
             System.out.println("eventTitle : " + f.getIssueTitle());
             System.out.println("eventStartDate : " + f.getIssueStartDate());
         }

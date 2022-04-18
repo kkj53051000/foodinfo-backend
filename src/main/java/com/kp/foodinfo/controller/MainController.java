@@ -24,9 +24,10 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class MainController {
     private final RecentlyService recentlyService;
+    private final RedisTemplate redisTemplate;
 
-    @Autowired
-    RedisTemplate redisTemplate;
+    // @Autowired
+    // RedisTemplate redisTemplate;
 
     @GetMapping("/maintodayupdatebrands")
     public MainUpdateBrandListVo mainTodayUpdateBrands() throws ParseException {
@@ -35,7 +36,7 @@ public class MainController {
         String redisName = "MainController.mainTodayUpdateBrands()";
 
         MainUpdateBrandListVo mainUpdateBrandListVo = valueOperations.get(redisName);
-        if(mainUpdateBrandListVo == null) {
+        if (mainUpdateBrandListVo == null) {
             mainUpdateBrandListVo = recentlyService.getMainTodayUpdateBrands();
             valueOperations.set(redisName, mainUpdateBrandListVo, 10L, TimeUnit.MINUTES);
         }
@@ -70,8 +71,6 @@ public class MainController {
 
         return mainRecentlyIssueListVo;
     }
-
-
 
 
 }

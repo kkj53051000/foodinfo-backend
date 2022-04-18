@@ -47,7 +47,6 @@ public class NoticeService {
         date = cal.getTime();
 
 
-
         NoticeVo noticeVo = NoticeVo.builder()
                 .id(notice.getId())
                 .content(notice.getContent())
@@ -65,7 +64,7 @@ public class NoticeService {
     }
 
     public BasicVo updateNotice(NoticeModifyRequest noticeModifyRequest) {
-        
+
         Notice notice = noticeRepository.findById(noticeModifyRequest.getNotice_id()).get();
 
         notice.setTitle(noticeModifyRequest.getTitle());

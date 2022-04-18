@@ -13,6 +13,7 @@ import com.kp.foodinfo.vo.BasicVo;
 import com.kp.foodinfo.vo.EventListVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.poi.ss.formula.functions.Even;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -67,21 +68,33 @@ public class EventService {
 
     public EventListVo getEventList(long brand_id) {
         Brand brand = brandRepository.findById(brand_id).get();
+        Date nowDate = DateFormatUtil.dateToDateProcess(new Date());
 
-        List<Event> events = eventRepository.findByBrand(brand);
+        List<Event> events = eventRepository.findByBrandAndEndDateGreaterThanEqual(brand, nowDate);
 
         List<Event> availableEvents = new ArrayList<>();
 
-        Date now = DateFormatUtil.dateToDateProcess(new Date());
-        int nowInt = DateFormatUtil.dateToIntegerProcess(now);
+//        Date nowDate = DateFormatUtil.dateToDateProcess(new Date());
 
-        for (Event event : events){
-            if(nowInt <= DateFormatUtil.dateToIntegerProcess(event.getEndDate())){
-                availableEvents.add(event);
-            }else {
-                continue;
-            }
+        for (Event event : events) {
+//            if(nowDate.equals(event.getEndDate()) || nowDate.before(event.getEndDate())){
+//                availableEvents.add(event);
+//            }else{
+//                continue;
+//            }
+            availableEvents.add(event);
         }
+
+//        Date now = DateFormatUtil.dateToDateProcess(new Date());
+//        int nowInt = DateFormatUtil.dateToIntegerProcess(now);
+//
+//        for (Event event : events){
+//            if(nowInt <= DateFormatUtil.dateToIntegerProcess(event.getEndDate())){
+//                availableEvents.add(event);
+//            }else {
+//                continue;
+//            }
+//        }
 
         Collections.reverse(availableEvents);
 

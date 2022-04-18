@@ -7,8 +7,9 @@ import java.util.Date;
 
 @Data
 @NoArgsConstructor
-public class FollowContentVo implements Comparable<FollowContentVo>{
+public class FollowContentVo implements Comparable<FollowContentVo> {
     private long id;
+    private long brandId;
     private String brandName;
     private String brandImg;
     private String eventTypeName;
@@ -21,8 +22,9 @@ public class FollowContentVo implements Comparable<FollowContentVo>{
     private String type;
 
     @Builder
-    public FollowContentVo(long id, String brandName, String brandImg, String eventTypeName, String eventTypeImg, String issueTitle, String issueContent, String issueImg, String issueStartDate, String issueEndDate, String type) {
+    public FollowContentVo(long id, long brandId, String brandName, String brandImg, String eventTypeName, String eventTypeImg, String issueTitle, String issueContent, String issueImg, String issueStartDate, String issueEndDate, String type) {
         this.id = id;
+        this.brandId = brandId;
         this.brandName = brandName;
         this.brandImg = brandImg;
         this.eventTypeName = eventTypeName;
@@ -40,9 +42,9 @@ public class FollowContentVo implements Comparable<FollowContentVo>{
         Date thisDate = DateFormatUtil.stringToDateDayProcess(issueStartDate);
         Date injectDate = DateFormatUtil.stringToDateDayProcess(f.issueStartDate);
 
-        if(injectDate.after(thisDate)){
+        if (injectDate.after(thisDate)) {
             return 1;
-        }else if(injectDate.before(thisDate)){
+        } else if (injectDate.before(thisDate)) {
             return -1;
         }
         return 0;

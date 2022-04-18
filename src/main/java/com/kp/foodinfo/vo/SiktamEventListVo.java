@@ -38,15 +38,23 @@ public class SiktamEventListVo {
             this.endDate = DateFormatUtil.dateToStringProcess(siktamEvent.getEndDate());
             this.winnerCount = siktamEvent.getWinnerCount();
 
-            Date now = new Date();
+            Date nowDate = DateFormatUtil.dateToDateProcess(new Date());
 
-            int nowInt = DateFormatUtil.dateToIntegerProcess(now);
-
-            if(nowInt <= DateFormatUtil.dateToIntegerProcess(siktamEvent.getEndDate())){
+            if (nowDate.equals(siktamEvent.getEndDate()) || nowDate.before(siktamEvent.getEndDate())) {
                 this.status = true;
-            }else{
+            } else {
                 this.status = false;
             }
+
+//            Date now = new Date();
+//
+//            int nowInt = DateFormatUtil.dateToIntegerProcess(now);
+//
+//            if(nowInt <= DateFormatUtil.dateToIntegerProcess(siktamEvent.getEndDate())){
+//                this.status = true;
+//            }else{
+//                this.status = false;
+//            }
         }
     }
 }

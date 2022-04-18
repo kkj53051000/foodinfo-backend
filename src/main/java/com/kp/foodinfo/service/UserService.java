@@ -43,13 +43,13 @@ public class UserService {
         //회원가입시 동일 이메일의 emailCheck false 계정이 있을때. ( 기존 계정 삭제 후 재 가입 )
         int userCheckCount = userRepository.countByEmail(joinRequest.getEmail());
 
-        if(userCheckCount != 0) {
+        if (userCheckCount != 0) {
             User user = userRepository.findByEmail(joinRequest.getEmail()).get();
 
             //Email 인증 안되어있을 때
             if (!user.isEmailCheck()) {
                 userRepository.delete(user);
-            }else { //Email 인증된 계정이 존재함
+            } else { //Email 인증된 계정이 존재함
                 throw new UserExistsException();
             }
         }
@@ -93,7 +93,7 @@ public class UserService {
         User user = userRepository.findByEmail(loginRequest.getEmail())
                 .orElseThrow(() -> new UserNotFoundException("abc123"));
 
-        if(!user.isEmailCheck()){
+        if (!user.isEmailCheck()) {
             throw new UserEmailCheckFailExceotion();
         }
 
@@ -102,10 +102,10 @@ public class UserService {
         //비밀번호 복호화
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-        if(encoder.matches(loginRequest.getUserpw(), user.getUserpw())) { //비밀번호가 맞을 경우, matches로 비밀번호 비교
+        if (encoder.matches(loginRequest.getUserpw(), user.getUserpw())) { //비밀번호가 맞을 경우, matches로 비밀번호 비교
 
             return user;
-        }else{
+        } else {
             throw new UserNotFoundException();
         }
     }
@@ -118,23 +118,23 @@ public class UserService {
         return headerUserInfoVo;
     }
 
-    public BasicVo updateUserPw(Long userId, ChangeUserPwRequest changeUserPwRequest){
+    public BasicVo updateUserPw(Long userId, ChangeUserPwRequest changeUserPwRequest) {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
         User user = userRepository.findById(userId).get();
 
-        if(encoder.matches(changeUserPwRequest.getNowUserPw(), user.getUserpw())) {
+        if (encoder.matches(changeUserPwRequest.getNowUserPw(), user.getUserpw())) {
             // 바뀐 비밀번호 암호화
             user.setUserpw(encoder.encode(changeUserPwRequest.getChangeUserPw()));
 
             return new BasicVo("success");
-        }else {
+        } else {
             return new BasicVo("failure", "nowUserPwNotMatched");
         }
     }
 
     public BasicVo deleteUser(Long userId, Long requestUserId) {
-        if(userId == requestUserId){
+        if (userId == requestUserId) {
             User user = userRepository.findById(userId).get();
 
             String uuid = UUID.randomUUID().toString();
@@ -142,7 +142,7 @@ public class UserService {
             user.setDeleteAt(true);
             user.setEmail("delete" + uuid);
             user.setUserpw(uuid);
-        }else {
+        } else {
             throw new UserNotFoundException();
         }
 

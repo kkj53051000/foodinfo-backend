@@ -73,8 +73,8 @@ class EventTypeControllerTest {
 //                .andDo(print());
 
         this.mockMvc.perform(MockMvcRequestBuilders.multipart("/api/admin/eventtypeprocess")
-                .file(file)
-                .file(value))
+                        .file(file)
+                        .file(value))
                 .andExpect(content().string(jsonBasicVo))
                 .andDo(print());
 

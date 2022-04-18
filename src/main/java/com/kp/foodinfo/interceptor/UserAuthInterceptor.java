@@ -20,7 +20,7 @@ public class UserAuthInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
-        if(request.getMethod().equals("OPTIONS")) {
+        if (request.getMethod().equals("OPTIONS")) {
             return true;
         }
 
@@ -33,28 +33,28 @@ public class UserAuthInterceptor implements HandlerInterceptor {
 
         boolean authorizationCheck = false;
 
-        while(headerNames.hasMoreElements()){
-            String name = (String)headerNames.nextElement();
+        while (headerNames.hasMoreElements()) {
+            String name = (String) headerNames.nextElement();
             String value = request.getHeader(name);
 //            System.out.println(name + " : " + value + "<br>");
 
 
             if (name.equals("Authorization") || name.equals("authorization")) {
                 authorizationCheck = true;
-                if (value.equals("null")){
+                if (value.equals("null")) {
                     log.error("UserAuthInterceptor - JwtVerifyFailException: value equals null");
                     throw new JwtVerifyFailException();
                 }
-                System.out.println("value : " + value);
+//                System.out.println("value : " + value);
                 System.out.println(value.getClass().getName());
 
                 Map<String, Object> returnValue = jwtService.verifyJWT(value);
 
                 userId = Long.valueOf(String.valueOf(returnValue.get("user_id")));
 
-                System.out.println("returnValue : " + returnValue);
+//                System.out.println("returnValue : " + returnValue);
 
-                if(returnValue == null) {
+                if (returnValue == null) {
                     log.error("UserAuthInterceptor - JwtVerifyFailException: returnValue equals null");
                     throw new JwtVerifyFailException();
                 }
@@ -63,7 +63,7 @@ public class UserAuthInterceptor implements HandlerInterceptor {
         }
 
         // authorization가 없을 때 exception
-        if(authorizationCheck == false) {
+        if (authorizationCheck == false) {
             log.error("UserAuthInterceptor - JwtVerifyFailException: authorization null");
             throw new JwtVerifyFailException();
         }

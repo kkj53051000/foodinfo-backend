@@ -11,7 +11,7 @@ public class JoinRequest {
     private String email;
     private String userpw;
 
-    public JoinRequest(String email, String userpw){
+    public JoinRequest(String email, String userpw) {
         this.email = email;
         this.userpw = userpw;
     }

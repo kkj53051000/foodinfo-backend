@@ -55,11 +55,11 @@ public class BrandController {
 
         ValueOperations<String, BrandListVo> valueOperations = redisTemplate.opsForValue();
 
-        String redisName  = "BrandController.brandList()" + String.valueOf(food_id);
+        String redisName = "BrandController.brandList()" + String.valueOf(food_id);
 
         BrandListVo brandListVo = valueOperations.get(redisName);
 
-        if(brandListVo == null) {
+        if (brandListVo == null) {
             List<Brand> brands = brandService.getBrandList(food_id);
             brandListVo = new BrandListVo(brands);
 

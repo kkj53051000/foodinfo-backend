@@ -7,6 +7,7 @@ import com.kp.foodinfo.dto.FoodDto;
 import com.kp.foodinfo.vo.FoodVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -39,12 +40,12 @@ public class FoodService {
         return new FoodVo(food.getName(), food.getImg());
     }
 
-    public List<Food> getFoodList(){
+    public List<Food> getFoodList() {
         log.info("getFoodList() : in");
         log.info("getFoodList() - FoodRepository - findAll() : run");
         List<Food> foods = foodRepository.findAll();
 
-        if(foods.size() == 0){
+        if (foods.size() == 0) {
             log.error("getFoodList() - DbNotFoundException()");
             throw new DbNotFoundException();
         }
@@ -52,4 +53,16 @@ public class FoodService {
         log.info("getFoodList() : List<Food> return");
         return foods;
     }
+
+//    public void test() {
+//        int count = 0;
+//        switch (count)
+//        case 1:
+//            // cache load
+//            break   ;
+//        case 2:
+//            // db load
+//        case 3:
+//            // cache claer
+//    }
 }

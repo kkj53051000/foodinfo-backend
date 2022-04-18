@@ -7,7 +7,8 @@ import lombok.Setter;
 
 import java.util.List;
 
-@Getter @Setter
+@Getter
+@Setter
 @NoArgsConstructor
 public class CollabEventInfoVo {
     private String name;
@@ -17,6 +18,6 @@ public class CollabEventInfoVo {
     public CollabEventInfoVo(String name, String img, int count) {
         this.name = name;
         this.img = img;
-        this. count = count;
+        this.count = count;
     }
 }

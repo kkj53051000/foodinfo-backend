@@ -15,7 +15,7 @@ public class JoinLimitController {
 
     private final JoinLimitService joinLimitService;
 
-//    @GetMapping("/joinlimitprocess")
+    //    @GetMapping("/joinlimitprocess")
     public BasicVo joinLimit(@RequestParam("joinlimit") int joinLimitNum) {
         return joinLimitService.saveJoinLimit(joinLimitNum);
     }

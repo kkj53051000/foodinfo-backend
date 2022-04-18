@@ -37,7 +37,7 @@ class FoodRepositoryTest {
         //given
         List<Food> foods1 = new ArrayList<>();
 
-        for(int i = 0; i < 100; i++) {
+        for (int i = 0; i < 100; i++) {
             Food food = new Food("pizza" + i, "test/test/test.jpg");
 
             foodRepository.save(food);

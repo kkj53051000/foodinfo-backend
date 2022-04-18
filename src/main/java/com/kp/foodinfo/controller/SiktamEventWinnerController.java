@@ -22,7 +22,7 @@ public class SiktamEventWinnerController {
     }
 
     @GetMapping("/admin/siktameventwinners/{id}")
-    public SiktamEventWinnerListVo siktamEventWinnerList(@PathVariable("id") long siktamEvent_id){
+    public SiktamEventWinnerListVo siktamEventWinnerList(@PathVariable("id") long siktamEvent_id) {
         SiktamEventWinnerListVo siktamEventWinnerListVo = siktamEventWinnerService.getSiktamEventWinnerList(siktamEvent_id);
 
         return siktamEventWinnerListVo;

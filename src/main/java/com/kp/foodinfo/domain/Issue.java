@@ -31,9 +31,7 @@ public class Issue {
     @Lob
     private String img;
 
-//    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd", timezone="Asia/Seoul")
     @Temporal(TemporalType.DATE)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date date;
 
     @ManyToOne(fetch = FetchType.LAZY)

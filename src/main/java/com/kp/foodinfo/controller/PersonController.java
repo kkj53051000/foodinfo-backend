@@ -48,14 +48,14 @@ public class PersonController {
 //    }
 
     /*
-    * 1. @Cacheable cache
-    * 2. @Cacheable parameter cache
-    * 3. @Cacheable parameter bounded cache
-    * 4. @CacheEvict
-    * */
+     * 1. @Cacheable cache
+     * 2. @Cacheable parameter cache
+     * 3. @Cacheable parameter bounded cache
+     * 4. @CacheEvict
+     * */
 
     @GetMapping("/items2")
-    @Cacheable(value = "getItems", key="{#age}")
+    @Cacheable(value = "getItems", key = "{#age}")
     public List<Item> getItems(@RequestParam("age") int age, @RequestParam("name") String name) {
         return itemRepository.findAll();
     }

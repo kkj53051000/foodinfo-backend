@@ -18,10 +18,14 @@ public interface EventRepository extends JpaRepository<Event, Long> {
 
     List<Event> findByBrand(Brand brand);
 
+    List<Event> findByBrandAndEndDateGreaterThanEqual(Brand brand, Date date);
+
     List<Event> findByStartDate(Date date);
 
     @Query("SELECT e FROM Event e where e.brand.food = ?1")
     List<Event> findRecentlyFive(Food food, Pageable pageable);
+
+    List<Event> findByBrand_FoodAndEndDateGreaterThanEqual(Food food, Date date);
 
     // @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("SELECT e FROM Event e where e.brand.food = ?1")

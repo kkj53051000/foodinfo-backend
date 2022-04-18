@@ -36,7 +36,7 @@ class EventTypeRepositoryTest {
         //given
         List<EventType> eventTypes = new ArrayList<>();
 
-        for (int i = 0 ; i < 10; i++) {
+        for (int i = 0; i < 10; i++) {
             EventType eventType = new EventType("OTO" + i, "/test/test.jpg");
 
             eventTypes.add(eventType);

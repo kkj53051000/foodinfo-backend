@@ -89,13 +89,12 @@ class BrandControllerTest {
         String jsonBasicVo = objectMapper.writeValueAsString(basicVo);
 
 
-
         MockMultipartFile file = new MockMultipartFile("file", fileRequest.getFile().getBytes());
         MockMultipartFile value = new MockMultipartFile("value", "", "application/json", objectMapper.writeValueAsString(brandRequest).getBytes());
 
         this.mockMvc.perform(MockMvcRequestBuilders.multipart("/api/admin/brandprocess")
-                .file(file)
-                .file(value))
+                        .file(file)
+                        .file(value))
                 .andExpect(status().isOk())
                 .andExpect(content().string(jsonBasicVo))
                 .andDo(print());

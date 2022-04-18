@@ -17,7 +17,8 @@ import java.util.Date;
         table = "FOODINFO_SEQUENCES",
         pkColumnValue = "BRANDEVENT_SEQ", allocationSize = 50)
 public class BrandEvent {
-    @Id @GeneratedValue(strategy = GenerationType.AUTO, generator = "BRANDEVENT_SEQ_GENERATOR")
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "BRANDEVENT_SEQ_GENERATOR")
     @Column(name = "brandevent_id")
     private Long id;
 
@@ -25,17 +26,17 @@ public class BrandEvent {
     private String content;
     private String img;
 
-    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm", timezone="Asia/Seoul")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
     private Date startDate;
 
-    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm", timezone="Asia/Seoul")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
     private Date endDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "brand_id")
     private Brand brand;
 
-    public BrandEvent(String title, String content, String img, Date startDate, Date endDate, Brand brand){
+    public BrandEvent(String title, String content, String img, Date startDate, Date endDate, Brand brand) {
         this.title = title;
         this.content = content;
         this.img = img;

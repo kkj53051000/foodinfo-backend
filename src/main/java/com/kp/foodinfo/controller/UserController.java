@@ -69,7 +69,7 @@ public class UserController {
 
     //회원가입 처리
     @PostMapping("/joinprocess")
-    public BasicVo joinProcess(@RequestBody JoinRequest joinRequest){
+    public BasicVo joinProcess(@RequestBody JoinRequest joinRequest) {
 
         userService.saveUser(joinRequest);
 
@@ -88,24 +88,24 @@ public class UserController {
     }
 
     @PostMapping("/loginprocess")
-    public UserVo loginProcess(@RequestBody LoginRequest loginRequest){
+    public UserVo loginProcess(@RequestBody LoginRequest loginRequest) {
         User user = userService.loginUser(loginRequest);
 
-        if(user != null){
+        if (user != null) {
             //jwt 발급
             String jwtKey = jwtService.createToken(user.getId());
 
             UserVo userVo;
 
-            if(user.getRole() == Role.ADMIN) {
+            if (user.getRole() == Role.ADMIN) {
                 userVo = new UserVo("success", jwtKey, user.getEmail(), true);
-            }else{
+            } else {
                 userVo = new UserVo("success", jwtKey, user.getEmail(), false);
             }
 
             log.info("loginUser : userId = " + user.getId());
             return userVo;
-        }else{
+        } else {
             throw new UserNotFoundException();
         }
     }

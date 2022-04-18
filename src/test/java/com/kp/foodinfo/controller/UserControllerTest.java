@@ -62,9 +62,9 @@ class UserControllerTest {
         info.add("name", "KSJ");
 
         this.mockMvc.perform(get("/api/mockmvc")
-            .params(info)).andExpect(status().isOk())
-            .andExpect(content().string("KSJ Hello"))
-            .andDo(print());
+                        .params(info)).andExpect(status().isOk())
+                .andExpect(content().string("KSJ Hello"))
+                .andDo(print());
     }
 
 //    @Test
@@ -107,8 +107,8 @@ class UserControllerTest {
 
 
         this.mockMvc.perform(post("/api/loginprocess")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(loginRequest))).andExpect(status().isOk())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(loginRequest))).andExpect(status().isOk())
                 .andExpect(content().string(jsonUserVo))
                 .andDo(print());
 

@@ -15,7 +15,8 @@ import javax.persistence.*;
         table = "FOODINFO_SEQUENCES",
         pkColumnValue = "FOOD_SEQ", allocationSize = 50)
 public class Food {
-    @Id @GeneratedValue(strategy = GenerationType.AUTO, generator = "FOOD_SEQ_GENERATOR")
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "FOOD_SEQ_GENERATOR")
     @Column(name = "food_id")
     private Long id;
 
@@ -24,7 +25,7 @@ public class Food {
     private String img;
     private int priority;
 
-    public Food(String name, String img){
+    public Food(String name, String img) {
         this.name = name;
         this.img = img;
     }

@@ -38,12 +38,12 @@ public class TestController {
     ItemRepository itemRepository;
 
     @GetMapping("/api/testapi")
-    public String testapiProcess(){
+    public String testapiProcess() {
         return "testtttttttt";
     }
 
     @GetMapping("/testreact")
-    public TestVo reacttestapi(){
+    public TestVo reacttestapi() {
 
         TestVo testVo = new TestVo("ksj", 23);
 
@@ -88,11 +88,11 @@ public class TestController {
 
         List<Item> items = valueOperations.get("TestController.testRedis()");
 
-        if(items == null) {
+        if (items == null) {
             System.out.println("no cache read db...");
             items = itemRepository.findAll();
             valueOperations.set("TestController.testRedis()", items);
-        }else {
+        } else {
             System.out.println("cache hit!");
         }
 
@@ -106,7 +106,7 @@ public class TestController {
 
 
     @PostMapping("/exceltest")
-    public BasicVo testExcel(@RequestPart(value="file", required=true) MultipartFile file) throws IOException {
+    public BasicVo testExcel(@RequestPart(value = "file", required = true) MultipartFile file) throws IOException {
 
         List<ExcelMenuDto> excelMenuDtos = new ArrayList<>();
 

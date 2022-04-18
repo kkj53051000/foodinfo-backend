@@ -54,24 +54,24 @@ public class CollabEventService {
 
     //콜라보 이벤트 (콜라보 플랫폼 종류, 콜라보 플랫폼 컨텐츠 갯수) 가져오기
     public List<CollabEventInfoVo> getCollabEventInfo(long brand_id) {
-         List<CollabPlatform> collabPlatforms = collabPlatformRepository.findAll();
+        List<CollabPlatform> collabPlatforms = collabPlatformRepository.findAll();
 
-         List<CollabEventInfoVo> collabEventInfoVos = new ArrayList<>();
+        List<CollabEventInfoVo> collabEventInfoVos = new ArrayList<>();
 
-         Brand brand = brandRepository.findById(brand_id)
-                 .get();
+        Brand brand = brandRepository.findById(brand_id)
+                .get();
 
 
-         for(int i = 0; i < collabPlatforms.size(); i++) {
+        for (int i = 0; i < collabPlatforms.size(); i++) {
 
-             int count = collabEventRepository.countByBrandAndCollabPlatform(brand, collabPlatforms.get(i));
+            int count = collabEventRepository.countByBrandAndCollabPlatform(brand, collabPlatforms.get(i));
 
-             CollabEventInfoVo collabEventInfoVo = new CollabEventInfoVo(collabPlatforms.get(i).getName(), collabPlatforms.get(i).getImg(), count);
+            CollabEventInfoVo collabEventInfoVo = new CollabEventInfoVo(collabPlatforms.get(i).getName(), collabPlatforms.get(i).getImg(), count);
 
-             collabEventInfoVos.add(collabEventInfoVo);
-         }
+            collabEventInfoVos.add(collabEventInfoVo);
+        }
 
-         return collabEventInfoVos;
+        return collabEventInfoVos;
     }
 
     //특정 콜라보 이벤트의 리스트 가져오기
@@ -84,7 +84,7 @@ public class CollabEventService {
 
         List<CollabEvent> collabEvents = collabEventRepository.findByBrandAndCollabPlatform(brand, collabPlatform);
 
-        if(collabEvents.size() == 0) {
+        if (collabEvents.size() == 0) {
             throw new DbNotFoundException();
         }
 

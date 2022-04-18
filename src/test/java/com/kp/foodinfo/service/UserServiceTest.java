@@ -20,7 +20,7 @@ class UserServiceTest {
 
 
     @Test
-    void USER_SAVE_TEST(){
+    void USER_SAVE_TEST() {
         // given
         JoinRequest joinForm = new JoinRequest("test@naver.com", "test");
 
@@ -32,7 +32,7 @@ class UserServiceTest {
     }
 
     @Test
-    //@Rollback(value = false)
+        //@Rollback(value = false)
     void USER_LOGIN_TEST() {
         //given
         JoinRequest joinForm = new JoinRequest("test@naver.com", "test");

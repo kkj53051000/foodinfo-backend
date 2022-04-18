@@ -34,6 +34,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -90,11 +91,10 @@ class FoodControllerTest {
         String jsonBasicVo = objectMapper.writeValueAsString(basicVo);
 
 
-
         //when then
         this.mockMvc.perform(MockMvcRequestBuilders.multipart("/api/admin/foodprocess")
-                .file(fileRequest.getFile())
-                .file(foodRequestFile))
+                        .file(fileRequest.getFile())
+                        .file(foodRequestFile))
                 .andExpect(content().string(jsonBasicVo))
                 .andDo(print());
     }

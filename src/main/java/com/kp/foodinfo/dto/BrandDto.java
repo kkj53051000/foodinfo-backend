@@ -5,7 +5,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
 
-@Getter @Setter
+@Getter
+@Setter
 @NoArgsConstructor
 public class BrandDto {
     private String name;
@@ -13,8 +14,8 @@ public class BrandDto {
     private long food_id;
 
     public BrandDto(String name, MultipartFile file, long food_id) {
-       this.name = name;
-       this.file = file;
-       this.food_id = food_id;
+        this.name = name;
+        this.file = file;
+        this.food_id = food_id;
     }
 }

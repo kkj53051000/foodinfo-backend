@@ -22,7 +22,6 @@ public class SiktamEventEntryController {
         BasicVo basicVo = siktamEventEntryService.saveSiktamEventEntry(userSession.getUserId(), siktamEventEntryRequest);
 
 
-
         return basicVo;
     }
 }

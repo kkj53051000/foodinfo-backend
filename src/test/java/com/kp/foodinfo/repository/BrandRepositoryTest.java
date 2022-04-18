@@ -50,7 +50,7 @@ class BrandRepositoryTest {
 
         List<Brand> brands = new ArrayList<>();
 
-        for(int i = 0; i < 100; i++) {
+        for (int i = 0; i < 100; i++) {
             Brand brand = new Brand("pizzaHut" + i, "test/test.jpg", new Date(), food);
 
             brands.add(brand);

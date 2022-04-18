@@ -12,7 +12,7 @@ public class BrandListVo implements Serializable {
 
     private List<BrandVo> items = null;
 
-    public BrandListVo(List<Brand> brands){
+    public BrandListVo(List<Brand> brands) {
         this.items = brands.stream()
                 .map(brand -> new BrandVo(brand))
                 .collect(Collectors.toList());

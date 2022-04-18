@@ -10,7 +10,7 @@ public class FileTestUtilDto {
     private String realPath;
     private MultipartFile multipartFile;
 
-    public FileTestUtilDto(String realPath, MultipartFile multipartFile){
+    public FileTestUtilDto(String realPath, MultipartFile multipartFile) {
         this.realPath = realPath;
         this.multipartFile = multipartFile;
     }

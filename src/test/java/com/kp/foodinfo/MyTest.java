@@ -22,7 +22,7 @@ public class MyTest {
     private int age = 0;
 
     @BeforeEach
-    public void beforeEach () {
+    public void beforeEach() {
         System.out.println("start!~!");
         age = 0;
     }
@@ -37,7 +37,7 @@ public class MyTest {
         Class<BrandMenuKindService> brandMenuKindServiceClass = BrandMenuKindService.class;
         Field[] declaredFields = brandMenuKindServiceClass.getDeclaredFields();
 
-        for(Field field : declaredFields) {
+        for (Field field : declaredFields) {
             field.getDeclaredAnnotations();
             // field.set
         }
@@ -55,6 +55,7 @@ public class MyTest {
         System.out.println(1);
         age = 10;
     }
+
     @Test
     void test2() {
         Executable executable1 = new MyExecutable();
@@ -89,6 +90,7 @@ public class MyTest {
             }
         });
     }
+
     @Test
     void test3() {
         System.out.println(3);

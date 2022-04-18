@@ -22,7 +22,7 @@ public class MyPageService {
 
         String email = user.getEmail();
 
-        int followCount = (int)followRepository.countByUser(user);
+        int followCount = (int) followRepository.countByUser(user);
 
         return new MyPageVo(user.getId(), email, followCount);
     }

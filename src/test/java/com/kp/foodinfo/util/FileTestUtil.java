@@ -21,7 +21,7 @@ public class FileTestUtil {
 
         String tempPath = "";
 
-        for(int i=0; i < realPath.indexOf("target"); i++) {
+        for (int i = 0; i < realPath.indexOf("target"); i++) {
             tempPath += realPath.charAt(i);
         }
 
@@ -33,7 +33,7 @@ public class FileTestUtil {
 
         try {
             content = Files.readAllBytes(path);
-        } catch (final IOException e){
+        } catch (final IOException e) {
 
         }
 
@@ -51,7 +51,7 @@ public class FileTestUtil {
 
         FileTestUtilDto fileTestUtilDto = getTestMultifile();
 
-        MockMultipartFile multipartFile = (MockMultipartFile)fileTestUtilDto.getMultipartFile();
+        MockMultipartFile multipartFile = (MockMultipartFile) fileTestUtilDto.getMultipartFile();
 
         MockMultipartFile file = new MockMultipartFile(
                 "file",

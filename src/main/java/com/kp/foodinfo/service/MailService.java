@@ -12,13 +12,13 @@ import javax.mail.internet.MimeMessage;
 import java.util.Date;
 import java.util.Random;
 
+//@Profile("prod")
 @Service
 @RequiredArgsConstructor
 public class MailService {
 
     private final JavaMailSender mailSender;
 
-    @Profile("prod")
     public void mailSend(JoinRequest joinRequest, String emailUuid) {
 
         new Thread(() -> {

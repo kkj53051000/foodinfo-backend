@@ -19,15 +19,15 @@ public class FollowContentVoComparator implements Comparator<FollowContentVo> {
         try {
             day1 = dateFormat.parse(String.valueOf(followContentVo1.getIssueStartDate()));
             day2 = dateFormat.parse(String.valueOf(followContentVo2.getIssueStartDate()));
-        }catch (ParseException e) {
+        } catch (ParseException e) {
             e.printStackTrace();
         }
 
         int compare = day1.compareTo(day2);
 
-        if(compare > 0){
+        if (compare > 0) {
             return 1;
-        } else if(compare < 0){
+        } else if (compare < 0) {
             return -1;
         }
         return 0;

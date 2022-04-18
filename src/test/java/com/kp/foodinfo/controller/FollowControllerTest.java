@@ -79,11 +79,12 @@ class FollowControllerTest {
 
     private User user;
 
-    @Autowired private WebApplicationContext ctx;
+    @Autowired
+    private WebApplicationContext ctx;
 
     @BeforeEach
     public void getJwtKey() throws Exception {
-        this.mockMvc = MockMvcBuilders.webAppContextSetup(ctx).addFilters(new CharacterEncodingFilter("UTF-8", true)) .build();
+        this.mockMvc = MockMvcBuilders.webAppContextSetup(ctx).addFilters(new CharacterEncodingFilter("UTF-8", true)).build();
 
         String uuid = UUID.randomUUID().toString();
         String emailUuid = "test@naver.com" + uuid;
@@ -175,8 +176,7 @@ class FollowControllerTest {
         List<FollowContentVo> followContentVos = new ArrayList<>();
 
 
-
-        FollowContentVo followContentVo = new FollowContentVo(0, brand1.getName(), brand1.getImg(), eventType.getName(), eventType.getImg(), event.getTitle(), event.getContent(), event.getImg(), DateFormatTestUtil.dateToStringDayProcess(event.getStartDate()), DateFormatTestUtil.dateToStringDayProcess(event.getEndDate()), "이벤트");
+        FollowContentVo followContentVo = new FollowContentVo(0, brand1.getId(), brand1.getName(), brand1.getImg(), eventType.getName(), eventType.getImg(), event.getTitle(), event.getContent(), event.getImg(), DateFormatTestUtil.dateToStringDayProcess(event.getStartDate()), DateFormatTestUtil.dateToStringDayProcess(event.getEndDate()), "이벤트");
 
         followContentVos.add(followContentVo);
 

@@ -23,7 +23,9 @@ public class SiktamEvent {
     private String title;
     @Lob
     private String img;
+    @Temporal(TemporalType.DATE)
     private Date startDate;
+    @Temporal(TemporalType.DATE)
     private Date endDate;
 
     private int startDateInt;
@@ -36,7 +38,7 @@ public class SiktamEvent {
     public SiktamEvent(String title, String img, Date startDate, Date endDate, int startDateInt, int endDateInt, int winnerCount, boolean status) {
         this.title = title;
         this.img = img;
-        this.startDate =startDate;
+        this.startDate = startDate;
         this.endDate = endDate;
         this.startDateInt = startDateInt;
         this.endDateInt = endDateInt;

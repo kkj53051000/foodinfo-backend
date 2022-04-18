@@ -72,10 +72,10 @@ public class FollowService {
         Brand brand = brandRepository.findById(followDto.getBrand_id())
                 .get();
 
-        boolean check =  followRepository.findByUserAndBrand(user, brand)
+        boolean check = followRepository.findByUserAndBrand(user, brand)
                 .isPresent();
 
-        if(check == true) {
+        if (check == true) {
             throw new FollowCheckException();
         }
     }
@@ -102,7 +102,7 @@ public class FollowService {
 
         List<Brand> brands = new ArrayList<>();
 
-        for(int i = 0; i < follows.size(); i++) {
+        for (int i = 0; i < follows.size(); i++) {
             brands.add(follows.get(i).getBrand());
         }
 
@@ -119,7 +119,7 @@ public class FollowService {
 
         List<Brand> brands = new ArrayList<>();
 
-        for(int i = 0; i < follows.size(); i++) {
+        for (int i = 0; i < follows.size(); i++) {
             brands.add(follows.get(i).getBrand());
 
             if (brands.size() > 4) {
@@ -132,15 +132,15 @@ public class FollowService {
 
 
     /*
-    * 3 page ( 10 count )
-    * 5 page ( 10 count )
-    *
-    * 115
-    * 104
-    * eventId: 111 ( 10 count )
-    * issueId: 101 ( 10 count )
-    *
-    * */
+     * 3 page ( 10 count )
+     * 5 page ( 10 count )
+     *
+     * 115
+     * 104
+     * eventId: 111 ( 10 count )
+     * issueId: 101 ( 10 count )
+     *
+     * */
 
     //User가 Follow하고있는 Brand All Event, Issue
     public List<FollowContentVo> getFollowAllContentList(long user_id, int page) throws ParseException {
@@ -163,23 +163,23 @@ public class FollowService {
         List<FollowContentVo> followContentVos = new ArrayList<>();
 
         /*
-        * my brand
-        * my brand issue
-        * ...page ...
-        *
-        * select * from issue where brand_id in (0,3,5,10) order by issue.date desc limit 0, 10;
-        *
-        *
-        * [
-        * mac issue1
-        * mac issue2
-        * mac issue3
-        * gyo issue1
-        * gyo issue2
-        * ]
-        * */
+         * my brand
+         * my brand issue
+         * ...page ...
+         *
+         * select * from issue where brand_id in (0,3,5,10) order by issue.date desc limit 0, 10;
+         *
+         *
+         * [
+         * mac issue1
+         * mac issue2
+         * mac issue3
+         * gyo issue1
+         * gyo issue2
+         * ]
+         * */
 
-        for(int i = 0; i < follows.size(); i++) {
+        for (int i = 0; i < follows.size(); i++) {
             //브랜드
             Brand brand = follows.get(i).getBrand();
 
@@ -189,10 +189,11 @@ public class FollowService {
 
             IssueEventListVo issueEventListVo = issueService.getIssueEventList(brand.getId());
 
-            for(int j = 0; j < issueEventListVo.getItems().size(); j++){
+            for (int j = 0; j < issueEventListVo.getItems().size(); j++) {
 
                 FollowContentVo followContentVo = FollowContentVo.builder()
                         .id(j)
+                        .brandId(brand.getId())
                         .brandName(brand.getName())
                         .brandImg(brand.getImg())
                         .eventTypeName(issueEventListVo.getItems().get(j).getEventTypeName())
@@ -215,20 +216,20 @@ public class FollowService {
         //Collections.sort(followContentVos, new FollowContentVoComparator().reversed());
         Collections.sort(followContentVos);
 
-        if(followContentVos.size() <= 10){
+        if (followContentVos.size() <= 10) {
             return followContentVos;
-        }else if(followContentVos.size() > ((page * 10) + 10)){
+        } else if (followContentVos.size() > ((page * 10) + 10)) {
             int startPage = (page * 10) - 10;
             int endPage = page * 10;
 
-            followContentVos =followContentVos.subList(startPage, endPage);
+            followContentVos = followContentVos.subList(startPage, endPage);
 
-        }else if(followContentVos.size() > ((page * 10))){
+        } else if (followContentVos.size() > ((page * 10))) {
             int startPage = (page * 10) - 10;
             int endPage = (page * 10) + (followContentVos.size() - (page * 10));
 
             followContentVos = followContentVos.subList(startPage, endPage);
-        }else{
+        } else {
             throw new FollowAllContentEndException();
         }
 

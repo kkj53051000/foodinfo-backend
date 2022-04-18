@@ -87,7 +87,7 @@ class BrandEventServiceTest {
 
         List<BrandEvent> brandEvents1 = new ArrayList<>();
 
-        for(int i = 0; i < 10; i++) {
+        for (int i = 0; i < 10; i++) {
             BrandEvent brandEvent = new BrandEvent("title" + i, "content", "test/test.jpg", startDate, endDate, brand);
 
             brandEvents1.add(brandEvent);

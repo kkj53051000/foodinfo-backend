@@ -73,7 +73,7 @@ class FoodServiceTest {
 
         List<FoodDto> foodDtos = new ArrayList<>();
 
-        for(int i = 0; i < 100; i++){
+        for (int i = 0; i < 100; i++) {
             FoodDto foodDto = new FoodDto("pizza" + i, fileTestUtilDto.getMultipartFile());
 
             foodDtos.add(foodDto);

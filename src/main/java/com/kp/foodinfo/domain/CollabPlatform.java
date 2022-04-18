@@ -15,7 +15,8 @@ import javax.persistence.*;
         table = "FOODINFO_SEQUENCES",
         pkColumnValue = "COLLABPLATFORM_SEQ", allocationSize = 50)
 public class CollabPlatform {
-    @Id @GeneratedValue(strategy = GenerationType.AUTO, generator = "COLLABPLATFORM_SEQ_GENERATOR")
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "COLLABPLATFORM_SEQ_GENERATOR")
     @Column(name = "collabplatform_id")
     private Long id;
 

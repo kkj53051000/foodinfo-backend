@@ -18,6 +18,8 @@ public interface IssueRepository extends JpaRepository<Issue, Long> {
     @Query("SELECT i FROM Issue i where i.brand.food = ?1")
     List<Issue> findRecentlyFive(Food food, Pageable pageable);
 
+    List<Issue> findByBrand_Food(Food food);
+
     @Query("SELECT i FROM Issue i where i.brand.food = ?1")
     List<Issue> findRecentlyByFood(Food food);
 }

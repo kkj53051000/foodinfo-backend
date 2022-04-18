@@ -18,6 +18,7 @@ import org.springframework.data.redis.core.TimeToLive;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.DispatcherServlet;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -35,10 +36,10 @@ public class FoodController {
     private final RecentlyService recentlyService;
 
     @Autowired
-    RedisTemplate  redisTemplate;
+    RedisTemplate redisTemplate;
 
     @PostMapping("/admin/foodprocess")
-    public BasicVo foodUploadProcess(@RequestPart(value="file", required=true) MultipartFile file, @RequestPart(value="value", required=false) FoodRequest foodRequest) throws IOException {
+    public BasicVo foodUploadProcess(@RequestPart(value = "file", required = true) MultipartFile file, @RequestPart(value = "value", required = false) FoodRequest foodRequest) throws IOException {
         FoodDto foodDto = new FoodDto(foodRequest.getName(), file);
 
         foodService.saveFood(foodDto);
@@ -49,12 +50,12 @@ public class FoodController {
     }
 
     @GetMapping("/foodlist")
-    public FoodListVo foodList(){
+    public FoodListVo foodList() {
         ValueOperations<String, FoodListVo> valueOperations = redisTemplate.opsForValue();
 
         FoodListVo foodListVo = valueOperations.get("FoodController.foodList()");
 
-        if(foodListVo == null) {
+        if (foodListVo == null) {
             List<Food> foodVos = foodService.getFoodList();
 
             foodListVo = new FoodListVo(foodVos);

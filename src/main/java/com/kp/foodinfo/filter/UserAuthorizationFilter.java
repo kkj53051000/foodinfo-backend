@@ -26,15 +26,15 @@ public class UserAuthorizationFilter implements Filter {
 
         System.out.println("in Filter !!!!!");
 
-        HttpServletRequest request = (HttpServletRequest)servletRequest;
+        HttpServletRequest request = (HttpServletRequest) servletRequest;
 
         boolean jwtKeyCheck = false;
 
 
         Enumeration headerNames = request.getHeaderNames();
 
-        while(headerNames.hasMoreElements()){
-            String name = (String)headerNames.nextElement();
+        while (headerNames.hasMoreElements()) {
+            String name = (String) headerNames.nextElement();
             String value = request.getHeader(name);
             System.out.println(name + " : " + value + "<br>");
 
@@ -45,7 +45,7 @@ public class UserAuthorizationFilter implements Filter {
             }
 
             // request header authorization 내용이 null일 경우
-            if (name.equals("authorization") && value.equals("null")){
+            if (name.equals("authorization") && value.equals("null")) {
                 System.out.println("JwtNotFoundException 1");
 
                 jwtKeyCheck = true;
@@ -53,7 +53,7 @@ public class UserAuthorizationFilter implements Filter {
         }
 
         // request header authorization 내용이 존재하지 않을 경우
-        if(jwtKeyCheck == false) {
+        if (jwtKeyCheck == false) {
             System.out.println("JwtNotFoundException 2");
         }
 

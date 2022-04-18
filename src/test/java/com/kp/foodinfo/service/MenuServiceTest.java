@@ -50,7 +50,6 @@ class MenuServiceTest {
     MenuSizeKindRepository menuSizeKindRepository;
 
 
-
     ObjectMapper objectMapper = new ObjectMapper();
 
     @Test

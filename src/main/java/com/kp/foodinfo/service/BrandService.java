@@ -52,10 +52,10 @@ public class BrandService {
 
         List<Brand> brands = brandRepository.findByFood(food);
 
-        if(brands.size() == 0){
-            throw new  DbNotFoundException();
+        if (brands.size() == 0) {
+            throw new DbNotFoundException();
         }
 
-       return brands;
+        return brands;
     }
 }

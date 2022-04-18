@@ -16,7 +16,8 @@ import java.util.Date;
         table = "FOODINFO_SEQUENCES",
         pkColumnValue = "COLLABEVENT_SEQ", allocationSize = 50)
 public class CollabEvent {
-    @Id @GeneratedValue(strategy = GenerationType.AUTO, generator = "COLLABEVENT_SEQ_GENERATOR")
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "COLLABEVENT_SEQ_GENERATOR")
     @Column(name = "collabevent_id")
     private Long id;
 
@@ -35,7 +36,7 @@ public class CollabEvent {
     @JoinColumn(name = "collabplatform_id")
     private CollabPlatform collabPlatform;
 
-    public CollabEvent(String title, String content, String img, Date startDate, Date endDate, Brand brand, CollabPlatform collabPlatform){
+    public CollabEvent(String title, String content, String img, Date startDate, Date endDate, Brand brand, CollabPlatform collabPlatform) {
         this.title = title;
         this.content = content;
         this.img = img;

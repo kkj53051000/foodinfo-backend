@@ -10,6 +10,7 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,13 +29,19 @@ public class FileService {
 
     String uuid = UUID.randomUUID().toString();
 
+    @Value("${aws.s3.access-key}")
+    private String accessKey;
+
+    @Value("${aws.s3.secrect-key}")
+    private String secrectKey;
+
     //이미지 저장
     public String imageUploadProcess(MultipartFile file, String realPath) {
 
         //파일 경로 찾기
         String tempPath = "";
 
-        for(int i=0; i < realPath.indexOf("target"); i++) {
+        for (int i = 0; i < realPath.indexOf("target"); i++) {
             tempPath += realPath.charAt(i);
         }
 
@@ -42,12 +49,12 @@ public class FileService {
 
         String publicRealPath = tempPath + "src" + File.separator + "main" + File.separator + "resources" + File.separator + "static" + File.separator + "img" + File.separator;
 
-        String originalFileName = file.getOriginalFilename();	//오리지널 파일명
+        String originalFileName = file.getOriginalFilename();    //오리지널 파일명
 
 
-        String extension = originalFileName.substring(originalFileName.lastIndexOf("."));	//파일 확장자
+        String extension = originalFileName.substring(originalFileName.lastIndexOf("."));    //파일 확장자
 
-        String savedFileName = UUID.randomUUID() + extension;	//저장될 파일 명
+        String savedFileName = UUID.randomUUID() + extension;    //저장될 파일 명
 
 
         String clientPath = File.separator + "static" + File.separator + "img" + File.separator + savedFileName;
@@ -60,7 +67,7 @@ public class FileService {
             byte[] buffer = new byte[1024];
 
             int size = 0;
-            while((size = fis.read(buffer)) != -1) {
+            while ((size = fis.read(buffer)) != -1) {
                 fos.write(buffer, 0, size);
             }
         } catch (IOException e) {
@@ -72,14 +79,14 @@ public class FileService {
 
     public String s3UploadProcess(MultipartFile file) throws IOException {
 
-        BasicAWSCredentials awsCreds = new BasicAWSCredentials("AKIASDJ2G6ITZ6B6VQEU", "RyAHVdxwZqwQDUe80svc6WDqjn6fLXeSDbAwLN+T");
+        BasicAWSCredentials awsCreds = new BasicAWSCredentials(accessKey, secrectKey);
         AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
                 .withRegion(Regions.AP_NORTHEAST_2)
                 .withCredentials(new AWSStaticCredentialsProvider(awsCreds))
                 .build();
         //FileInputStream fis = (FileInputStream) file.getInputStream();
 
-        InputStream fis =  new BufferedInputStream(file.getInputStream());
+        InputStream fis = new BufferedInputStream(file.getInputStream());
 
         ObjectMetadata objectMetadata = new ObjectMetadata();
         objectMetadata.setContentType("image/jpeg");

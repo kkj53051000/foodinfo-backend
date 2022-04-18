@@ -22,7 +22,7 @@ public class SiktamEventController {
     private final SiktamEventService siktamEventService;
 
     @PostMapping("/admin/siktameventprocess")
-    public BasicVo siktamEventProcess(@RequestPart(name = "file", required = true) MultipartFile file, @RequestPart(name = "value", required = false)SiktamEventRequest siktamEventRequest) throws IOException {
+    public BasicVo siktamEventProcess(@RequestPart(name = "file", required = true) MultipartFile file, @RequestPart(name = "value", required = false) SiktamEventRequest siktamEventRequest) throws IOException {
         BasicVo basicVo = siktamEventService.saveSiktamEvent(file, siktamEventRequest);
 
         return basicVo;

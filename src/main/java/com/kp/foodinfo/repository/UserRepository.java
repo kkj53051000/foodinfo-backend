@@ -18,7 +18,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     List<User> findByJoinDateBetween(Date startDate, Date endDate);
 
-//    @Query("select u from User u where u.joinDate like ")
+    //    @Query("select u from User u where u.joinDate like ")
     List<User> findByJoinDateLike(Date today);
 
     int countByJoinDateStr(String date);

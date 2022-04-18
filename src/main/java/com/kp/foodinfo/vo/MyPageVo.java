@@ -10,7 +10,7 @@ public class MyPageVo {
     private String email;
     private int followCount;
 
-    public MyPageVo(long id, String email, int followCount){
+    public MyPageVo(long id, String email, int followCount) {
         this.id = id;
         this.email = email;
         this.followCount = followCount;

@@ -17,13 +17,15 @@ import java.util.Date;
         table = "FOODINFO_SEQUENCES",
         pkColumnValue = "BRAND_SEQ", allocationSize = 50)
 public class Brand implements Comparable<Brand> {
-    @Id @GeneratedValue(strategy = GenerationType.AUTO, generator = "BRAND_SEQ_GENERATOR")
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "BRAND_SEQ_GENERATOR")
     @Column(name = "brand_id")
     private Long id;
 
     private String name;
     @Lob
     private String img;
+    @Temporal(TemporalType.DATE)
     private Date recentlyUpdate;
     private int priority;
 
@@ -31,7 +33,7 @@ public class Brand implements Comparable<Brand> {
     @JoinColumn(name = "food_id")
     private Food food;
 
-    public Brand(String name, String img, Date recentlyUpdate, Food food){
+    public Brand(String name, String img, Date recentlyUpdate, Food food) {
         this.name = name;
         this.img = img;
         this.recentlyUpdate = recentlyUpdate;

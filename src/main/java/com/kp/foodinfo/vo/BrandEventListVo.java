@@ -26,7 +26,7 @@ public class BrandEventListVo {
         private Date endDate;
         private long brand_id;
 
-        public BrandEventVo(BrandEvent brandEvent){
+        public BrandEventVo(BrandEvent brandEvent) {
             this.title = brandEvent.getTitle();
             this.content = brandEvent.getContent();
             this.img = brandEvent.getImg();

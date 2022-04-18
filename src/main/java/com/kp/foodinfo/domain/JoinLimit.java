@@ -16,7 +16,7 @@ public class JoinLimit {
 
     private int limitNum;
 
-    public JoinLimit(int limitNum){
+    public JoinLimit(int limitNum) {
         this.limitNum = limitNum;
     }
 }

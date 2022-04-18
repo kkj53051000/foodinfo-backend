@@ -12,7 +12,8 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Data
 public class Item implements Serializable {
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     private Long id;
 
     private String title;

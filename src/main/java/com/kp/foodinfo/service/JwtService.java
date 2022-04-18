@@ -90,24 +90,21 @@ public class JwtService {
 
         Map<String, Object> returnValue = null;
 
-        while(headerNames.hasMoreElements()){
-            String name = (String)headerNames.nextElement();
+        while (headerNames.hasMoreElements()) {
+            String name = (String) headerNames.nextElement();
             String value = request.getHeader(name);
             System.out.println(name + " : " + value + "<br>");
 
 
             if (name.equals("authorization")) {
-                if (value.equals("null")){
+                if (value.equals("null")) {
                     throw new JwtVerifyFailException();
                 }
-                System.out.println("value : " + value);
                 System.out.println(value.getClass().getName());
 
                 returnValue = jwtService.verifyJWT(value);
 
-                System.out.println("returnValue : " + returnValue);
-
-                if(returnValue == null) {
+                if (returnValue == null) {
                     throw new JwtVerifyFailException();
                 }
             }

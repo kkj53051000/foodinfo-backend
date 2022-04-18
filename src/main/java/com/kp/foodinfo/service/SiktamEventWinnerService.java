@@ -33,7 +33,7 @@ public class SiktamEventWinnerService {
     public BasicVo setSiktamEventWinner(long siktamEvent_id) {
         SiktamEvent siktamEvent = siktamEventRepository.findById(siktamEvent_id).get();
 
-        if(!siktamEvent.isStatus()) {
+        if (!siktamEvent.isStatus()) {
             // 이미 당첨 처리됨 Exception
         }
 
@@ -44,7 +44,7 @@ public class SiktamEventWinnerService {
 
         for (int i = 0; i < siktamEvent.getWinnerCount(); i++) {
             double randomValue = Math.random();
-            int random = (int)(randomValue * siktamEventEntries.size());
+            int random = (int) (randomValue * siktamEventEntries.size());
 
 
 //            Random random = new Random();

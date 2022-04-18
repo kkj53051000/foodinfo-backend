@@ -55,16 +55,17 @@ class NoticeControllerTest {
 
     private User user;
 
-    @Autowired private WebApplicationContext ctx;
+    @Autowired
+    private WebApplicationContext ctx;
 
     @BeforeEach
     public void getJwtKey() throws Exception {
-        this.mockMvc = MockMvcBuilders.webAppContextSetup(ctx).addFilters(new CharacterEncodingFilter("UTF-8", true)) .build();
+        this.mockMvc = MockMvcBuilders.webAppContextSetup(ctx).addFilters(new CharacterEncodingFilter("UTF-8", true)).build();
 
         String uuid = UUID.randomUUID().toString();
         String emailUuid = "test@naver.com" + uuid;
 
-        this.user = new User("test@nver.com", "test", new Date(), DateFormatUtil.dateToStringProcess(new Date()), new Date(), emailUuid, true, Role.USER,false);
+        this.user = new User("test@nver.com", "test", new Date(), DateFormatUtil.dateToStringProcess(new Date()), new Date(), emailUuid, true, Role.USER, false);
         userRepository.save(user);
 
         this.jwtKey = jwtService.createToken(user.getId());
@@ -81,8 +82,8 @@ class NoticeControllerTest {
         String jsonBasicVo = objectMapper.writeValueAsString(basicVo);
 
         this.mockMvc.perform(post("/api/admin/noticeprocess").header(HttpHeaders.AUTHORIZATION, jwtKey)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(noticeRequest)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(noticeRequest)))
                 .andExpect(status().isOk())
                 .andExpect(content().string(jsonBasicVo))
                 .andDo(print());

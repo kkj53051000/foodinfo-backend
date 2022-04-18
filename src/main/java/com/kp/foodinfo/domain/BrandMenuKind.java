@@ -15,7 +15,8 @@ import javax.persistence.*;
         table = "FOODINFO_SEQUENCES",
         pkColumnValue = "BRANDMENUKIND_SEQ", allocationSize = 50)
 public class BrandMenuKind {
-    @Id @GeneratedValue(strategy = GenerationType.AUTO, generator = "BRANDMENUKIND_SEQ_GENERATOR")
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "BRANDMENUKIND_SEQ_GENERATOR")
     @Column(name = "brandmenukind_id")
     private Long id;
 
@@ -26,7 +27,7 @@ public class BrandMenuKind {
     @JoinColumn(name = "brand_id")
     private Brand brand;
 
-    public BrandMenuKind(String name, int priority, Brand brand){
+    public BrandMenuKind(String name, int priority, Brand brand) {
         this.name = name;
         this.priority = priority;
         this.brand = brand;

@@ -28,7 +28,7 @@ public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver 
 
         HttpServletRequest httpServletRequest = (HttpServletRequest) nativeWebRequest.getNativeRequest();
 
-        Long userId = (Long)httpServletRequest.getAttribute("userId");
+        Long userId = (Long) httpServletRequest.getAttribute("userId");
 
         UserSession userSession = new UserSession();
         userSession.setUserId(userId);

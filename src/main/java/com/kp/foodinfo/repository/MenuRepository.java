@@ -22,6 +22,4 @@ public interface MenuRepository extends JpaRepository<Menu, Long> {
     Optional<List<Menu>> findByPriceRange(int highPrice, int lowPrice);
 
 
-
-
 }

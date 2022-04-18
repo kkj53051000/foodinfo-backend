@@ -9,6 +9,7 @@ import com.kp.foodinfo.repository.SiktamEventEntryRepository;
 import com.kp.foodinfo.repository.SiktamEventRepository;
 import com.kp.foodinfo.repository.UserRepository;
 import com.kp.foodinfo.request.SiktamEventEntryRequest;
+import com.kp.foodinfo.util.DateFormatUtil;
 import com.kp.foodinfo.util.ReturnStatus;
 import com.kp.foodinfo.vo.BasicVo;
 import lombok.RequiredArgsConstructor;
@@ -38,11 +39,11 @@ public class SiktamEventEntryService {
 
         Date now = new Date();
 
-        if(siktamEvent.getEndDate().after(now)){
+        if (siktamEvent.getEndDate().before(DateFormatUtil.dateToDateProcess(now))) {
             throw new EventEntryLateException();
         }
 
-        if(siktamEventEntryCheckCount != 0) { // 중복참여
+        if (siktamEventEntryCheckCount != 0) { // 중복참여
             // 예외처리
             throw new SiktamEventEntryOverlapException();
         }

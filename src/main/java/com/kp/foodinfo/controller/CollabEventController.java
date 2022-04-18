@@ -22,7 +22,7 @@ public class CollabEventController {
     private final CollabEventService collabEventService;
 
     @PostMapping("/admin/collabeventprocess")
-    public BasicVo collabEventProcess(@RequestParam("file")MultipartFile file, CollabEventRequest collabEventRequest, HttpServletRequest request) {
+    public BasicVo collabEventProcess(@RequestParam("file") MultipartFile file, CollabEventRequest collabEventRequest, HttpServletRequest request) {
         String realPath = request.getServletContext().getRealPath("");
 
         collabEventService.saveCollabEvent(file, collabEventRequest, realPath);

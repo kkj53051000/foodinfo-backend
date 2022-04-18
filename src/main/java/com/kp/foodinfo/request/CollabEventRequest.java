@@ -6,7 +6,8 @@ import lombok.Setter;
 
 import java.util.Date;
 
-@Getter @Setter
+@Getter
+@Setter
 @NoArgsConstructor
 public class CollabEventRequest {
     private String title;
@@ -20,7 +21,7 @@ public class CollabEventRequest {
 
     public CollabEventRequest(String title, String content, String startDate, String startTime, String endDate, String endTime, long brand_id, long collabPlatform_id) {
         this.title = title;
-        this. content = content;
+        this.content = content;
         this.startDate = startDate;
         this.startTime = startTime;
         this.endDate = endDate;

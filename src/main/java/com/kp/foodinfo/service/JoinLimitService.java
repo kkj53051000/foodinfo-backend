@@ -35,16 +35,16 @@ public class JoinLimitService {
 
         int todayJoinCount = userRepository.countByJoinDateStr(today);
 
-        if(joinLimitRepository.findAll().size() == 0){
+        if (joinLimitRepository.findAll().size() == 0) {
             JoinLimit joinLimit = new JoinLimit(90);
             joinLimitRepository.save(joinLimit);
         }
 
         int joinLimit = joinLimitRepository.findAll().get(0).getLimitNum();
 
-        if(todayJoinCount > joinLimit){
+        if (todayJoinCount > joinLimit) {
             return new BasicVo(ReturnStatus.failure);
-        }else{
+        } else {
             return new BasicVo(ReturnStatus.success);
         }
 

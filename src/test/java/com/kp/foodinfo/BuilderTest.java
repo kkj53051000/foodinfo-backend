@@ -64,12 +64,11 @@ public class BuilderTest {
         Class<PostController> postControllerClass = PostController.class;
 
 
-
         postController.print();
 
-        for(Field field: postControllerClass.getDeclaredFields()) {
-            for(Annotation annotation: field.getDeclaredAnnotations()) {
-                if(annotation instanceof MyAutowired || annotation instanceof Resource) {
+        for (Field field : postControllerClass.getDeclaredFields()) {
+            for (Annotation annotation : field.getDeclaredAnnotations()) {
+                if (annotation instanceof MyAutowired || annotation instanceof Resource) {
                     field.getName();
                     field.setAccessible(true);
                     field.set(postController, new PostRepository());
@@ -79,7 +78,6 @@ public class BuilderTest {
 
 //        postControllerClass.getDeclaredMethods()[0].invoke()
 //        postController.print();
-
 
 
 //        Class<Event> eventClass = Event.class;

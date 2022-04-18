@@ -75,8 +75,8 @@ class BrandMenuKindControllerTest {
 
         //when then
         this.mockMvc.perform(post("/api/admin/brandmenukindprocess").header(HttpHeaders.AUTHORIZATION, jwtKey)
-                .content(objectMapper.writeValueAsString(brandMenuKindRequest))
-                .contentType(MediaType.APPLICATION_JSON))
+                        .content(objectMapper.writeValueAsString(brandMenuKindRequest))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().string(jsonBasicVo))
                 .andDo(print());

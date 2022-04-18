@@ -86,7 +86,7 @@ class EventServiceTest {
 
         List<Event> events = new ArrayList<>();
 
-        for(int i = 0; i < 10; i++) {
+        for (int i = 0; i < 10; i++) {
 
             Event event = Event.builder()
                     .title("title" + i)

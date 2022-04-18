@@ -84,7 +84,6 @@ class MenuControllerTest {
         mockMvc = MockMvcBuilders.standaloneSetup(menuController).build();
 
 
-
         //given
         Food food = new Food("pizza", "/test/test.jpg");
         foodRepository.save(food);
@@ -109,8 +108,8 @@ class MenuControllerTest {
 
         //when then
         this.mockMvc.perform(MockMvcRequestBuilders.multipart("/api/admin/menuprocess")
-                .file(file)
-                .file(value))
+                        .file(file)
+                        .file(value))
                 .andExpect(status().isOk())
                 .andExpect(content().string(jsonBasicVo))
                 .andDo(print());

@@ -53,19 +53,19 @@ public class MenuSizeService {
     }
 
     public MenuSizeDeleteListVo menuSizeListFindBrandId(long brandId) {
-        Brand brand =  brandRepository.findById(brandId).get();
+        Brand brand = brandRepository.findById(brandId).get();
 
         List<BrandMenuKind> brandMenuKinds = brandMenuKindRepository.findByBrand(brand);
 
         List<Menu> menus = new ArrayList<>();
 
-        for (BrandMenuKind brandMenuKind : brandMenuKinds){
+        for (BrandMenuKind brandMenuKind : brandMenuKinds) {
             menus.addAll(menuRepository.findByBrandMenuKind(brandMenuKind));
         }
 
         List<MenuSize> menuSizes = new ArrayList<>();
 
-        for (Menu menu : menus){
+        for (Menu menu : menus) {
             menuSizes.addAll(menuSizeRepositroy.findByMenu(menu));
         }
 

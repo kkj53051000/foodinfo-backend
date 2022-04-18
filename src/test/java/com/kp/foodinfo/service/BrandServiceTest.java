@@ -71,7 +71,7 @@ class BrandServiceTest {
 
         List<Brand> brands1 = new ArrayList<>();
 
-        for(int i = 0; i < 5; i ++) {
+        for (int i = 0; i < 5; i++) {
             Brand brand = new Brand("pizzaHut" + i, "test/test.jpg", new Date(), food);
 
             brands1.add(brand);

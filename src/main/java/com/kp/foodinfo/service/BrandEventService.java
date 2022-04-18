@@ -52,7 +52,7 @@ public class BrandEventService {
 
         List<BrandEvent> brandEvents = brandEventRepository.findByBrand(brand);
 
-        if(brandEvents.size() == 0) {
+        if (brandEvents.size() == 0) {
             throw new DbNotFoundException();
         }
 

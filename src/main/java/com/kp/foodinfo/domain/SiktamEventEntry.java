@@ -26,11 +26,11 @@ public class SiktamEventEntry {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "siktamevent_id")
-    private SiktamEvent  siktamEvent;
+    private SiktamEvent siktamEvent;
 
     public SiktamEventEntry(String phoneNumber, User user, SiktamEvent siktamEvent) {
         this.phoneNumber = phoneNumber;
         this.user = user;
-        this.siktamEvent  = siktamEvent;
+        this.siktamEvent = siktamEvent;
     }
 }

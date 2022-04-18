@@ -16,7 +16,6 @@ import java.util.List;
 public class WebConfig implements WebMvcConfigurer {
 
 
-
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
         int a = 3;
@@ -62,7 +61,6 @@ public class WebConfig implements WebMvcConfigurer {
 //                .enablePathStyleAccess()
 //                .build();
 //    }
-
 
 
 //    @Bean

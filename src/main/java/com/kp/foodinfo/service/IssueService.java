@@ -80,6 +80,8 @@ public class IssueService {
 
         List<Issue> issues = issueRepository.findByBrand(brand);
 
+//        Collections.reverse(issues);
+
         return new IssueListVo(issues);
     }
 
@@ -90,7 +92,6 @@ public class IssueService {
         List<Event> events = eventRepository.findByBrand(brand);
         // select e from event e where e.id > 111 and e.brand_id in(1,10,100) order by e.date desc limit 10;
         List<Issue> issues = issueRepository.findByBrand(brand);
-
 
 
         // events 10
@@ -107,13 +108,13 @@ public class IssueService {
 
 
         /*
-        * event1
-        * issue1
-        * issue2
-        *
-        * event2
-        * issue3
-        * */
+         * event1
+         * issue1
+         * issue2
+         *
+         * event2
+         * issue3
+         * */
 
         List<IssueEventVo> issueEventVos = new ArrayList<>();
 

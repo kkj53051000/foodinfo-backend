@@ -18,7 +18,7 @@ public class IssueEventVo implements Comparable<IssueEventVo> {
     private String eventTypeImg;
     private String type;
 
-    public IssueEventVo(String title, String content, String img, String startDateStr, String endDateStr, String  eventTypeName, String eventTypeImg, String type) {
+    public IssueEventVo(String title, String content, String img, String startDateStr, String endDateStr, String eventTypeName, String eventTypeImg, String type) {
         this.title = title;
         this.content = content;
         this.img = img;

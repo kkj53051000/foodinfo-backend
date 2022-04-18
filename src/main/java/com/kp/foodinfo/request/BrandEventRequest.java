@@ -7,7 +7,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
-@Getter @Setter
+@Getter
+@Setter
 @NoArgsConstructor
 public class BrandEventRequest {
     private String title;

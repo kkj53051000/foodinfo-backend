@@ -41,7 +41,7 @@ public class MenuController {
     }
 
     @PostMapping("/admin/menuexcelprocess/{id}")
-    public BasicVo menuExcelProcess(@RequestPart(value="file", required=true) MultipartFile file, @PathVariable("id") long brand_id) throws IOException {
+    public BasicVo menuExcelProcess(@RequestPart(value = "file", required = true) MultipartFile file, @PathVariable("id") long brand_id) throws IOException {
         return menuService.saveExcelMenu(file, brand_id);
     }
 
@@ -50,11 +50,11 @@ public class MenuController {
 
         ValueOperations<String, MenuVoList> valueOperations = redisTemplate.opsForValue();
 
-        String redisName  = "MenuController.menuList()" + String.valueOf(brandMenuKind_id);
+        String redisName = "MenuController.menuList()" + String.valueOf(brandMenuKind_id);
 
         MenuVoList menuVoList = valueOperations.get(redisName);
 
-        if(menuVoList == null) {
+        if (menuVoList == null) {
             menuVoList = menuService.getMenuList(brandMenuKind_id);
             valueOperations.set(redisName, menuVoList, 5L, TimeUnit.MINUTES);
         }
@@ -70,7 +70,7 @@ public class MenuController {
     }
 
     @PostMapping("/admin/menudelete/{id}")
-    public BasicVo menuDelete(@PathVariable("id") long menu_id){
+    public BasicVo menuDelete(@PathVariable("id") long menu_id) {
         return menuService.deleteMenu(menu_id);
     }
 }

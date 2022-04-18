@@ -93,7 +93,7 @@ public class MenuService {
             String name = row.getCell(1).getStringCellValue();
             name = name.replaceAll("&#37;", "%");
             String BrandMenuKindName = row.getCell(2).getStringCellValue();
-            int price = (int)row.getCell(4).getNumericCellValue();
+            int price = (int) row.getCell(4).getNumericCellValue();
             String img = row.getCell(5).getStringCellValue();
             String size = row.getCell(3).getStringCellValue();
 
@@ -104,13 +104,13 @@ public class MenuService {
             // 해당 데이터의 브랜드 메뉴 종류 유무 판단하기위한 count
             int brandMenuKindTargetCount = brandMenuKindRepository.countByNameAndBrand(BrandMenuKindName, brand);
 
-            if(brandMenuKindTargetCount == 0) { // 메뉴 종류가 없음 ( 저장 )
+            if (brandMenuKindTargetCount == 0) { // 메뉴 종류가 없음 ( 저장 )
                 int brandBrandMenuKindCount = brandMenuKindRepository.countByBrand(brand);
 
-                brandMenuKind = new BrandMenuKind(BrandMenuKindName, (brandBrandMenuKindCount + 1) ,brand);
+                brandMenuKind = new BrandMenuKind(BrandMenuKindName, (brandBrandMenuKindCount + 1), brand);
 
                 brandMenuKindRepository.save(brandMenuKind);
-            }else{ // 브랜드 메뉴 종류가 없음 ( select )
+            } else { // 브랜드 메뉴 종류가 없음 ( select )
                 brandMenuKind = brandMenuKindRepository.findByNameAndBrand(BrandMenuKindName, brand).get();
             }
 
@@ -122,10 +122,10 @@ public class MenuService {
 //            }
 
             // Size ( 사이즈가 있으면 MenuSize insert )
-            if(!size.equals("null")) { // 사이즈 있는 메뉴 저장
+            if (!size.equals("null")) { // 사이즈 있는 메뉴 저장
 
                 // 메뉴가 없을 때
-                if(menuRepository.countByNameAndBrandMenuKind(name, brandMenuKind) == 0) {
+                if (menuRepository.countByNameAndBrandMenuKind(name, brandMenuKind) == 0) {
                     menu = Menu.builder()
                             .name(name)
                             .price(price)
@@ -135,24 +135,24 @@ public class MenuService {
 
 
                     menuRepository.save(menu);
-                }else{ // 메뉴가 있으면 select
+                } else { // 메뉴가 있으면 select
                     menu = menuRepository.findByNameAndBrandMenuKind(name, brandMenuKind).get();
                 }
 
 
                 MenuSizeKind menuSizeKind = null;
 
-                if(menuSizeKindRepository.countBySize(size) == 0){  // 메뉴 사이즈 종류가 없으면 저장
+                if (menuSizeKindRepository.countBySize(size) == 0) {  // 메뉴 사이즈 종류가 없으면 저장
                     menuSizeKind = new MenuSizeKind(size);
                     menuSizeKindRepository.save(menuSizeKind);
-                }else{  // 메뉴 사이즈 종류가 있다면 insert
+                } else {  // 메뉴 사이즈 종류가 있다면 insert
                     menuSizeKind = menuSizeKindRepository.findBySize(size).get();
                 }
 
                 MenuSize menuSize = new MenuSize(menu, menuSizeKind, price);
                 menuSizeRepositroy.save(menuSize);
 
-            }else{ // 일반 메뉴 저장
+            } else { // 일반 메뉴 저장
                 menu = Menu.builder()
                         .name(name)
                         .price(price)
@@ -168,7 +168,7 @@ public class MenuService {
         return new BasicVo(ReturnStatus.success);
     }
 
-    public MenuVoList getMenuList(long menuKind_id){
+    public MenuVoList getMenuList(long menuKind_id) {
         BrandMenuKind brandMenuKind = brandMenuKindRepository.findById(menuKind_id)
                 .get();
 
@@ -180,12 +180,12 @@ public class MenuService {
         for (int i = 0; i < menus.size(); i++) {
             long count = menuSizeRepositroy.countByMenu(menus.get(i));
 
-            if(count > 0){
+            if (count > 0) {
                 List<MenuSize> menuSizes = menuSizeRepositroy.findByMenu(menus.get(i));
 
                 List<MenuSizeVo> menuSizeVos = new ArrayList<>();
 
-                for(int j = 0; j < menuSizes.size(); j++) {
+                for (int j = 0; j < menuSizes.size(); j++) {
                     MenuSizeVo menuSizeVo = new MenuSizeVo(menuSizes.get(j).getMenuSizeKind().getSize(), menuSizes.get(j).getPrice());
 
                     menuSizeVos.add(menuSizeVo);
@@ -200,7 +200,7 @@ public class MenuService {
                         .build();
 
                 menuVos.add(menuVo);
-            }else{
+            } else {
                 MenuVo menuVo = MenuVo.builder()
                         .id(menus.get(i).getId())
                         .name(menus.get(i).getName())
@@ -213,7 +213,7 @@ public class MenuService {
             }
         }
 
-        if(menus.size() == 0){
+        if (menus.size() == 0) {
             throw new DbNotFoundException();
         }
 

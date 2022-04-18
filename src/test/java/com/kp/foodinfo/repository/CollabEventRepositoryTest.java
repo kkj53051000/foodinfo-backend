@@ -74,7 +74,7 @@ class CollabEventRepositoryTest {
 
         List<CollabEvent> collabEvents = new ArrayList<>();
 
-        for(int i = 0; i < 100; i++){
+        for (int i = 0; i < 100; i++) {
             CollabEvent collabEvent = new CollabEvent("onePoint3%Event" + i, "content", "test/test.jpg", startDate, endDate, brand, collabPlatform);
 
             collabEvents.add(collabEvent);
