@@ -3,6 +3,7 @@ package com.kp.foodinfo.service;
 import com.kp.foodinfo.exception.JwtVerifyFailException;
 import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,7 +19,8 @@ import java.util.Map;
 @Slf4j
 public class JwtService {
 
-    final String key = "hello";
+    @Value("${jwt.secret.key}")
+    private String key;
 
     public static void main(String[] args) throws UnsupportedEncodingException {
         JwtService jwtService = new JwtService();

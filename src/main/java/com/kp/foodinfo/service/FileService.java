@@ -32,7 +32,7 @@ public class FileService {
     @Value("${aws.s3.access-key}")
     private String accessKey;
 
-    @Value("${aws.s3.secrect-key}")
+    @Value("${aws.s3.secret-key}")
     private String secrectKey;
 
     //이미지 저장
