@@ -18,7 +18,6 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-@Transactional
 @RequiredArgsConstructor
 public class BrandEventService {
     private final BrandEventRepository brandEventRepository;
@@ -27,6 +26,7 @@ public class BrandEventService {
 
     private final FileService fileService;
 
+    @Transactional
     public void saveBrandEvent(MultipartFile file, BrandEventRequest brandEventRequest) throws IOException {
 
         String clientPath = fileService.s3UploadProcess(file);
@@ -45,6 +45,7 @@ public class BrandEventService {
         brandEventRepository.save(brandEvent);
     }
 
+    @Transactional
     public List<BrandEvent> getBrandEvents(long brand_id) {
 
         Brand brand = brandRepository.findById(brand_id)

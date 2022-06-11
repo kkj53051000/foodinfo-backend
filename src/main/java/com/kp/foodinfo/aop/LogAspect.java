@@ -33,7 +33,7 @@ public class LogAspect {
 
         long afterTime = System.currentTimeMillis();
 
-        logger.info("Excution Time : " + (afterTime - beforeTime));
+        logger.info("Excution Time : " + (afterTime - beforeTime) + "ms");
 
         return result;
 

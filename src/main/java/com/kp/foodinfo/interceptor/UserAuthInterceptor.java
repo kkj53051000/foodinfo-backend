@@ -41,6 +41,7 @@ public class UserAuthInterceptor implements HandlerInterceptor {
 
             if (name.equals("Authorization") || name.equals("authorization")) {
                 authorizationCheck = true;
+                System.out.println(value);
                 if (value.equals("null")) {
                     log.error("UserAuthInterceptor - JwtVerifyFailException: value equals null");
                     throw new JwtVerifyFailException();

@@ -1,5 +1,6 @@
 package com.kp.foodinfo.controller;
 
+import com.kp.foodinfo.aop.LogExcutionTime;
 import com.kp.foodinfo.domain.Brand;
 import com.kp.foodinfo.vo.BrandVo;
 import com.kp.foodinfo.request.BrandRequest;
@@ -9,6 +10,7 @@ import com.kp.foodinfo.dto.BrandDto;
 import com.kp.foodinfo.vo.BrandListVo;
 import com.kp.foodinfo.vo.MenuVoList;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -49,7 +51,7 @@ public class BrandController {
 
         return brandVo;
     }
-
+    
     @GetMapping("/brandlist/{id}")
     public BrandListVo brandList(@PathVariable("id") long food_id) {
 

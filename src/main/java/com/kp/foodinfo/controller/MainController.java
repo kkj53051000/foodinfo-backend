@@ -26,8 +26,6 @@ public class MainController {
     private final RecentlyService recentlyService;
     private final RedisTemplate redisTemplate;
 
-    // @Autowired
-    // RedisTemplate redisTemplate;
 
     @GetMapping("/maintodayupdatebrands")
     public MainUpdateBrandListVo mainTodayUpdateBrands() throws ParseException {

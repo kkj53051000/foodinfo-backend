@@ -51,44 +51,6 @@ public class GameService {
             throw new PriceGameMenuNotFondException();
         }
 
-        // randomIdxes [0, 10, 100]
-
-        // temMenus [0,10,100]
-
-        // List<MenuSize> menuSizes = menuSizeRepositroy.findAllByMenuIds({0, 10, 100});
-
-        // conversations
-        // List<Conversation> // conversationRepository.findAll();
-        // List<Long> conversationMessageIds = conversations.map(conversation => conversation.getMessageId));
-        // List<Message> // messageRepsoitory.findAll(conversationMessageIds);
-
-        // messages
-
-
-        // visited = set()
-        // 1 in visited
-        // [                        ]
-
-        /*
-         * [dooli, mic, test]
-         * dooli
-         * mic
-         * test
-         *
-         * hash algorithm
-         * 3
-         * 2
-         * 5
-         *
-         *
-         * [ , ,mic , dooli , , test ]
-         *
-         *
-         * dooli
-         * hashMap.contains("dooli") => 3   arr[3]
-         *
-         * */
-
         // 랜덤 인덱스
         List<Integer> menuRandomIndexs = new ArrayList<>();
         while (menuRandomIndexs.size() < 3) {
