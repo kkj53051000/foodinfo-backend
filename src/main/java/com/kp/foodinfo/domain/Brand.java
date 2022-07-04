@@ -10,7 +10,8 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @TableGenerator(
         name = "BRAND_SEQ_GENERATOR",

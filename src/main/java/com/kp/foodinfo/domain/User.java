@@ -9,7 +9,8 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @TableGenerator(
         name = "USER_SEQ_GENERATOR",

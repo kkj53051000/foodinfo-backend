@@ -1,14 +1,13 @@
 package com.kp.foodinfo.domain;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @TableGenerator(
         name = "SIKTAMEVENT_SEQ_GENERATOR",
