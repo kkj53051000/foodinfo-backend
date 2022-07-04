@@ -17,8 +17,9 @@ public class MenuReview {
     private Long id;
 
     private String reviewContent;
-    private byte repurchase;
+    private byte rePurchase;
     private boolean deleteAt;
+    private String ipAddress;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "menu_id")
