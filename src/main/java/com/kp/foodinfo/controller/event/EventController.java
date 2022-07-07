@@ -1,4 +1,4 @@
-package com.kp.foodinfo.controller;
+package com.kp.foodinfo.controller.event;
 
 import com.kp.foodinfo.request.BrandEventRequest;
 import com.kp.foodinfo.request.EventRequest;

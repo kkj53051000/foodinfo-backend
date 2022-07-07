@@ -1,4 +1,4 @@
-package com.kp.foodinfo.controller;
+package com.kp.foodinfo.controller.food;
 
 
 import com.kp.foodinfo.aop.LogExcutionTime;

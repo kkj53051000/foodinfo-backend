@@ -1,4 +1,4 @@
-package com.kp.foodinfo.controller;
+package com.kp.foodinfo.controller.user;
 
 import com.kp.foodinfo.aop.LogExcutionTime;
 import com.kp.foodinfo.argumentresolver.Login;

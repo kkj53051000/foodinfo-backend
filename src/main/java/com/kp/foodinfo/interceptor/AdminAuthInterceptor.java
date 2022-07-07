@@ -6,6 +6,7 @@ import com.kp.foodinfo.exception.JwtVerifyFailException;
 import com.kp.foodinfo.repository.UserRepository;
 import com.kp.foodinfo.service.JwtService;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
@@ -18,10 +19,13 @@ import java.util.Enumeration;
 import java.util.Map;
 
 @Slf4j
+@RequiredArgsConstructor
+@Component
 public class AdminAuthInterceptor implements HandlerInterceptor {
 
-    @Autowired
-    UserRepository userRepository;
+    private final UserRepository userRepository;
+
+    private final JwtService jwtService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -29,8 +33,6 @@ public class AdminAuthInterceptor implements HandlerInterceptor {
         if (request.getMethod().equals("OPTIONS")) {
             return true;
         }
-
-        JwtService jwtService = new JwtService();
 
 //        System.out.println("---------------AdminAuthInterceptor-----------------");
         Enumeration headerNames = request.getHeaderNames();
@@ -57,8 +59,8 @@ public class AdminAuthInterceptor implements HandlerInterceptor {
                 userId = Long.valueOf(String.valueOf(returnValue.get("user_id")));
 
 
-                // Admin 검증
 
+                // Admin 검증
                 if (returnValue == null) {
                     log.error("UserAuthInterceptor - JwtVerifyFailException: returnValue equals null");
                     throw new JwtVerifyFailException();

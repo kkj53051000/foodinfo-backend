@@ -62,6 +62,7 @@ public class JwtService {
     public Map<String, Object> verifyJWT(String jwt) throws UnsupportedEncodingException {
         Map<String, Object> claimMap = null;
         try {
+
             Claims claims = Jwts.parser()
                     .setSigningKey(key.getBytes("UTF-8")) // Set Key
                     .parseClaimsJws(jwt) // 파싱 및 검증, 실패 시 에러
@@ -69,14 +70,16 @@ public class JwtService {
 
             claimMap = claims;
 
-            //Date expiration = claims.get("exp", Date.class);
-            //String data = claims.get("data", String.class);
-
+        } catch (SignatureException | MalformedJwtException e) { //서명 오류 or JWT 구조 문제
+            log.error("UserAuthInterceptor - JwtVerifyFailException: SignatureException error");
         } catch (ExpiredJwtException e) { // 토큰 만료
+            log.error("UserAuthInterceptor - JwtVerifyFailException: Token expiry");
             throw new JwtVerifyFailException();
 //            System.out.println(e);
 //            System.out.println("------------토큰 만료-----------");
         } catch (Exception e) { // 그외 에러났을 경우
+            e.printStackTrace();
+            log.error("UserAuthInterceptor - JwtVerifyFailException: error");
             throw new JwtVerifyFailException();
 //            System.out.println(e);
 //            System.out.println("------------토큰 에러-----------");

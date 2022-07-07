@@ -1,4 +1,4 @@
-package com.kp.foodinfo.controller;
+package com.kp.foodinfo.controller.siktamevent;
 
 import com.kp.foodinfo.request.SiktamEventWinnerRequest;
 import com.kp.foodinfo.service.SiktamEventWinnerService;

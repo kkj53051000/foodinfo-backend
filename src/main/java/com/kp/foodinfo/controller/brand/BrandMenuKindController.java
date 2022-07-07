@@ -1,4 +1,4 @@
-package com.kp.foodinfo.controller;
+package com.kp.foodinfo.controller.brand;
 
 import com.kp.foodinfo.domain.BrandMenuKind;
 import com.kp.foodinfo.request.BrandMenuKindRequest;
