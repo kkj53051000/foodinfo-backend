@@ -40,17 +40,16 @@ import java.util.UUID;
 @RequestMapping("/api")
 public class UserController {
 
-//    @Autowired
-//    UserRepository userRepository;
-//
-//    @PostConstruct
-//    @Profile("local")
-//    void testUser() {
-//        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-//        String secuPw = encoder.encode("1234");
-//
-//        userRepository.save(new User("test", secuPw, new Date(), DateFormatUtil.dateToStringProcess(new Date()), new Date(), "a", true, Role.ADMIN, false));
-//    }
+    @Autowired
+    UserRepository userRepository;
+
+    @PostConstruct
+    void testUser() {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        String secuPw = encoder.encode("1234");
+
+        userRepository.save(new User("test", secuPw, new Date(), DateFormatUtil.dateToStringProcess(new Date()), new Date(), "a", true, Role.ADMIN, false));
+    }
 
     private final UserService userService;
 
