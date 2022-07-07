@@ -3,6 +3,7 @@ package com.kp.foodinfo.service;
 import com.kp.foodinfo.domain.FoodSpecialCategory;
 import com.kp.foodinfo.repository.FoodSpecialCategoryRepository;
 import com.kp.foodinfo.request.FoodSpecialCategoryModifyRequest;
+import com.kp.foodinfo.request.FoodSpecialCategoryRemoveRequest;
 import com.kp.foodinfo.request.FoodSpecialCategoryRequest;
 import com.kp.foodinfo.vo.BasicVo;
 import lombok.RequiredArgsConstructor;
@@ -62,6 +63,15 @@ public class FoodSpecialCategoryService {
         }
 
         foodSpecialCategoryRepository.save(foodSpecialCategory);
+
+        return new BasicVo("success");
+    }
+
+    public BasicVo deleteFoodSpecialCategory(FoodSpecialCategoryRemoveRequest foodSpecialCategoryRemoveRequest) {
+        FoodSpecialCategory foodSpecialCategory = foodSpecialCategoryRepository.findById(foodSpecialCategoryRemoveRequest.getId())
+                .get();
+
+        foodSpecialCategoryRepository.delete(foodSpecialCategory);
 
         return new BasicVo("success");
     }

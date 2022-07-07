@@ -1,14 +1,12 @@
 package com.kp.foodinfo.controller;
 
 import com.kp.foodinfo.request.FoodSpecialCategoryModifyRequest;
+import com.kp.foodinfo.request.FoodSpecialCategoryRemoveRequest;
 import com.kp.foodinfo.request.FoodSpecialCategoryRequest;
 import com.kp.foodinfo.service.FoodSpecialCategoryService;
 import com.kp.foodinfo.vo.BasicVo;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
@@ -31,5 +29,10 @@ public class FoodSpecialCategoryController {
             @RequestPart(name = "value") FoodSpecialCategoryModifyRequest foodSpecialCategoryModifyRequest) {
 
         return foodSpecialCategoryService.alertFoodSpecialCategory(file, foodSpecialCategoryModifyRequest);
+    }
+
+    @PostMapping("/admin/foodspecialcategoryremove")
+    public BasicVo foodSpecialCategoryRemove(@RequestBody FoodSpecialCategoryRemoveRequest foodSpecialCategoryRemoveRequest) {
+        return foodSpecialCategoryService.deleteFoodSpecialCategory(foodSpecialCategoryRemoveRequest);
     }
 }
