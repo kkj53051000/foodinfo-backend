@@ -1,5 +1,6 @@
 package com.kp.foodinfo.controller;
 
+import com.kp.foodinfo.request.FoodBrandModifyRequest;
 import com.kp.foodinfo.request.FoodBrandRequest;
 import com.kp.foodinfo.service.FoodBrandService;
 import com.kp.foodinfo.vo.BasicVo;
@@ -21,5 +22,12 @@ public class FoodBrandController {
             @RequestPart(name = "file") MultipartFile file,
             @RequestPart(name = "value") FoodBrandRequest foodBrandRequest) {
         return foodBrandService.saveFoodBrand(file, foodBrandRequest);
+    }
+
+    @PostMapping("/admin/foodbrandmodify")
+    public BasicVo foodBrandModify(
+            @RequestPart(name = "file", required = false) MultipartFile file,
+            @RequestPart(name = "value") FoodBrandModifyRequest foodBrandModifyRequest) {
+        return foodBrandService.alertFoodBrand(file, foodBrandModifyRequest);
     }
 }

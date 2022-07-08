@@ -2,6 +2,7 @@ package com.kp.foodinfo.service;
 
 import com.kp.foodinfo.domain.FoodBrand;
 import com.kp.foodinfo.repository.FoodBrandRepository;
+import com.kp.foodinfo.request.FoodBrandModifyRequest;
 import com.kp.foodinfo.request.FoodBrandRequest;
 import com.kp.foodinfo.vo.BasicVo;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +33,28 @@ public class FoodBrandService {
         } catch (IOException e) {
             e.printStackTrace();
             return new BasicVo("failure");
+        }
+
+        return new BasicVo("success");
+    }
+
+    public BasicVo alertFoodBrand(MultipartFile file, FoodBrandModifyRequest foodBrandModifyRequest) {
+
+        FoodBrand foodBrand = foodBrandRepository.findById(foodBrandModifyRequest.getId())
+                .get();
+
+        if (file != null) {
+            try {
+                String clientPath = fileService.s3UploadProcess(file);
+
+                foodBrand.setImg(clientPath);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (foodBrandModifyRequest.getName() != null) {
+            foodBrand.setName(foodBrandModifyRequest.getName());
         }
 
         return new BasicVo("success");
