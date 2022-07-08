@@ -9,6 +9,7 @@ import com.kp.foodinfo.repository.FoodItemRepository;
 import com.kp.foodinfo.repository.FoodNormalCategoryRepository;
 import com.kp.foodinfo.repository.FoodSpecialCategoryRepository;
 import com.kp.foodinfo.request.FoodItemModifyRequest;
+import com.kp.foodinfo.request.FoodItemRemoveRequest;
 import com.kp.foodinfo.request.FoodItemRequest;
 import com.kp.foodinfo.util.DateFormatUtil;
 import com.kp.foodinfo.vo.BasicVo;
@@ -107,6 +108,15 @@ public class FoodItemService {
 
             foodItem.setFoodSpecialCategory(foodSpecialCategory);
         }
+
+        return new BasicVo("success");
+    }
+
+    public BasicVo deleteFoodItem(FoodItemRemoveRequest foodItemRemoveRequest) {
+        FoodItem foodItem = foodItemRepository.findById(foodItemRemoveRequest.getId())
+                .get();
+
+        foodItemRepository.delete(foodItem);
 
         return new BasicVo("success");
     }

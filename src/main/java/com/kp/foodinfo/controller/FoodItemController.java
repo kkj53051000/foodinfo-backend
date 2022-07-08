@@ -1,6 +1,7 @@
 package com.kp.foodinfo.controller;
 
 import com.kp.foodinfo.request.FoodItemModifyRequest;
+import com.kp.foodinfo.request.FoodItemRemoveRequest;
 import com.kp.foodinfo.request.FoodItemRequest;
 import com.kp.foodinfo.service.FoodItemService;
 import com.kp.foodinfo.vo.BasicVo;
@@ -29,5 +30,10 @@ public class FoodItemController {
             @RequestPart(name = "file", required = false) MultipartFile file,
             @RequestPart FoodItemModifyRequest foodItemModifyRequest) {
         return foodItemService.alertFoodItem(file, foodItemModifyRequest);
+    }
+
+    @PostMapping("/admin/fooditemremove")
+    public BasicVo foodItemRemove(FoodItemRemoveRequest foodItemRemoveRequest) {
+        return foodItemService.deleteFoodItem(foodItemRemoveRequest);
     }
 }
