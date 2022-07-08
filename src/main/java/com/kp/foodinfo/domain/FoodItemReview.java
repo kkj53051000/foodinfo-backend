@@ -17,7 +17,7 @@ public class FoodItemReview {
     private Long id;
 
     private String reviewContent;
-    private byte rePurchase;
+    private Byte rePurchase;
     private boolean deleteAt;
     private String ipAddress;
 
