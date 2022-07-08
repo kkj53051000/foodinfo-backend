@@ -1,6 +1,7 @@
 package com.kp.foodinfo.controller;
 
 import com.kp.foodinfo.repository.MenuReviewModifyRequest;
+import com.kp.foodinfo.repository.MenuReviewRemoveRequest;
 import com.kp.foodinfo.repository.MenuReviewRequest;
 import com.kp.foodinfo.service.MenuReviewService;
 import com.kp.foodinfo.vo.BasicVo;
@@ -20,7 +21,12 @@ public class MenuReviewController {
     }
 
     @PostMapping("/user/menureviewmodify")
-    public BasicVo menuReviewModify(MenuReviewModifyRequest menuReviewModifyRequest) {
+    public BasicVo menuReviewModify(@RequestBody MenuReviewModifyRequest menuReviewModifyRequest) {
         return menuReviewService.alertMenuReview(menuReviewModifyRequest);
+    }
+
+    @PostMapping("/user/menureviewremove")
+    public BasicVo menuReviewRemove(@RequestBody MenuReviewRemoveRequest menuReviewRemoveRequest) {
+        return menuReviewService.deleteMenuReview(menuReviewRemoveRequest);
     }
 }

@@ -2,10 +2,7 @@ package com.kp.foodinfo.service;
 
 import com.kp.foodinfo.domain.Menu;
 import com.kp.foodinfo.domain.MenuReview;
-import com.kp.foodinfo.repository.MenuRepository;
-import com.kp.foodinfo.repository.MenuReviewModifyRequest;
-import com.kp.foodinfo.repository.MenuReviewRepository;
-import com.kp.foodinfo.repository.MenuReviewRequest;
+import com.kp.foodinfo.repository.*;
 import com.kp.foodinfo.vo.BasicVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -55,6 +52,15 @@ public class MenuReviewService {
 
             menuReview.setMenu(menu);
         }
+
+        return new BasicVo("success");
+    }
+
+    public BasicVo deleteMenuReview(MenuReviewRemoveRequest menuReviewRemoveRequest) {
+        MenuReview menuReview = menuReviewRepository.findById(menuReviewRemoveRequest.getId())
+                .get();
+
+        menuReviewRepository.delete(menuReview);
 
         return new BasicVo("success");
     }
