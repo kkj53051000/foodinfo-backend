@@ -3,6 +3,7 @@ package com.kp.foodinfo.service;
 import com.kp.foodinfo.domain.FoodBrand;
 import com.kp.foodinfo.repository.FoodBrandRepository;
 import com.kp.foodinfo.request.FoodBrandModifyRequest;
+import com.kp.foodinfo.request.FoodBrandRemoveRequest;
 import com.kp.foodinfo.request.FoodBrandRequest;
 import com.kp.foodinfo.vo.BasicVo;
 import lombok.RequiredArgsConstructor;
@@ -56,6 +57,15 @@ public class FoodBrandService {
         if (foodBrandModifyRequest.getName() != null) {
             foodBrand.setName(foodBrandModifyRequest.getName());
         }
+
+        return new BasicVo("success");
+    }
+
+    public BasicVo deleteFoodBrand(FoodBrandRemoveRequest foodBrandRemoveRequest) {
+        FoodBrand foodBrand = foodBrandRepository.findById(foodBrandRemoveRequest.getId())
+                .get();
+
+        foodBrandRepository.delete(foodBrand);
 
         return new BasicVo("success");
     }
