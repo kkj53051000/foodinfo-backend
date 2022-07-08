@@ -3,6 +3,7 @@ package com.kp.foodinfo.service;
 import com.kp.foodinfo.domain.Menu;
 import com.kp.foodinfo.domain.MenuReview;
 import com.kp.foodinfo.repository.MenuRepository;
+import com.kp.foodinfo.repository.MenuReviewModifyRequest;
 import com.kp.foodinfo.repository.MenuReviewRepository;
 import com.kp.foodinfo.repository.MenuReviewRequest;
 import com.kp.foodinfo.vo.BasicVo;
@@ -34,6 +35,26 @@ public class MenuReviewService {
                 .build();
 
         menuReviewRepository.save(menuReview);
+
+        return new BasicVo("success");
+    }
+
+    public BasicVo alertMenuReview(MenuReviewModifyRequest menuReviewModifyRequest) {
+        MenuReview menuReview = menuReviewRepository.findById(menuReviewModifyRequest.getId())
+                .get();
+
+        if (menuReviewModifyRequest.getReviewContent() != null) {
+            menuReview.setReviewContent(menuReviewModifyRequest.getReviewContent());
+        }
+        if (menuReviewModifyRequest.getRePurchase() != null) {
+            menuReview.setRePurchase(menuReviewModifyRequest.getRePurchase());
+        }
+        if (menuReviewModifyRequest.getMenuId() != null) {
+            Menu menu = menuRepository.findById(menuReviewModifyRequest.getMenuId())
+                        .get();
+
+            menuReview.setMenu(menu);
+        }
 
         return new BasicVo("success");
     }

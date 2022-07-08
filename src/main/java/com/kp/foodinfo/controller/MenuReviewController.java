@@ -1,5 +1,6 @@
 package com.kp.foodinfo.controller;
 
+import com.kp.foodinfo.repository.MenuReviewModifyRequest;
 import com.kp.foodinfo.repository.MenuReviewRequest;
 import com.kp.foodinfo.service.MenuReviewService;
 import com.kp.foodinfo.vo.BasicVo;
@@ -18,5 +19,8 @@ public class MenuReviewController {
         return menuReviewService.saveMenuReview(menuReviewRequest);
     }
 
-
+    @PostMapping("/user/menureviewmodify")
+    public BasicVo menuReviewModify(MenuReviewModifyRequest menuReviewModifyRequest) {
+        return menuReviewService.alertMenuReview(menuReviewModifyRequest);
+    }
 }
