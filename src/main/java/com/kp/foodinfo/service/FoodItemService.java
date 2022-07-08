@@ -8,6 +8,7 @@ import com.kp.foodinfo.repository.FoodBrandRepository;
 import com.kp.foodinfo.repository.FoodItemRepository;
 import com.kp.foodinfo.repository.FoodNormalCategoryRepository;
 import com.kp.foodinfo.repository.FoodSpecialCategoryRepository;
+import com.kp.foodinfo.request.FoodItemModifyRequest;
 import com.kp.foodinfo.request.FoodItemRequest;
 import com.kp.foodinfo.util.DateFormatUtil;
 import com.kp.foodinfo.vo.BasicVo;
@@ -60,6 +61,51 @@ public class FoodItemService {
             foodItemRepository.save(foodItem);
         } catch (IOException e) {
             e.printStackTrace();
+        }
+
+        return new BasicVo("success");
+    }
+
+    public BasicVo alertFoodItem(MultipartFile file, FoodItemModifyRequest foodItemModifyRequest) {
+
+        FoodItem foodItem = foodItemRepository.findById(foodItemModifyRequest.getId())
+                .get();
+
+        if (file != null) {
+            try {
+                String clientPath = fileService.s3UploadProcess(file);
+
+                foodItem.setImg(clientPath);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        if (foodItemModifyRequest.getName() != null) {
+            foodItem.setName(foodItemModifyRequest.getName());
+        }
+        if (foodItemModifyRequest.getPrice() != null) {
+            foodItem.setPrice(foodItemModifyRequest.getPrice());
+        }
+        if (foodItemModifyRequest.getDate() != null) {
+            foodItem.setDate(LocalDate.parse(foodItemModifyRequest.getDate()));
+        }
+        if (foodItemModifyRequest.getFoodBrandId() != null) {
+            FoodBrand foodBrand = foodBrandRepository.findById(foodItemModifyRequest.getFoodBrandId())
+                    .get();
+
+            foodItem.setFoodBrand(foodBrand);
+        }
+        if (foodItemModifyRequest.getFoodNormalCategoryId() != null) {
+            FoodNormalCategory foodNormalCategory = foodNormalCategoryRepository.findById(foodItemModifyRequest.getFoodNormalCategoryId())
+                    .get();
+
+            foodItem.setFoodNormalCategory(foodNormalCategory);
+        }
+        if (foodItemModifyRequest.getFoodSpecialCategoryId() != null) {
+            FoodSpecialCategory foodSpecialCategory = foodSpecialCategoryRepository.findById(foodItemModifyRequest.getFoodSpecialCategoryId())
+                    .get();
+
+            foodItem.setFoodSpecialCategory(foodSpecialCategory);
         }
 
         return new BasicVo("success");

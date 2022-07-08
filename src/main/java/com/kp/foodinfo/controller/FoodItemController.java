@@ -1,5 +1,6 @@
 package com.kp.foodinfo.controller;
 
+import com.kp.foodinfo.request.FoodItemModifyRequest;
 import com.kp.foodinfo.request.FoodItemRequest;
 import com.kp.foodinfo.service.FoodItemService;
 import com.kp.foodinfo.vo.BasicVo;
@@ -16,12 +17,17 @@ import org.springframework.web.multipart.MultipartFile;
 public class FoodItemController {
     private final FoodItemService foodItemService;
 
-    @PostMapping("/adminfooditemprocess")
+    @PostMapping("/admin/fooditemprocess")
     public BasicVo foodItemProcess(
-            @RequestPart (name = "file") MultipartFile file,
+            @RequestPart(name = "file") MultipartFile file,
             @RequestPart FoodItemRequest foodItemRequest) {
         return foodItemService.saveFoodItem(file, foodItemRequest);
     }
 
-
+    @PostMapping("/admin/fooditemmodify")
+    public BasicVo foodItemModify(
+            @RequestPart(name = "file", required = false) MultipartFile file,
+            @RequestPart FoodItemModifyRequest foodItemModifyRequest) {
+        return foodItemService.alertFoodItem(file, foodItemModifyRequest);
+    }
 }

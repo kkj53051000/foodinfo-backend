@@ -3,7 +3,8 @@ package com.kp.foodinfo.request;
 import lombok.Getter;
 
 @Getter
-public class FoodItemRequest {
+public class FoodItemModifyRequest {
+    private Long id;
     private String name;
     private Integer price;
     private String date;
