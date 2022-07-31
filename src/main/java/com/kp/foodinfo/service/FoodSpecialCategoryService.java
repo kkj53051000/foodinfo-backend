@@ -6,12 +6,14 @@ import com.kp.foodinfo.request.FoodSpecialCategoryModifyRequest;
 import com.kp.foodinfo.request.FoodSpecialCategoryRemoveRequest;
 import com.kp.foodinfo.request.FoodSpecialCategoryRequest;
 import com.kp.foodinfo.vo.BasicVo;
+import com.kp.foodinfo.vo.FoodSpecialCategoryAllListVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @Service
 @Transactional
@@ -74,5 +76,11 @@ public class FoodSpecialCategoryService {
         foodSpecialCategoryRepository.delete(foodSpecialCategory);
 
         return new BasicVo("success");
+    }
+
+    public FoodSpecialCategoryAllListVo selectFoodSpecialCategoryAll() {
+        List<FoodSpecialCategory> foodSpecialCategoryList = foodSpecialCategoryRepository.findAll();
+
+        return new FoodSpecialCategoryAllListVo(foodSpecialCategoryList);
     }
 }
