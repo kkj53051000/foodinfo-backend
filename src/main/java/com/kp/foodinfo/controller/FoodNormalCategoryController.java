@@ -5,6 +5,7 @@ import com.kp.foodinfo.request.FoodNormalCategoryRemoveRequest;
 import com.kp.foodinfo.request.FoodNormalCategoryRequest;
 import com.kp.foodinfo.service.FoodNormalCategoryService;
 import com.kp.foodinfo.vo.BasicVo;
+import com.kp.foodinfo.vo.FoodNormalCategoryAllListVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -33,5 +34,10 @@ public class FoodNormalCategoryController {
     @PostMapping("/admin/foodnormalcategoryremove")
     public BasicVo foodNormalCategoryRemove(@RequestBody FoodNormalCategoryRemoveRequest foodNormalCategoryRemoveRequest) {
         return foodNormalCategoryService.deleteFoodNormalCategory(foodNormalCategoryRemoveRequest);
+    }
+
+    @GetMapping("/foodnormalcategoryalllist")
+    public FoodNormalCategoryAllListVo foodNormalCategoryAllList() {
+        return foodNormalCategoryService.selectFoodNormalCategoryAll();
     }
 }

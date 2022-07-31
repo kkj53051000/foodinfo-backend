@@ -17,6 +17,7 @@ public class FoodBrandAllListVo {
                 .collect(Collectors.toList());
     }
 
+    @Data
     class FoodBrandVo {
         private Long id;
         private String name;
