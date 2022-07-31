@@ -243,4 +243,10 @@ public class MenuService {
 
         return new BasicVo(ReturnStatus.success);
     }
+
+    public FrMenuRecentlyListVo frRecentMenuSelect() {
+        List<Menu> menuList = menuRepository.findTop5ByOrderByIdDesc();
+
+        return new FrMenuRecentlyListVo(menuList);
+    }
 }

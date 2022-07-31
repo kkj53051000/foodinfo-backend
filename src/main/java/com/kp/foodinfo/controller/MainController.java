@@ -70,5 +70,11 @@ public class MainController {
         return mainRecentlyIssueListVo;
     }
 
+    @GetMapping ("/frissuerecentlyissue")
+    public FrIssueRecentlyListVo frIssueRecentlyIssue() {
+
+        return recentlyService.frIssueRecentlyIssueSelect();
+    }
+
 
 }

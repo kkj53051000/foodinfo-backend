@@ -30,4 +30,7 @@ public interface EventRepository extends JpaRepository<Event, Long> {
     // @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("SELECT e FROM Event e where e.brand.food = ?1")
     List<Event> findRecentlyByFood(Food food);
+
+
+    List<Event> findTop3ByOrderByIdDesc();
 }

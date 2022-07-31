@@ -6,12 +6,14 @@ import com.kp.foodinfo.request.FoodBrandModifyRequest;
 import com.kp.foodinfo.request.FoodBrandRemoveRequest;
 import com.kp.foodinfo.request.FoodBrandRequest;
 import com.kp.foodinfo.vo.BasicVo;
+import com.kp.foodinfo.vo.FoodBrandAllListVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @Service
 @Transactional
@@ -68,5 +70,11 @@ public class FoodBrandService {
         foodBrandRepository.delete(foodBrand);
 
         return new BasicVo("success");
+    }
+
+    public FoodBrandAllListVo selectFoodBrandAllList() {
+        List<FoodBrand> foodBrandList = foodBrandRepository.findAll();
+
+        return new FoodBrandAllListVo(foodBrandList);
     }
 }

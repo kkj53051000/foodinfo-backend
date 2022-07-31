@@ -6,6 +6,7 @@ import com.kp.foodinfo.domain.Menu;
 import com.kp.foodinfo.request.MenuRequest;
 import com.kp.foodinfo.service.MenuService;
 import com.kp.foodinfo.vo.BasicVo;
+import com.kp.foodinfo.vo.FrMenuRecentlyListVo;
 import com.kp.foodinfo.vo.MenuListVo;
 import com.kp.foodinfo.vo.MenuVoList;
 import lombok.RequiredArgsConstructor;
@@ -72,5 +73,11 @@ public class MenuController {
     @PostMapping("/admin/menudelete/{id}")
     public BasicVo menuDelete(@PathVariable("id") long menu_id) {
         return menuService.deleteMenu(menu_id);
+    }
+
+    @GetMapping("/frrecentmenu")
+    public FrMenuRecentlyListVo frRecentMenu() {
+
+        return menuService.frRecentMenuSelect();
     }
 }

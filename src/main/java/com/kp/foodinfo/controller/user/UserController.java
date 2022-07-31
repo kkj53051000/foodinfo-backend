@@ -31,6 +31,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import javax.annotation.PostConstruct;
 import javax.mail.internet.MimeMessage;
 import java.util.Date;
+import java.util.Optional;
 import java.util.Random;
 import java.util.UUID;
 
@@ -48,7 +49,11 @@ public class UserController {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         String secuPw = encoder.encode("1234");
 
-        userRepository.save(new User("test", secuPw, new Date(), DateFormatUtil.dateToStringProcess(new Date()), new Date(), "a", true, Role.ADMIN, false));
+        User user = userRepository.findByEmail("test").get();
+
+        if (user == null) {
+            userRepository.save(new User("test", secuPw, new Date(), DateFormatUtil.dateToStringProcess(new Date()), new Date(), "a", true, Role.ADMIN, false));
+        }
     }
 
     private final UserService userService;

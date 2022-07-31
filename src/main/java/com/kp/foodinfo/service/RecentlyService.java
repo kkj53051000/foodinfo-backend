@@ -217,4 +217,64 @@ public class RecentlyService {
 
         return new RecentlyFoodEventIssueListVo(recentlyFoodEventIssueVos);
     }
+
+    public FrIssueRecentlyListVo frIssueRecentlyIssueSelect() {
+
+        List<FrIssueRecentlyVo> frIssueRecentlyVoList = new ArrayList<>();
+
+        // Event List
+        List<Event> eventList = eventRepository.findTop3ByOrderByIdDesc();
+
+        for (int i = 0; i < eventList.size(); i++) {
+
+            Event event = eventList.get(i);
+            Brand brand = event.getBrand();
+            EventType eventType = event.getEventType();
+
+            FrIssueRecentlyVo frIssueRecentlyVo = FrIssueRecentlyVo.builder()
+                    .id((long)i)
+                    .brandId(brand.getId())
+                    .brandName(brand.getName())
+                    .brandImg(brand.getImg())
+                    .eventTypeName(eventType.getName())
+                    .eventTypeImg(eventType.getImg())
+                    .title(event.getTitle())
+                    .content(event.getContent())
+                    .img(event.getImg())
+                    .startDate(event.getStartDate().toString())
+                    .endDate(event.getEndDate().toString())
+                    .type("이벤트")
+                    .build();
+
+            frIssueRecentlyVoList.add(frIssueRecentlyVo);
+        }
+
+        // Issue List
+
+        List<Issue> issueList = issueRepository.findTop3ByOrderByIdDesc();
+
+        for (int i = 0; i < issueList.size(); i++) {
+            Long id = eventList.size() + (long)i + 1;
+            Issue issue = issueList.get(i);
+            Brand brand = issue.getBrand();
+
+            FrIssueRecentlyVo frIssueRecentlyVo = FrIssueRecentlyVo.builder()
+                    .id(id)
+                    .brandId(brand.getId())
+                    .brandName(brand.getName())
+                    .brandImg(brand.getImg())
+                    .title(issue.getTitle())
+                    .content(issue.getContent())
+                    .img(issue.getImg())
+                    .startDate(issue.getDate().toString())
+                    .type("이슈")
+                    .build();
+
+            frIssueRecentlyVoList.add(frIssueRecentlyVo);
+        }
+
+        FrIssueRecentlyListVo frIssueRecentlyListVo = new FrIssueRecentlyListVo(frIssueRecentlyVoList);
+
+        return frIssueRecentlyListVo;
+    }
 }

@@ -5,6 +5,7 @@ import com.kp.foodinfo.request.FoodBrandRemoveRequest;
 import com.kp.foodinfo.request.FoodBrandRequest;
 import com.kp.foodinfo.service.FoodBrandService;
 import com.kp.foodinfo.vo.BasicVo;
+import com.kp.foodinfo.vo.FoodBrandAllListVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -32,5 +33,11 @@ public class FoodBrandController {
     @PostMapping("/admin/foodbrandremove")
     public BasicVo foodBrandRemove(@RequestBody FoodBrandRemoveRequest foodBrandRemoveRequest) {
         return foodBrandService.deleteFoodBrand(foodBrandRemoveRequest);
+    }
+
+    @GetMapping("/foodbrandalllist")
+    public FoodBrandAllListVo foodBrandAllList() {
+
+        return foodBrandService.selectFoodBrandAllList();
     }
 }

@@ -20,4 +20,6 @@ public interface MenuRepository extends JpaRepository<Menu, Long> {
 
     @Query("select m from Menu m where m.price <= :highPrice and m.price >= :lowPrice")
     Optional<List<Menu>> findByPriceRange(int highPrice, int lowPrice);
+
+    List<Menu> findTop5ByOrderByIdDesc();
 }
