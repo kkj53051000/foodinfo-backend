@@ -12,4 +12,6 @@ public interface FoodItemRepository extends JpaRepository<FoodItem, Long> {
     List<FoodItem> findTop10ByOrderByIdDesc();
 
     List<FoodItem> findByFoodNormalCategory_Id(long id);
+
+    List<FoodItem> findByFoodSpecialCategory_Id(long id);
 }

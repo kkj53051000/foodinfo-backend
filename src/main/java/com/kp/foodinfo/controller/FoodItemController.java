@@ -50,4 +50,10 @@ public class FoodItemController {
     public FoodItemListVo foodNormalCategoryItemList(@PathVariable("id") long foodNormalCategoryId) {
         return foodItemService.selectFoodNormalCategoryItemList(foodNormalCategoryId);
     }
+
+    // FoodSpecialCategory Id에 맞는 FoodItemList
+    @GetMapping("/foodspecialcategoryitemlist/{id}")
+    public FoodItemListVo foodSpecialCategoryItemList(@PathVariable("id") long foodSpecialCategoryId) {
+        return foodItemService.selectFoodSpecialCategoryItemList(foodSpecialCategoryId);
+    }
 }

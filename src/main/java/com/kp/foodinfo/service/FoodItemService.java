@@ -148,4 +148,10 @@ public class FoodItemService {
 
         return new FoodItemListVo(foodItemList);
     }
+
+    public FoodItemListVo selectFoodSpecialCategoryItemList(long foodSpecialCategoryId) {
+        List<FoodItem> foodItemList = foodItemRepository.findByFoodSpecialCategory_Id(foodSpecialCategoryId);
+
+        return new FoodItemListVo(foodItemList);
+    }
 }
