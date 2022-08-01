@@ -2,11 +2,13 @@ package com.kp.foodinfo.vo;
 
 import com.kp.foodinfo.domain.FoodBrand;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Data
+@NoArgsConstructor
 public class FoodBrandAllListVo {
 
     List<FoodBrandVo> items = null;

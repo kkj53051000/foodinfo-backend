@@ -13,6 +13,7 @@ import com.kp.foodinfo.request.FoodItemRemoveRequest;
 import com.kp.foodinfo.request.FoodItemRequest;
 import com.kp.foodinfo.util.DateFormatUtil;
 import com.kp.foodinfo.vo.BasicVo;
+import com.kp.foodinfo.vo.FoodItemListVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Service
 @Transactional
@@ -119,5 +121,31 @@ public class FoodItemService {
         foodItemRepository.delete(foodItem);
 
         return new BasicVo("success");
+    }
+
+    public FoodItemListVo selectLastNDayFoodItemList(int n) {
+
+        // 하루 전날로 조회해야 이후 데이터가 나옴.
+        n++;
+
+        LocalDate localDate = LocalDate.now().minusDays(n);
+
+        List<FoodItem> foodItemList = foodItemRepository.findAllByDateAfter(localDate);
+
+        System.out.println("foodItemList Size : " + foodItemList.size());
+
+        return new FoodItemListVo(foodItemList);
+    }
+
+    public FoodItemListVo selectFoodItem10List() {
+        List<FoodItem> foodItemList = foodItemRepository.findTop10ByOrderByIdDesc();
+
+        return new FoodItemListVo(foodItemList);
+    }
+
+    public FoodItemListVo selectFoodNormalCategoryItemList(long foodNormalCategoryId) {
+        List<FoodItem> foodItemList = foodItemRepository.findByFoodNormalCategory_Id(foodNormalCategoryId);
+
+        return new FoodItemListVo(foodItemList);
     }
 }

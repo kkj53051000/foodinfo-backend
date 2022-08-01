@@ -3,6 +3,7 @@ package com.kp.foodinfo.domain;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -25,6 +26,7 @@ public class Menu {
     @Lob
     private String img;
     private int priority;
+    private LocalDate releaseDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "brandmenukind_id")

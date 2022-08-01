@@ -5,11 +5,9 @@ import com.kp.foodinfo.request.FoodItemRemoveRequest;
 import com.kp.foodinfo.request.FoodItemRequest;
 import com.kp.foodinfo.service.FoodItemService;
 import com.kp.foodinfo.vo.BasicVo;
+import com.kp.foodinfo.vo.FoodItemListVo;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
@@ -21,7 +19,7 @@ public class FoodItemController {
     @PostMapping("/admin/fooditemprocess")
     public BasicVo foodItemProcess(
             @RequestPart(name = "file") MultipartFile file,
-            @RequestPart FoodItemRequest foodItemRequest) {
+            @RequestPart(name = "value") FoodItemRequest foodItemRequest) {
         return foodItemService.saveFoodItem(file, foodItemRequest);
     }
 
@@ -35,5 +33,21 @@ public class FoodItemController {
     @PostMapping("/admin/fooditemremove")
     public BasicVo foodItemRemove(FoodItemRemoveRequest foodItemRemoveRequest) {
         return foodItemService.deleteFoodItem(foodItemRemoveRequest);
+    }
+
+    @GetMapping("/lastndayfooditemlist")
+    public FoodItemListVo last1DayFoodItemList(@RequestParam int n) {
+        return foodItemService.selectLastNDayFoodItemList(n);
+    }
+
+    @GetMapping("/fooditem10list")
+    public FoodItemListVo foodItem10List() {
+        return foodItemService.selectFoodItem10List();
+    }
+
+    // FoodNormalCategory Id에 맞는 FoodItemList
+    @GetMapping("/foodnormalcategoryitemlist/{id}")
+    public FoodItemListVo foodNormalCategoryItemList(@PathVariable("id") long foodNormalCategoryId) {
+        return foodItemService.selectFoodNormalCategoryItemList(foodNormalCategoryId);
     }
 }
