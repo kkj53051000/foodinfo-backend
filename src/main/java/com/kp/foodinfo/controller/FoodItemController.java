@@ -1,5 +1,6 @@
 package com.kp.foodinfo.controller;
 
+import com.kp.foodinfo.domain.User;
 import com.kp.foodinfo.request.FoodItemModifyRequest;
 import com.kp.foodinfo.request.FoodItemRemoveRequest;
 import com.kp.foodinfo.request.FoodItemRequest;
@@ -54,6 +55,7 @@ public class FoodItemController {
     // FoodSpecialCategory Id에 맞는 FoodItemList
     @GetMapping("/foodspecialcategoryitemlist/{id}")
     public FoodItemListVo foodSpecialCategoryItemList(@PathVariable("id") long foodSpecialCategoryId) {
+
         return foodItemService.selectFoodSpecialCategoryItemList(foodSpecialCategoryId);
     }
 }

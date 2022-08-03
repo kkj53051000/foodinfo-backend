@@ -23,5 +23,5 @@ public interface IssueRepository extends JpaRepository<Issue, Long> {
     @Query("SELECT i FROM Issue i where i.brand.food = ?1")
     List<Issue> findRecentlyByFood(Food food);
 
-    List<Issue> findTop3ByOrderByIdDesc();
+    List<Issue> findTop2ByOrderByIdDesc();
 }

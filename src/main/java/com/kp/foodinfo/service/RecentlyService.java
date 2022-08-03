@@ -251,7 +251,7 @@ public class RecentlyService {
 
         // Issue List
 
-        List<Issue> issueList = issueRepository.findTop3ByOrderByIdDesc();
+        List<Issue> issueList = issueRepository.findTop2ByOrderByIdDesc();
 
         for (int i = 0; i < issueList.size(); i++) {
             Long id = eventList.size() + (long)i + 1;
