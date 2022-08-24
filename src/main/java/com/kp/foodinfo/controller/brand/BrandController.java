@@ -67,8 +67,17 @@ public class BrandController {
 
             valueOperations.set(redisName, brandListVo, 20L, TimeUnit.MINUTES);
         }
-
-
+        
         return brandListVo;
+    }
+
+    @GetMapping("/randombrandlist/{id}")
+    public BrandListVo randomBrandList(@PathVariable("id") long food_id) {
+        return brandService.getRandomBrandList(food_id);
+    }
+
+    @GetMapping("/abcbrandlist/{id}")
+    public BrandListVo abcBrandList(@PathVariable("id") long food_id) {
+        return brandService.getAbcBrandList(food_id);
     }
 }

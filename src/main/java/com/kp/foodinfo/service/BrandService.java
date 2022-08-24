@@ -7,6 +7,7 @@ import com.kp.foodinfo.dto.BrandDto;
 import com.kp.foodinfo.repository.BrandRepository;
 import com.kp.foodinfo.repository.FoodRepository;
 import com.kp.foodinfo.util.DateFormatUtil;
+import com.kp.foodinfo.vo.BrandListVo;
 import com.kp.foodinfo.vo.BrandVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -57,5 +58,20 @@ public class BrandService {
         }
 
         return brands;
+    }
+
+    public BrandListVo getRandomBrandList(long food_id) {
+        List<Brand> brandList = brandRepository.findRandomBrandList(food_id);
+
+        return new BrandListVo(brandList);
+    }
+
+    public BrandListVo getAbcBrandList(long food_id) {
+        Food food = foodRepository.findById(food_id)
+                .get();
+
+        List<Brand> brandList = brandRepository.findByFoodOrderByNameAsc(food);
+
+        return new BrandListVo(brandList);
     }
 }
