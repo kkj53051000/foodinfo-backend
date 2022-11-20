@@ -9,5 +9,5 @@
 
 <h2>식탐의탐식 둘러보기 ☝️클릭☝️ - [유튜브 영상]</h2>
 
-![smain (1)](https://user-images.githubusercontent.com/59411640/202902925-ddeb4603-a953-47b9-8110-483898dd7755.png)
+<img src="https://user-images.githubusercontent.com/59411640/202902925-ddeb4603-a953-47b9-8110-483898dd7755.png" width="500px" title="Github_Logo"/>
 
